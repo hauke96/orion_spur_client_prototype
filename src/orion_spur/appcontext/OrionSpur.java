@@ -1,4 +1,4 @@
-package orion_spur;
+package orion_spur.appcontext;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -10,7 +10,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import orion_spur.LayerActor.LayerType;
+import orion_spur.common.material.ImageActor;
+import orion_spur.common.service.LayerActor;
+import orion_spur.common.service.LayerActor.LayerType;
+import orion_spur.player.material.Player;
 
 public class OrionSpur implements ApplicationListener
 {

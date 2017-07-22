@@ -1,4 +1,4 @@
-package orion_spur;
+package orion_spur.common.service;
 
 import java.util.HashMap;
 import java.util.HashSet;

@@ -1,4 +1,4 @@
-package orion_spur;
+package orion_spur.appcontext;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;

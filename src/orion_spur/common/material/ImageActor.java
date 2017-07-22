@@ -1,4 +1,4 @@
-package orion_spur;
+package orion_spur.common.material;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;

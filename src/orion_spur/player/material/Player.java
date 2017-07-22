@@ -1,4 +1,4 @@
-package orion_spur;
+package orion_spur.player.material;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import juard.contract.Contract;
 import juard.event.EventArgs;
+import orion_spur.common.material.ImageActor;
 
 public class Player extends ImageActor
 {
