@@ -37,8 +37,6 @@ public class LayerActor extends Actor
 		_layers.put(LayerType.LAYER_0_BEFORE, new HashSet<>());
 		_layers.put(LayerType.LAYER_1_BEFORE, new HashSet<>());
 		
-		
-		
 		_layerToScale = new HashMap<LayerActor.LayerType, Float>();
 		
 		_layerToScale.put(LayerType.LAYER_BACKGROUND, 1f);
@@ -52,8 +50,6 @@ public class LayerActor extends Actor
 		_layerToScale.put(LayerType.LAYER_0_BEFORE, 1.15f);
 		_layerToScale.put(LayerType.LAYER_1_BEFORE, 1.35f);
 		
-		
-		
 		Contract.NotNull(_layers);
 		Contract.Satisfy(_layers.values().size() == LayerType.values().length);
 		Contract.NotNull(_layerToScale);
@@ -64,23 +60,7 @@ public class LayerActor extends Actor
 	{
 		Contract.Satisfy(layerType != LayerType.LAYER_PLAYER || layerType == LayerType.LAYER_PLAYER && !hasPlayer());
 		
-		switch (layerType)
-		{
-			case LAYER_1_BEHIND:
-				newActor.setScale(0.45f);
-				break;
-			case LAYER_0_BEHIND:
-				newActor.setScale(0.85f);
-				break;
-			case LAYER_0_BEFORE:
-				newActor.setScale(1.15f);
-				break;
-			case LAYER_1_BEFORE:
-				newActor.setScale(1.45f);
-				break;
-			default:
-				break;
-		}
+		newActor.setScale(_layerToScale.get(layerType));
 		
 		Set<Actor> layer = _layers.get(layerType);
 		
@@ -100,16 +80,10 @@ public class LayerActor extends Actor
 	@Override
 	public void draw(Batch batch, float parentAlpha)
 	{
-		draw(batch, parentAlpha, _layers.get(LayerType.LAYER_BACKGROUND));
-		
-		draw(batch, parentAlpha, _layers.get(LayerType.LAYER_1_BEHIND));
-		draw(batch, parentAlpha, _layers.get(LayerType.LAYER_0_BEHIND));
-		
-		draw(batch, parentAlpha, _layers.get(LayerType.LAYER_PLAYER));
-		draw(batch, parentAlpha, _layers.get(LayerType.LAYER_ANIMATION));
-		
-		draw(batch, parentAlpha, _layers.get(LayerType.LAYER_0_BEFORE));
-		draw(batch, parentAlpha, _layers.get(LayerType.LAYER_1_BEFORE));
+		for (LayerType type : LayerType.values())
+		{
+			draw(batch, parentAlpha, _layers.get(type));
+		}
 	}
 	
 	private void draw(Batch batch, float parentAlpha, Set<Actor> actors)
@@ -123,16 +97,10 @@ public class LayerActor extends Actor
 	@Override
 	public void act(float delta)
 	{
-		act(_layers.get(LayerType.LAYER_BACKGROUND), delta);
-		
-		act(_layers.get(LayerType.LAYER_1_BEHIND), delta);
-		act(_layers.get(LayerType.LAYER_0_BEHIND), delta);
-		
-		act(_layers.get(LayerType.LAYER_PLAYER), delta);
-		act(_layers.get(LayerType.LAYER_ANIMATION), delta);
-		
-		act(_layers.get(LayerType.LAYER_0_BEFORE), delta);
-		act(_layers.get(LayerType.LAYER_1_BEFORE), delta);
+		for (LayerType type : LayerType.values())
+		{
+			act(_layers.get(type), delta);
+		}
 	}
 	
 	private void act(Set<Actor> actors, float delta)
