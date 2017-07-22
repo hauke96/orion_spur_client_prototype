@@ -43,16 +43,16 @@ public class OrionSpur implements ApplicationListener
 		LayerActor layerActor = new LayerActor();
 		
 		layerActor.addToLayer(_player, LayerType.LAYER_PLAYER);
-		layerActor.addToLayer(new Background(), LayerType.LAYER_0);
+		layerActor.addToLayer(new Background("assets/textures/milkyway.jpg"), LayerType.LAYER_0);
 		
 		_currentStage = new Stage(viewport);
 		_currentStage.addActor(layerActor);
-		
-		_player.PositionChanged.add(() -> setCameraPosition());
-		setCameraPosition();
+
+		_player.PositionChanged.add(() -> onPlayerPositionChanged());
+		onPlayerPositionChanged();
 	}
 	
-	private void setCameraPosition()
+	private void onPlayerPositionChanged()
 	{
 		Vector2 playerPosition = _player.getCenterPosition();
 		

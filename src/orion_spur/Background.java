@@ -10,9 +10,9 @@ public class Background extends Actor
 {
 	private Sprite _sprite;
 	
-	public Background()
+	public Background(String file)
 	{
-		Texture texture = new Texture(Gdx.files.internal("assets/textures/milkyway.jpg"));
+		Texture texture = new Texture(Gdx.files.internal(file));
 		
 		setBounds(0, 0, texture.getWidth(), texture.getHeight());
 		
