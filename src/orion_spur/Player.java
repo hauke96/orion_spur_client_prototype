@@ -18,6 +18,7 @@ public class Player extends Actor
 	private Sprite _sprite;
 	
 	private float _speed;
+	private Vector2 _directionOfMovement;
 	
 	public Player()
 	{
@@ -25,7 +26,8 @@ public class Player extends Actor
 		
 		setBounds(400, 300, 50, 50);
 		
-		_speed = 200f;
+		_speed = 50;
+		_directionOfMovement = new Vector2();
 		
 		_sprite = new Sprite(texture);
 		_sprite.setBounds(getX(), getY(), getWidth(), getHeight());
@@ -48,20 +50,22 @@ public class Player extends Actor
 		
 		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
 		{
-			position = position.add(_speed * delta, 0);
+			_directionOfMovement = _directionOfMovement.add(_speed * delta, 0);
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
 		{
-			position = position.add(-_speed * delta, 0);
+			_directionOfMovement = _directionOfMovement.add(-_speed * delta, 0);
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.UP))
 		{
-			position = position.add(0, _speed * delta);
+			_directionOfMovement = _directionOfMovement.add(0, _speed * delta);
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
 		{
-			position = position.add(0, -_speed * delta);
+			_directionOfMovement = _directionOfMovement.add(0, -_speed * delta);
 		}
+		
+		position.add(_directionOfMovement);
 		
 		if (position.x != getX() || position.y != getY())
 		{
