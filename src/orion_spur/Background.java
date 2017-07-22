@@ -27,9 +27,16 @@ public class Background extends Actor
 	}
 	
 	@Override
+	public void setScale(float scaleXY)
+	{
+		_sprite.setScale(scaleXY);
+		super.setScale(scaleXY);
+	}
+	
+	@Override
 	public void moveBy(float x, float y)
 	{
-		_sprite.translate(x, y);
-		super.moveBy(x, y);
+		_sprite.translate(x*getScaleX(), y*getScaleY());
+		super.moveBy(x*getScaleX(), y*getScaleY());
 	}
 }

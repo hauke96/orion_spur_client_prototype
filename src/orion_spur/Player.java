@@ -27,7 +27,7 @@ public class Player extends Actor
 		
 		setBounds(400, 300, 50, 50);
 		
-		_speed = 50;
+		_speed = 10;
 		_directionOfMovement = new Vector2();
 		
 		_sprite = new Sprite(texture);
