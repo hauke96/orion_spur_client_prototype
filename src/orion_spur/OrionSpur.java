@@ -49,6 +49,7 @@ public class OrionSpur implements ApplicationListener
 		_currentStage.addActor(layerActor);
 		
 		_player.PositionChanged.add(() -> setCameraPosition());
+		setCameraPosition();
 	}
 	
 	private void setCameraPosition()
