@@ -2,20 +2,15 @@ package orion_spur;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import juard.contract.Contract;
 import juard.event.EventArgs;
 
-public class Player extends Actor
+public class Player extends ImageActor
 {
 	public EventArgs PositionChanged = new EventArgs();
-	
-	private Sprite _sprite;
 	
 	private float	_movementSpeed;
 	private float	_maxSpeed;
@@ -24,9 +19,9 @@ public class Player extends Actor
 	
 	private Vector2 _movementVector;
 	
-	public Player()
+	public Player(String file)
 	{
-		Texture texture = new Texture(Gdx.files.internal("assets/textures/spaceship.png"));
+		super(file);
 		
 		setBounds(400, 300, 50, 50);
 		
@@ -37,9 +32,7 @@ public class Player extends Actor
 		
 		_movementVector = new Vector2();
 		
-		_sprite = new Sprite(texture);
 		_sprite.setBounds(getX(), getY(), getWidth(), getHeight());
-		_sprite.setOrigin(getWidth() / 2, getHeight() / 2);
 		_sprite.rotate(_rotationDegree);
 		
 		Contract.Satisfy(_sprite != null);

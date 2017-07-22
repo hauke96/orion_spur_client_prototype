@@ -35,7 +35,7 @@ public class OrionSpur implements ApplicationListener
 		_camera = new OrthographicCamera(_width, _height);
 		
 		Viewport viewport = new ScreenViewport(_camera);
-		_player = new Player();
+		_player = new Player("assets/textures/spaceship.png");
 		_layerActor = new LayerActor();
 		
 		_layerActor.addToLayer(_player, LayerType.LAYER_PLAYER);
