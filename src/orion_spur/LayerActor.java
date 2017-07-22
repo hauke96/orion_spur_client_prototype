@@ -16,7 +16,7 @@ public class LayerActor extends Actor
 {
 	public enum LayerType
 	{
-		LAYER_0, LAYER_1, LAYER_2, LAYER_PLAYER, LAYER_ANIMATION,
+		LAYER_2_BEHIND, LAYER_1_BEHIND, LAYER_0_BEHIND, LAYER_PLAYER, LAYER_ANIMATION,
 	}
 	
 	private Map<LayerType, Set<Actor>> _layers;
@@ -25,9 +25,9 @@ public class LayerActor extends Actor
 	{
 		_layers = new HashMap<LayerActor.LayerType, Set<Actor>>();
 		
-		_layers.put(LayerType.LAYER_0, new HashSet<>());
-		_layers.put(LayerType.LAYER_1, new HashSet<>());
-		_layers.put(LayerType.LAYER_2, new HashSet<>());
+		_layers.put(LayerType.LAYER_2_BEHIND, new HashSet<>());
+		_layers.put(LayerType.LAYER_1_BEHIND, new HashSet<>());
+		_layers.put(LayerType.LAYER_0_BEHIND, new HashSet<>());
 		
 		_layers.put(LayerType.LAYER_PLAYER, new HashSet<>());
 		
@@ -58,9 +58,9 @@ public class LayerActor extends Actor
 	@Override
 	public void draw(Batch batch, float parentAlpha)
 	{
-		draw(batch, parentAlpha, _layers.get(LayerType.LAYER_0));
-		draw(batch, parentAlpha, _layers.get(LayerType.LAYER_1));
-		draw(batch, parentAlpha, _layers.get(LayerType.LAYER_2));
+		draw(batch, parentAlpha, _layers.get(LayerType.LAYER_2_BEHIND));
+		draw(batch, parentAlpha, _layers.get(LayerType.LAYER_1_BEHIND));
+		draw(batch, parentAlpha, _layers.get(LayerType.LAYER_0_BEHIND));
 		
 		draw(batch, parentAlpha, _layers.get(LayerType.LAYER_PLAYER));
 		draw(batch, parentAlpha, _layers.get(LayerType.LAYER_ANIMATION));
@@ -77,9 +77,9 @@ public class LayerActor extends Actor
 	@Override
 	public void act(float delta)
 	{
-		act(_layers.get(LayerType.LAYER_0), delta);
-		act(_layers.get(LayerType.LAYER_1), delta);
-		act(_layers.get(LayerType.LAYER_2), delta);
+		act(_layers.get(LayerType.LAYER_2_BEHIND), delta);
+		act(_layers.get(LayerType.LAYER_1_BEHIND), delta);
+		act(_layers.get(LayerType.LAYER_0_BEHIND), delta);
 		
 		act(_layers.get(LayerType.LAYER_PLAYER), delta);
 		act(_layers.get(LayerType.LAYER_ANIMATION), delta);
@@ -95,9 +95,9 @@ public class LayerActor extends Actor
 
 	public void onPlayerPositionChanged(Vector2 offset)
 	{
-		move(_layers.get(LayerType.LAYER_0), new Vector2(offset.x*0.9f, offset.y*0.9f));
-		move(_layers.get(LayerType.LAYER_1), new Vector2(offset.x*0.45f, offset.y*0.45f));
-		move(_layers.get(LayerType.LAYER_2), new Vector2(offset.x*0.15f, offset.y*0.15f));
+		move(_layers.get(LayerType.LAYER_2_BEHIND), new Vector2(offset.x*0.9f, offset.y*0.9f));
+		move(_layers.get(LayerType.LAYER_1_BEHIND), new Vector2(offset.x*0.45f, offset.y*0.45f));
+		move(_layers.get(LayerType.LAYER_0_BEHIND), new Vector2(offset.x*0.15f, offset.y*0.15f));
 	}
 
 	private void move(Set<Actor> actors, Vector2 offset)

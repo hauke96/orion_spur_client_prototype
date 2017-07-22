@@ -46,9 +46,9 @@ public class OrionSpur implements ApplicationListener
 		_layerActor = new LayerActor();
 		
 		_layerActor.addToLayer(_player, LayerType.LAYER_PLAYER);
-		_layerActor.addToLayer(new Background("assets/textures/milkyway.jpg"), LayerType.LAYER_0);
-		_layerActor.addToLayer(new Background("assets/textures/asteroid-0.png"), LayerType.LAYER_1);
-		_layerActor.addToLayer(new Background("assets/textures/asteroid-0.png"), LayerType.LAYER_2);
+		_layerActor.addToLayer(new Background("assets/textures/milkyway.jpg"), LayerType.LAYER_2_BEHIND);
+		_layerActor.addToLayer(new Background("assets/textures/asteroid-0.png"), LayerType.LAYER_1_BEHIND);
+		_layerActor.addToLayer(new Background("assets/textures/asteroid-0.png"), LayerType.LAYER_0_BEHIND);
 		
 		_currentStage = new Stage(viewport);
 		_currentStage.addActor(_layerActor);
