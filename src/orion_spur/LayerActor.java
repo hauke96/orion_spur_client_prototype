@@ -37,7 +37,7 @@ public class LayerActor extends Actor
 	
 	public void addToLayer(Actor newActor, LayerType layerType)
 	{
-		Contract.Satisfy(layerType == LayerType.LAYER_PLAYER && !hasPlayer());
+		Contract.Satisfy(layerType != LayerType.LAYER_PLAYER || layerType == LayerType.LAYER_PLAYER && !hasPlayer());
 		
 		Set<Actor> layer = _layers.get(layerType);
 		
@@ -71,6 +71,26 @@ public class LayerActor extends Actor
 		for (Actor actor : actors)
 		{
 			actor.draw(batch, parentAlpha);
+		}
+	}
+	
+	@Override
+	public void act(float delta)
+	{
+		act(_layers.get(LayerType.LAYER_0), delta);
+		act(_layers.get(LayerType.LAYER_1), delta);
+		act(_layers.get(LayerType.LAYER_2), delta);
+		
+		act(_layers.get(LayerType.LAYER_PLAYER), delta);
+		
+		act(_layers.get(LayerType.LAYER_ANIMATION), delta);
+	}
+	
+	private void act(Set<Actor> actors, float delta)
+	{
+		for (Actor actor : actors)
+		{
+			actor.act(delta);
 		}
 	}
 }
