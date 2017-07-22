@@ -1,6 +1,5 @@
 package orion_spur;
 
-import java.io.InvalidObjectException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -82,15 +81,10 @@ public class LayerActor extends Actor
 	{
 		for (LayerType type : LayerType.values())
 		{
-			draw(batch, parentAlpha, _layers.get(type));
-		}
-	}
-	
-	private void draw(Batch batch, float parentAlpha, Set<Actor> actors)
-	{
-		for (Actor actor : actors)
-		{
-			actor.draw(batch, parentAlpha);
+			for (Actor actor : _layers.get(type))
+			{
+				actor.draw(batch, parentAlpha);
+			}
 		}
 	}
 	
@@ -99,15 +93,10 @@ public class LayerActor extends Actor
 	{
 		for (LayerType type : LayerType.values())
 		{
-			act(_layers.get(type), delta);
-		}
-	}
-	
-	private void act(Set<Actor> actors, float delta)
-	{
-		for (Actor actor : actors)
-		{
-			actor.act(delta);
+			for (Actor actor : _layers.get(type))
+			{
+				actor.act(delta);
+			}
 		}
 	}
 	

@@ -9,7 +9,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import juard.contract.Contract;
-import juard.event.Event;
 import juard.event.EventArgs;
 
 public class Player extends Actor
@@ -18,8 +17,8 @@ public class Player extends Actor
 	
 	private Sprite _sprite;
 	
-	private float _speed;
-	private Vector2 _directionOfMovement;
+	private float	_speed;
+	private Vector2	_directionOfMovement;
 	
 	public Player()
 	{
@@ -77,7 +76,7 @@ public class Player extends Actor
 	@Override
 	public void setPosition(float x, float y)
 	{
-		Vector2 offset = new Vector2(x-getX(), y-getY());
+		Vector2 offset = new Vector2(x - getX(), y - getY());
 		
 		_sprite.setPosition(x, y);
 		
