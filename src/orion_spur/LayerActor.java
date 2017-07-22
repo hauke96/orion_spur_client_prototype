@@ -2,9 +2,11 @@ package orion_spur;
 
 import java.io.InvalidObjectException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import juard.contract.Contract;
@@ -22,14 +24,25 @@ public class LayerActor extends Actor
 	{
 		_layers = new HashMap<LayerActor.LayerType, Set<Actor>>();
 		
+		_layers.put(LayerType.LAYER_0, new HashSet<>());
+		_layers.put(LayerType.LAYER_1, new HashSet<>());
+		_layers.put(LayerType.LAYER_2, new HashSet<>());
+		
+		_layers.put(LayerType.LAYER_PLAYER, new HashSet<>());
+		
+		_layers.put(LayerType.LAYER_ANIMATION, new HashSet<>());
+		
 		Contract.NotNull(_layers);
 	}
 	
 	public void addToLayer(Actor newActor, LayerType layerType)
 	{
-		Contract.Satisfy(layerType==LayerType.LAYER_PLAYER && !hasPlayer());
+		Contract.Satisfy(layerType == LayerType.LAYER_PLAYER && !hasPlayer());
 		
 		Set<Actor> layer = _layers.get(layerType);
+		
+		layer = new HashSet<>();
+		_layers.put(layerType, layer);
 		
 		layer.add(newActor);
 	}
@@ -39,5 +52,25 @@ public class LayerActor extends Actor
 		Set<Actor> layer = _layers.get(LayerType.LAYER_PLAYER);
 		
 		return layer != null && layer.size() != 0;
+	}
+	
+	@Override
+	public void draw(Batch batch, float parentAlpha)
+	{
+		draw(batch, parentAlpha, _layers.get(LayerType.LAYER_0));
+		draw(batch, parentAlpha, _layers.get(LayerType.LAYER_1));
+		draw(batch, parentAlpha, _layers.get(LayerType.LAYER_2));
+		
+		draw(batch, parentAlpha, _layers.get(LayerType.LAYER_PLAYER));
+		
+		draw(batch, parentAlpha, _layers.get(LayerType.LAYER_ANIMATION));
+	}
+	
+	private void draw(Batch batch, float parentAlpha, Set<Actor> actors)
+	{
+		for (Actor actor : actors)
+		{
+			actor.draw(batch, parentAlpha);
+		}
 	}
 }
