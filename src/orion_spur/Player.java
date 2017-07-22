@@ -48,19 +48,19 @@ public class Player extends Actor
 	{
 		Vector2 position = new Vector2(getX(), getY());
 		
-		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D))
 		{
 			_directionOfMovement = _directionOfMovement.add(_speed * delta, 0);
 		}
-		if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
+		if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A))
 		{
 			_directionOfMovement = _directionOfMovement.add(-_speed * delta, 0);
 		}
-		if (Gdx.input.isKeyPressed(Input.Keys.UP))
+		if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W))
 		{
 			_directionOfMovement = _directionOfMovement.add(0, _speed * delta);
 		}
-		if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
+		if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S))
 		{
 			_directionOfMovement = _directionOfMovement.add(0, -_speed * delta);
 		}
