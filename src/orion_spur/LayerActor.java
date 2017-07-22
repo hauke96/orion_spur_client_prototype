@@ -38,16 +38,16 @@ public class LayerActor extends Actor
 		
 		_layerToScale = new HashMap<LayerActor.LayerType, Float>();
 		
-		_layerToScale.put(LayerType.LAYER_BACKGROUND, 0.1f);
+		_layerToScale.put(LayerType.LAYER_BACKGROUND, 0.9f);
 		
-		_layerToScale.put(LayerType.LAYER_1_BEHIND, 0.55f);
-		_layerToScale.put(LayerType.LAYER_0_BEHIND, 0.85f);
+		_layerToScale.put(LayerType.LAYER_1_BEHIND, 0.4f);
+		_layerToScale.put(LayerType.LAYER_0_BEHIND, 0.75f);
 		
 		_layerToScale.put(LayerType.LAYER_PLAYER, 1f);
 		_layerToScale.put(LayerType.LAYER_ANIMATION, 1f);
 		
-		_layerToScale.put(LayerType.LAYER_0_BEFORE, 1.15f);
-		_layerToScale.put(LayerType.LAYER_1_BEFORE, 1.55f);
+		_layerToScale.put(LayerType.LAYER_0_BEFORE, 1.25f);
+		_layerToScale.put(LayerType.LAYER_1_BEFORE, 2f);
 		
 		Contract.NotNull(_layers);
 		Contract.Satisfy(_layers.values().size() == LayerType.values().length);
@@ -121,7 +121,7 @@ public class LayerActor extends Actor
 		        || type == LayerType.LAYER_0_BEHIND
 		        || type == LayerType.LAYER_1_BEHIND)
 		{
-			// Negate, because otherwise the image will move in the opposite direction (because the player is (1,1)).
+			// Negate, because otherwise the image will move in the opposite direction.
 			scale *= -1;
 		}
 		
