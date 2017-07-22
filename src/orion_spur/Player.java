@@ -25,7 +25,7 @@ public class Player extends Actor
 		
 		setBounds(400, 300, 50, 50);
 		
-		_speed = 50f;
+		_speed = 200f;
 		
 		_sprite = new Sprite(texture);
 		_sprite.setBounds(getX(), getY(), getWidth(), getHeight());
@@ -48,7 +48,19 @@ public class Player extends Actor
 		
 		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
 		{
-			position = position.add(_speed * delta,0);
+			position = position.add(_speed * delta, 0);
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
+		{
+			position = position.add(-_speed * delta, 0);
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.UP))
+		{
+			position = position.add(0, _speed * delta);
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
+		{
+			position = position.add(0, -_speed * delta);
 		}
 		
 		if (position.x != getX() || position.y != getY())
