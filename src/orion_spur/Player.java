@@ -53,16 +53,18 @@ public class Player extends Actor
 		
 		if (position.x != getX() || position.y != getY())
 		{
-			setPosition(position);
+			setPosition(position.x, position.y);
 		}
 	}
-
-	private void setPosition(Vector2 position)
+	
+	@Override
+	public void setPosition(float x, float y)
 	{
-		setPosition(position.x, position.y);
-		_sprite.setPosition(position.x, position.y);
+		_sprite.setPosition(x, y);
 		
 		PositionChanged.fireEvent();
+		
+		super.setPosition(x, y);
 	}
 	
 	public Vector2 getCenterPosition()
