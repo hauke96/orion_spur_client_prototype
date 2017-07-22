@@ -24,16 +24,17 @@ public class Player extends ImageActor
 	{
 		super(file);
 		
-		setBounds(400, 300, 50, 50);
+		setBounds(80, 60, 20, 20);
 		
-		_movementSpeed = 3;
-		_maxSpeed = 20;
+		_movementSpeed = 0.5f;
+		_maxSpeed = 4;
 		_rotationSpeed = 250;
 		_rotationDegree = 0;
 		
 		_movementVector = new Vector2();
 		
 		_sprite.setBounds(getX(), getY(), getWidth(), getHeight());
+		_sprite.setOrigin(getWidth() / 2, getHeight() / 2);
 		_sprite.rotate(_rotationDegree);
 		
 		Contract.Satisfy(_sprite != null);
@@ -72,11 +73,11 @@ public class Player extends ImageActor
 		
 		if (Gdx.input.isKeyPressed(Input.Keys.Q))
 		{
-			_rotationDegree -= _rotationSpeed * delta;
+			_rotationDegree += _rotationSpeed * delta;
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.E))
 		{
-			_rotationDegree += _rotationSpeed * delta;
+			_rotationDegree -= _rotationSpeed * delta;
 		}
 		
 		movementAdjustion.rotate(_rotationDegree);

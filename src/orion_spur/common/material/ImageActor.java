@@ -14,7 +14,7 @@ public class ImageActor extends Actor
 	{
 		Texture texture = new Texture(Gdx.files.internal(file));
 		
-		setBounds(0, 0, texture.getWidth(), texture.getHeight());
+		setBounds(0, 0, texture.getWidth() / 5, texture.getHeight() / 5);
 		
 		_sprite = new Sprite(texture);
 		_sprite.setBounds(getX(), getY(), getWidth(), getHeight());

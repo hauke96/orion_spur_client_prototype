@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
 import orion_spur.common.material.ImageActor;
 import orion_spur.common.service.LayerActor;
@@ -37,7 +36,8 @@ public class OrionSpur implements ApplicationListener
 	{
 		_camera = new OrthographicCamera(_width, _height);
 		
-		Viewport viewport = new ScreenViewport(_camera);
+		ScreenViewport viewport = new ScreenViewport(_camera);
+		viewport.setUnitsPerPixel(0.2f);
 		_player = new Player("assets/textures/spaceship.png");
 		_layerActor = new LayerActor();
 		
