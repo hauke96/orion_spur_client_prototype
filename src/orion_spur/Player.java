@@ -17,8 +17,12 @@ public class Player extends Actor
 	
 	private Sprite _sprite;
 	
-	private float	_speed;
-	private Vector2	_directionOfMovement;
+	private float	_movementSpeed;
+	private float	_maxSpeed;
+	private float	_rotationSpeed;	// degree per second
+	private float	_rotationDegree;// degree the player is rotated
+	
+	private Vector2 _movementVector;
 	
 	public Player()
 	{
@@ -26,15 +30,21 @@ public class Player extends Actor
 		
 		setBounds(400, 300, 50, 50);
 		
-		_speed = 10;
-		_directionOfMovement = new Vector2();
+		_movementSpeed = 3;
+		_maxSpeed = 20;
+		_rotationSpeed = 250;
+		_rotationDegree = 0;
+		
+		_movementVector = new Vector2();
 		
 		_sprite = new Sprite(texture);
 		_sprite.setBounds(getX(), getY(), getWidth(), getHeight());
+		_sprite.setOrigin(getWidth() / 2, getHeight() / 2);
+		_sprite.rotate(_rotationDegree);
 		
 		Contract.Satisfy(_sprite != null);
 		Contract.Satisfy(_sprite.getTexture() != null);
-		Contract.Satisfy(_speed > 0);
+		Contract.Satisfy(_movementSpeed > 0);
 	}
 	
 	@Override
@@ -47,30 +57,51 @@ public class Player extends Actor
 	public void act(float delta)
 	{
 		Vector2 position = new Vector2(getX(), getY());
+		Vector2 movementAdjustion = new Vector2();
 		
 		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D))
 		{
-			_directionOfMovement = _directionOfMovement.add(_speed * delta, 0);
+			movementAdjustion = movementAdjustion.add(_movementSpeed * delta, 0);
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A))
 		{
-			_directionOfMovement = _directionOfMovement.add(-_speed * delta, 0);
+			movementAdjustion = movementAdjustion.add(-_movementSpeed * delta, 0);
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W))
 		{
-			_directionOfMovement = _directionOfMovement.add(0, _speed * delta);
+			movementAdjustion = movementAdjustion.add(0, _movementSpeed * delta);
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S))
 		{
-			_directionOfMovement = _directionOfMovement.add(0, -_speed * delta);
+			movementAdjustion = movementAdjustion.add(0, -_movementSpeed * delta);
 		}
 		
-		position.add(_directionOfMovement);
+		if (Gdx.input.isKeyPressed(Input.Keys.Q))
+		{
+			_rotationDegree -= _rotationSpeed * delta;
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.E))
+		{
+			_rotationDegree += _rotationSpeed * delta;
+		}
+		
+		movementAdjustion.rotate(_rotationDegree);
+		
+		_movementVector = _movementVector.add(movementAdjustion);
+		
+		if (_movementVector.len() > _maxSpeed)
+		{
+			_movementVector.setLength(_maxSpeed);
+		}
+		
+		position.add(_movementVector);
 		
 		if (position.x != getX() || position.y != getY())
 		{
 			setPosition(position.x, position.y);
 		}
+		
+		_sprite.setRotation(_rotationDegree);
 	}
 	
 	@Override

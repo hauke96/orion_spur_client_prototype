@@ -38,7 +38,7 @@ public class LayerActor extends Actor
 		
 		_layerToScale = new HashMap<LayerActor.LayerType, Float>();
 		
-		_layerToScale.put(LayerType.LAYER_BACKGROUND, 0.9f);
+		_layerToScale.put(LayerType.LAYER_BACKGROUND, 0.95f);
 		
 		_layerToScale.put(LayerType.LAYER_1_BEHIND, 0.4f);
 		_layerToScale.put(LayerType.LAYER_0_BEHIND, 0.75f);
