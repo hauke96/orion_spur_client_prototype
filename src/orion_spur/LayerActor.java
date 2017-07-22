@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import juard.contract.Contract;
@@ -62,7 +63,6 @@ public class LayerActor extends Actor
 		draw(batch, parentAlpha, _layers.get(LayerType.LAYER_2));
 		
 		draw(batch, parentAlpha, _layers.get(LayerType.LAYER_PLAYER));
-		
 		draw(batch, parentAlpha, _layers.get(LayerType.LAYER_ANIMATION));
 	}
 	
@@ -82,7 +82,6 @@ public class LayerActor extends Actor
 		act(_layers.get(LayerType.LAYER_2), delta);
 		
 		act(_layers.get(LayerType.LAYER_PLAYER), delta);
-		
 		act(_layers.get(LayerType.LAYER_ANIMATION), delta);
 	}
 	
@@ -91,6 +90,21 @@ public class LayerActor extends Actor
 		for (Actor actor : actors)
 		{
 			actor.act(delta);
+		}
+	}
+
+	public void onPlayerPositionChanged(Vector2 offset)
+	{
+		move(_layers.get(LayerType.LAYER_0), new Vector2(offset.x*0.9f, offset.y*0.9f));
+		move(_layers.get(LayerType.LAYER_1), new Vector2(offset.x*0.45f, offset.y*0.45f));
+		move(_layers.get(LayerType.LAYER_2), new Vector2(offset.x*0.15f, offset.y*0.15f));
+	}
+
+	private void move(Set<Actor> actors, Vector2 offset)
+	{
+		for (Actor actor : actors)
+		{
+			actor.moveBy(offset.x, offset.y);
 		}
 	}
 }

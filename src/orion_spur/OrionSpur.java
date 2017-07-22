@@ -23,9 +23,12 @@ public class OrionSpur implements ApplicationListener
 {
 	private Stage	_currentStage;
 	private Camera	_camera;
+	
 	private int		_width;
 	private int		_height;
+	
 	private Player	_player;
+	private LayerActor _layerActor;
 	
 	public OrionSpur(int width, int height)
 	{
@@ -40,26 +43,28 @@ public class OrionSpur implements ApplicationListener
 		
 		Viewport viewport = new ScreenViewport(_camera);
 		_player = new Player();
-		LayerActor layerActor = new LayerActor();
+		_layerActor = new LayerActor();
 		
-		layerActor.addToLayer(_player, LayerType.LAYER_PLAYER);
-		layerActor.addToLayer(new Background("assets/textures/milkyway.jpg"), LayerType.LAYER_0);
+		_layerActor.addToLayer(_player, LayerType.LAYER_PLAYER);
+		_layerActor.addToLayer(new Background("assets/textures/milkyway.jpg"), LayerType.LAYER_0);
+		_layerActor.addToLayer(new Background("assets/textures/asteroid-0.png"), LayerType.LAYER_1);
+		_layerActor.addToLayer(new Background("assets/textures/asteroid-0.png"), LayerType.LAYER_2);
 		
 		_currentStage = new Stage(viewport);
-		_currentStage.addActor(layerActor);
+		_currentStage.addActor(_layerActor);
 
-		_player.PositionChanged.add(() -> onPlayerPositionChanged());
-		onPlayerPositionChanged();
+		_player.PositionChanged.add((Object... data) -> onPlayerPositionChanged((Vector2)data[0]));
+		onPlayerPositionChanged(new Vector2());
 	}
 	
-	private void onPlayerPositionChanged()
+	private void onPlayerPositionChanged(Vector2 offset)
 	{
 		Vector2 playerPosition = _player.getCenterPosition();
 		
 		_camera.position.set(playerPosition, 0);
 		_camera.update();
-		
-		System.out.println(_camera.position.toString()+"\n");
+
+		_layerActor.onPlayerPositionChanged(offset);
 	}
 	
 	@Override

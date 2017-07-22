@@ -25,4 +25,11 @@ public class Background extends Actor
 	{
 		_sprite.draw(batch);
 	}
+	
+	@Override
+	public void moveBy(float x, float y)
+	{
+		_sprite.translate(x, y);
+		super.moveBy(x, y);
+	}
 }
