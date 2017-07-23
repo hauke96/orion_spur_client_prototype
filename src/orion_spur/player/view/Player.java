@@ -14,7 +14,7 @@ public class Player extends ImageActor
 {
 	public EventArgs PositionChanged = new EventArgs(); // sending the offset at [0]
 	
-	private float	_movementSpeed;
+	private float	_acceleration;
 	private float	_maxSpeed;
 	private float	_rotationSpeed;	// degree per second
 	private float	_rotationDegree;// degree the player is rotated
@@ -33,8 +33,8 @@ public class Player extends ImageActor
 		
 		setBounds(80, 60, 20, 20);
 		
-		_movementSpeed = 0.5f;
-		_maxSpeed = 4;
+		_acceleration = 15f;
+		_maxSpeed = 500;
 		_rotationSpeed = 250;
 		_rotationDegree = 0;
 		
@@ -46,7 +46,7 @@ public class Player extends ImageActor
 		
 		Contract.Satisfy(_sprite != null);
 		Contract.Satisfy(_sprite.getTexture() != null);
-		Contract.Satisfy(_movementSpeed > 0);
+		Contract.Satisfy(_acceleration > 0);
 	}
 	
 	@Override
@@ -63,19 +63,19 @@ public class Player extends ImageActor
 		
 		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D))
 		{
-			movementAdjustion = movementAdjustion.add(_movementSpeed * delta, 0);
+			movementAdjustion = movementAdjustion.add(_acceleration * delta, 0);
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A))
 		{
-			movementAdjustion = movementAdjustion.add(-_movementSpeed * delta, 0);
+			movementAdjustion = movementAdjustion.add(-_acceleration * delta, 0);
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W))
 		{
-			movementAdjustion = movementAdjustion.add(0, _movementSpeed * delta);
+			movementAdjustion = movementAdjustion.add(0, _acceleration * delta);
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S))
 		{
-			movementAdjustion = movementAdjustion.add(0, -_movementSpeed * delta);
+			movementAdjustion = movementAdjustion.add(0, -_acceleration * delta);
 		}
 		
 		if (Gdx.input.isKeyPressed(Input.Keys.Q))
@@ -96,7 +96,7 @@ public class Player extends ImageActor
 			_movementVector.setLength(_maxSpeed);
 		}
 		
-		position.add(_movementVector);
+		position.add(_movementVector.x * delta, _movementVector.y * delta);
 		
 		if (position.x != getX() || position.y != getY())
 		{
@@ -113,9 +113,9 @@ public class Player extends ImageActor
 		
 		_sprite.setPosition(x, y);
 		
-		PositionChanged.fireEvent(offset);
-		
 		super.setPosition(x, y);
+		
+		PositionChanged.fireEvent(offset);
 	}
 	
 	public Vector2 getCenterPosition()
