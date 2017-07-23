@@ -10,11 +10,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import juard.injection.Locator;
-import orion_spur.common.material.ImageActor;
 import orion_spur.common.service.LayerActor;
 import orion_spur.common.service.LayerActor.LayerType;
-import orion_spur.player.material.Player;
+import orion_spur.common.view.ImageActor;
 import orion_spur.player.service.IPlayerService;
+import orion_spur.player.view.Player;
 
 public class OrionSpur implements ApplicationListener
 {
