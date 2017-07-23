@@ -8,9 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import juard.contract.Contract;
-import orion_spur.common.service.LayerActor;
 import orion_spur.common.service.LayerActor.LayerType;
-import orion_spur.common.view.ImageActor;
+import orion_spur.level.view.LevelActor;
 import orion_spur.player.service.IPlayerService;
 import orion_spur.player.view.Player;
 
@@ -23,7 +22,7 @@ public class MainGameScreen implements Screen
 	private int	_height;
 	
 	private Player		_player;
-	private LayerActor	_layerActor;
+	private LevelActor	_level;
 	
 	public MainGameScreen(IPlayerService playerService, int width, int height, float worldUnitsPerPixel)
 	{
@@ -34,19 +33,13 @@ public class MainGameScreen implements Screen
 		ScreenViewport viewport = new ScreenViewport(_camera);
 		viewport.setUnitsPerPixel(worldUnitsPerPixel);
 		
+		_level = new LevelActor();
+		
 		_player = new Player(playerService, "assets/textures/spaceship.png");
-		
-		_layerActor = new LayerActor();
-		
-		_layerActor.addToLayer(_player, LayerType.LAYER_PLAYER);
-		_layerActor.addToLayer(new ImageActor("assets/textures/milkyway.jpg"), LayerType.LAYER_BACKGROUND);
-		_layerActor.addToLayer(new ImageActor("assets/textures/asteroid-0.png"), LayerType.LAYER_1_BEHIND);
-		_layerActor.addToLayer(new ImageActor("assets/textures/asteroid-0.png"), LayerType.LAYER_0_BEHIND);
-		_layerActor.addToLayer(new ImageActor("assets/textures/asteroid-0.png"), LayerType.LAYER_0_BEFORE);
-		_layerActor.addToLayer(new ImageActor("assets/textures/asteroid-0.png"), LayerType.LAYER_1_BEFORE);
+		_level.addToLayer(_player, LayerType.LAYER_PLAYER);
 		
 		_currentStage = new Stage(viewport);
-		_currentStage.addActor(_layerActor);
+		_currentStage.addActor(_level);
 		
 		_player.PositionChanged.add((Object... data) -> onPlayerPositionChanged((Vector2) data[0]));
 		onPlayerPositionChanged(new Vector2());
@@ -59,7 +52,7 @@ public class MainGameScreen implements Screen
 		_camera.position.set(playerPosition, 0);
 		_camera.update();
 		
-		_layerActor.onPlayerPositionChanged(offset);
+		_level.onPlayerPositionChanged(offset);
 	}
 	
 	@Override
