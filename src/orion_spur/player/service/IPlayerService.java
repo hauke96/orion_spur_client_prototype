@@ -1,7 +1,7 @@
 package orion_spur.player.service;
 
 import juard.event.Event;
-import orion_spur.common.material.Position;
+import orion_spur.common.domainvalue.Position;
 
 public interface IPlayerService
 {
