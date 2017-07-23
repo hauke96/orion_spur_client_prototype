@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import juard.contract.Contract;
 import juard.event.EventArgs;
 import orion_spur.common.material.ImageActor;
+import orion_spur.player.service.IPlayerService;
 
 public class Player extends ImageActor
 {
@@ -20,9 +21,15 @@ public class Player extends ImageActor
 	
 	private Vector2 _movementVector;
 	
-	public Player(String file)
+	private IPlayerService _playerService;
+	
+	public Player(IPlayerService playerService, String file)
 	{
 		super(file);
+		
+		Contract.NotNull(playerService);
+		
+		_playerService = playerService;
 		
 		setBounds(80, 60, 20, 20);
 		

@@ -9,13 +9,17 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+import juard.injection.Locator;
 import orion_spur.common.material.ImageActor;
 import orion_spur.common.service.LayerActor;
 import orion_spur.common.service.LayerActor.LayerType;
 import orion_spur.player.material.Player;
+import orion_spur.player.service.IPlayerService;
 
 public class OrionSpur implements ApplicationListener
 {
+	private static final float WORLD_UNITS_PER_PIXEL = 0.2f;
+	
 	private Stage	_currentStage;
 	private Camera	_camera;
 	
@@ -37,8 +41,10 @@ public class OrionSpur implements ApplicationListener
 		_camera = new OrthographicCamera(_width, _height);
 		
 		ScreenViewport viewport = new ScreenViewport(_camera);
-		viewport.setUnitsPerPixel(0.2f);
-		_player = new Player("assets/textures/spaceship.png");
+		viewport.setUnitsPerPixel(WORLD_UNITS_PER_PIXEL);
+		
+		_player = new Player(Locator.get(IPlayerService.class), "assets/textures/spaceship.png");
+		
 		_layerActor = new LayerActor();
 		
 		_layerActor.addToLayer(_player, LayerType.LAYER_PLAYER);

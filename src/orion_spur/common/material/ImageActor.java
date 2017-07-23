@@ -6,12 +6,16 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
+import juard.contract.Contract;
+
 public class ImageActor extends Actor
 {
 	protected Sprite _sprite;
 	
 	public ImageActor(String file)
 	{
+		Contract.NotNull(file);
+		
 		Texture texture = new Texture(Gdx.files.internal(file));
 		
 		setBounds(0, 0, texture.getWidth() / 5, texture.getHeight() / 5);
