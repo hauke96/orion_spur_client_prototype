@@ -4,6 +4,8 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
 import juard.injection.Locator;
+import orion_spur.common.factory.ActorFactoryImpl;
+import orion_spur.common.factory.IActorFactory;
 import orion_spur.level.service.ILevelService;
 import orion_spur.level.service.LevelDummyService;
 import orion_spur.player.service.IPlayerService;
@@ -32,5 +34,6 @@ public class Main
 	{
 		Locator.register(IPlayerService.class, () -> new PlayerServiceDummy());
 		Locator.register(ILevelService.class, () -> new LevelDummyService());
+		Locator.register(IActorFactory.class, () -> new ActorFactoryImpl());
 	}
 }
