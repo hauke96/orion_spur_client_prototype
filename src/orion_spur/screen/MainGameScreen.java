@@ -8,7 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import juard.contract.Contract;
+import juard.injection.Locator;
 import orion_spur.common.service.LayerActor.LayerType;
+import orion_spur.level.service.ILevelService;
 import orion_spur.level.view.LevelActor;
 import orion_spur.player.service.IPlayerService;
 import orion_spur.player.view.Player;
@@ -33,7 +35,7 @@ public class MainGameScreen implements Screen
 		ScreenViewport viewport = new ScreenViewport(_camera);
 		viewport.setUnitsPerPixel(worldUnitsPerPixel);
 		
-		_level = new LevelActor();
+		_level = new LevelActor(Locator.get(ILevelService.class));
 		
 		_player = new Player(playerService, "assets/textures/spaceship.png");
 		_level.addToLayer(_player, LayerType.LAYER_PLAYER);
