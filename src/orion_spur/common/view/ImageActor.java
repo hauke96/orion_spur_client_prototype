@@ -2,6 +2,7 @@ package orion_spur.common.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -17,6 +18,7 @@ public class ImageActor extends Actor
 		Contract.NotNull(file);
 		
 		Texture texture = new Texture(Gdx.files.internal(file));
+		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		
 		setBounds(0, 0, texture.getWidth() / 5, texture.getHeight() / 5);
 		

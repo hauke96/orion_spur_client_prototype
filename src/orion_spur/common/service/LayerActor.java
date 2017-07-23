@@ -108,7 +108,11 @@ public class LayerActor extends Actor
 	{
 		for (LayerType type : LayerType.values())
 		{
-			moveLayer(offset, type);
+			// The player already got its offset
+			if (type != LayerType.LAYER_PLAYER)
+			{
+				moveLayer(offset, type);
+			}
 		}
 	}
 	
