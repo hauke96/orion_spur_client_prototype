@@ -15,11 +15,11 @@ public class LevelDummyService implements ILevelService
 	{
 		List<LevelElement> result = new ArrayList<LevelElement>();
 		
-		result.add(new LevelElement(Position.create(0, -23142, 0, -8401128659651750400L), LayerType.LAYER_BACKGROUND, LevelType.IMAGE, "assets/textures/milkyway.jpg"));
-		result.add(new LevelElement(Position.create(0, -23142, 0, -8401128659651750400L), LayerType.LAYER_1_BEHIND, LevelType.IMAGE, "assets/textures/asteroid-0.png"));
-		result.add(new LevelElement(Position.create(0, -23142, 0, -8401128659651750400L), LayerType.LAYER_0_BEHIND, LevelType.IMAGE, "assets/textures/asteroid-0.png"));
-		result.add(new LevelElement(Position.create(0, -23142, 0, -8401128659651750400L), LayerType.LAYER_0_BEFORE, LevelType.IMAGE, "assets/textures/asteroid-0.png"));
-		result.add(new LevelElement(Position.create(0, -23142, 0, -8401128659651750400L), LayerType.LAYER_1_BEFORE, LevelType.IMAGE, "assets/textures/asteroid-0.png"));
+		result.add(new LevelElement(Position.create(0, -23014, 0, 2993375121524565L), LayerType.LAYER_BACKGROUND, LevelType.IMAGE, "assets/textures/milkyway.jpg"));
+		result.add(new LevelElement(Position.create(0, -23014, 0, 2993375121524565L), LayerType.LAYER_1_BEHIND, LevelType.IMAGE, "assets/textures/asteroid-0.png"));
+		result.add(new LevelElement(Position.create(0, -23014, 0, 2993375121524565L), LayerType.LAYER_0_BEHIND, LevelType.IMAGE, "assets/textures/asteroid-0.png"));
+		result.add(new LevelElement(Position.create(0, -23014, 0, 2993375121524565L), LayerType.LAYER_0_BEFORE, LevelType.IMAGE, "assets/textures/asteroid-0.png"));
+		result.add(new LevelElement(Position.create(0, -23014, 0, 2993375121524565L), LayerType.LAYER_1_BEFORE, LevelType.IMAGE, "assets/textures/asteroid-0.png"));
 		
 		return result;
 	}
@@ -27,6 +27,6 @@ public class LevelDummyService implements ILevelService
 	@Override
 	public Position getPosition(String name)
 	{
-		return Position.create(0, -23142, 0, -8401128659651750400L);
+		return Position.create(0, -23014, 0, 2993375121524565L);
 	}
 }
