@@ -42,4 +42,6 @@ public class LevelElement
 	{
 		return _assetPath;
 	}
+	
+	// TODO equals, hashcode
 }

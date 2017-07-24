@@ -31,7 +31,7 @@ public class Player extends ImageActor
 		
 		_playerService = playerService;
 		
-		setBounds(80, 60, 20, 20);
+		setBounds(0, 0, 20, 20);
 		
 		_acceleration = 15f;
 		_maxSpeed = 500;
@@ -40,7 +40,7 @@ public class Player extends ImageActor
 		
 		_movementVector = new Vector2();
 		
-		_sprite.setBounds(getX(), getY(), getWidth(), getHeight());
+		_sprite.setBounds(getX() - getWidth() / 2, getY() - getHeight() / 2, getWidth(), getHeight());
 		_sprite.setOrigin(getWidth() / 2, getHeight() / 2);
 		_sprite.rotate(_rotationDegree);
 		
@@ -111,16 +111,16 @@ public class Player extends ImageActor
 	{
 		Vector2 offset = new Vector2(x - getX(), y - getY());
 		
-		_sprite.setPosition(x, y);
+		_sprite.setPosition(x - getWidth() / 2, y - getWidth() / 2);
 		
 		super.setPosition(x, y);
 		
-		//TODO set position on player service
+		// TODO set position on player service
 		PositionChanged.fireEvent(offset);
 	}
 	
 	public Vector2 getCenterPosition()
 	{
-		return new Vector2(getX() + getWidth() / 2, getY() + getHeight() / 2);
+		return new Vector2(getX(), getY());
 	}
 }

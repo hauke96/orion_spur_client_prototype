@@ -11,6 +11,7 @@ import juard.contract.Contract;
 import juard.injection.Locator;
 import orion_spur.common.domainvalue.Position;
 import orion_spur.common.factory.IActorFactory;
+import orion_spur.common.service.ICoordinateConverter;
 import orion_spur.common.service.LayerActor.LayerType;
 import orion_spur.level.domainvalue.LevelType;
 import orion_spur.level.material.LevelElement;
@@ -19,7 +20,7 @@ import orion_spur.level.view.LevelActor;
 import orion_spur.player.service.IPlayerService;
 import orion_spur.player.view.Player;
 
-public class MainGameScreen implements Screen
+public class MainGameScreen implements Screen, ICoordinateConverter
 {
 	private Stage	_currentStage;
 	private Camera	_camera;
@@ -27,9 +28,10 @@ public class MainGameScreen implements Screen
 	private int	_width;
 	private int	_height;
 	
-	private LevelElement		_playerLevelElement;
-	private LevelActor	_level;
-	private Player _player;
+	private LevelElement	_playerLevelElement;
+	private LevelActor		_level;
+	private Player			_player;
+	private ScreenViewport	_viewport;
 	
 	public MainGameScreen(IPlayerService playerService, int width, int height, float worldUnitsPerPixel)
 	{
@@ -37,15 +39,15 @@ public class MainGameScreen implements Screen
 		
 		_camera = new OrthographicCamera(_width, _height);
 		
-		ScreenViewport viewport = new ScreenViewport(_camera);
-		viewport.setUnitsPerPixel(worldUnitsPerPixel);
+		_viewport = new ScreenViewport(_camera);
+		_viewport.setUnitsPerPixel(worldUnitsPerPixel);
 		
 		_level = new LevelActor(Locator.get(ILevelService.class), Locator.get(IActorFactory.class));
 		
 		_playerLevelElement = new LevelElement(Position.create(0, 0, 0, 0), LayerType.LAYER_PLAYER, LevelType.PLAYER, "assets/textures/spaceship.png");
-		_player = (Player)_level.addToLayer(_playerLevelElement);
+		_player = (Player) _level.addToLayer(_playerLevelElement);
 		
-		_currentStage = new Stage(viewport);
+		_currentStage = new Stage(_viewport);
 		_currentStage.addActor(_level);
 		
 		_player.PositionChanged.add((Object... data) -> onPlayerPositionChanged((Vector2) data[0]));
@@ -58,6 +60,10 @@ public class MainGameScreen implements Screen
 		
 		_camera.position.set(playerPosition, 0);
 		_camera.update();
+		
+		System.out.println(playerPosition);
+		screenToWorld(new Vector2(600, 349));
+		System.out.println(_viewport.project(playerPosition).toString());
 		
 		_level.onPlayerPositionChanged(offset);
 	}
@@ -99,5 +105,29 @@ public class MainGameScreen implements Screen
 	public void dispose()
 	{
 		_currentStage.dispose();
+	}
+	
+	@Override
+	public Vector2 screenToWorld(Vector2 position)
+	{
+		return _viewport.unproject(position);
+	}
+	
+	@Override
+	public Position worldToUniverse(Vector2 position)
+	{
+		return null;
+	}
+	
+	@Override
+	public Vector2 worldToScreen(Vector2 position)
+	{
+		return _viewport.project(position);
+	}
+	
+	@Override
+	public Vector2 universeToWorld(Position position)
+	{
+		return null;
 	}
 }

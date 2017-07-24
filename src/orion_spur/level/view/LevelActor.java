@@ -1,7 +1,5 @@
 package orion_spur.level.view;
 
-import javax.swing.text.LayeredHighlighter;
-
 import juard.contract.Contract;
 import orion_spur.common.factory.IActorFactory;
 import orion_spur.common.service.LayerActor;

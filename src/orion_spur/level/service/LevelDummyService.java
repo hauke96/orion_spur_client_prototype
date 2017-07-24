@@ -23,4 +23,10 @@ public class LevelDummyService implements ILevelService
 		
 		return result;
 	}
+	
+	@Override
+	public Position getPosition(String name)
+	{
+		return Position.create(0, -23142, 0, -8401128659651750400L);
+	}
 }
