@@ -39,18 +39,50 @@ public class Position
 	 */
 	private static Coordinate getCoordinate(long lightYear, long meter)
 	{
-		if (meter < 0 || LIGHTYEAR_IN_METERS <= meter)
+		long lightYearsInMeterPart = meter / LIGHTYEAR_IN_METERS;
+		long actualMeterPart = meter % LIGHTYEAR_IN_METERS;
+		
+		// only (-1,-1) or (1,1) but not (1,-1) is allowed: Positive Ly -> positive meter. Negative Ly -> negative meter
+		if (lightYear > 0 && meter < 0)
 		{
-			if (meter < 0)
+			lightYear -= lightYearsInMeterPart;
+			
+			if (lightYear >= 0)
 			{
-				long amountLightYear = -meter / LIGHTYEAR_IN_METERS + 1;
-				lightYear -= amountLightYear;
+				if (actualMeterPart != 0)
+				{
+					// remove the left over negative part. This means subtracting one of the lightYear and filling the rest with meters.
+					lightYear--;
+					meter = LIGHTYEAR_IN_METERS - Math.abs(actualMeterPart);
+				}
 			}
 			else
 			{
-				lightYear += meter / LIGHTYEAR_IN_METERS;
+				meter = actualMeterPart;
 			}
-			meter %= LIGHTYEAR_IN_METERS;
+		}
+		else if (lightYear < 0 && meter > 0)
+		{
+			lightYear += lightYearsInMeterPart;
+			
+			if (lightYear <= 0)
+			{
+				if (actualMeterPart != 0)
+				{
+					// remove the left over negative part. This means subtracting one of the lightYear and filling the rest with meters.
+					lightYear++;
+					meter = -LIGHTYEAR_IN_METERS + Math.abs(actualMeterPart);
+				}
+			}
+			else
+			{
+				meter = actualMeterPart;
+			}
+		}
+		else // both have the same sign, just convert meter into light years.
+		{
+			lightYear += lightYearsInMeterPart;
+			meter = actualMeterPart;
 		}
 		
 		return Coordinate.create(lightYear, meter);
