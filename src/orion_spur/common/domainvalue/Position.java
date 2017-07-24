@@ -2,6 +2,10 @@ package orion_spur.common.domainvalue;
 
 import java.text.MessageFormat;
 
+import com.badlogic.gdx.math.Vector2;
+
+import juard.contract.Contract;
+
 public class Position
 {
 	private static final long LIGHTYEAR_IN_METERS = 9460730472580800L;
@@ -11,29 +15,50 @@ public class Position
 	private final long	_xMeter;
 	private final long	_yMeter;
 	
-	private Position(long xLightYear, long yLightYear, long xMeter, long yMeter)
+	private Position(Coordinate x, Coordinate y)
 	{
-		_xLightYear = xLightYear;
-		_yLightYear = yLightYear;
-		_xMeter = xMeter;
-		_yMeter = yMeter;
+		_xLightYear = x.getLightYear();
+		_yLightYear = y.getLightYear();
+		_xMeter = x.getMeter();
+		_yMeter = y.getMeter();
 	}
 	
 	public static Position create(long xLightYear, long yLightYear, long xMeter, long yMeter)
 	{
-		if (xMeter >= LIGHTYEAR_IN_METERS)
+		Coordinate x = getCoordinate(xLightYear, xMeter);
+		Coordinate y = getCoordinate(yLightYear, yMeter);
+		
+		return new Position(x, y);
+	}
+	
+	/**
+	 * Creates a coordinate object after converting negative or too large meter values into light years.
+	 * This means, that the coordinate returning may not have exactly the same values as given here.
+	 * 
+	 * @param lightYear
+	 *            Amount of light years.
+	 * @param meter
+	 *            Amount of meters.
+	 * @return The coordinate.
+	 */
+	private static Coordinate getCoordinate(long lightYear, long meter)
+	{
+		if (meter < 0 || LIGHTYEAR_IN_METERS <= meter)
 		{
-			xLightYear += xMeter % LIGHTYEAR_IN_METERS;
-			xMeter /= LIGHTYEAR_IN_METERS;
+			if (meter < 0)
+			{
+				long amountLightYear = meter / LIGHTYEAR_IN_METERS + 1;
+				lightYear -= amountLightYear;
+				meter = LIGHTYEAR_IN_METERS + (meter % LIGHTYEAR_IN_METERS); // just modulo wont work, for java is: -1 % 5 == -1
+			}
+			else
+			{
+				lightYear += meter / LIGHTYEAR_IN_METERS;
+				meter %= LIGHTYEAR_IN_METERS;
+			}
 		}
 		
-		if (yMeter >= LIGHTYEAR_IN_METERS)
-		{
-			yLightYear += yMeter % LIGHTYEAR_IN_METERS;
-			yMeter /= LIGHTYEAR_IN_METERS;
-		}
-		
-		return new Position(xLightYear, yLightYear, xMeter, yMeter);
+		return Coordinate.create(lightYear, meter);
 	}
 	
 	public Coordinate getX()
@@ -72,5 +97,19 @@ public class Position
 	public int hashCode()
 	{
 		return (int) (_xLightYear + _yLightYear + _xMeter + _yMeter);
+	}
+	
+	/**
+	 * Adds the given offset (given in meters) and creates a new position object.
+	 * 
+	 * @param offset
+	 *            The offset in meters.
+	 * @return The new position.
+	 */
+	public Position add(Vector2 offset)
+	{
+		Contract.NotNull(offset);
+		
+		return create(_xLightYear, _yLightYear, _xMeter + (long) offset.x, _yMeter + (long) offset.y);
 	}
 }

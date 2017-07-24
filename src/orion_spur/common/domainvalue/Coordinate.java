@@ -60,4 +60,24 @@ public class Coordinate
 	{
 		return _meter;
 	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (obj == null || !(obj instanceof Coordinate))
+		{
+			return false;
+		}
+		
+		Coordinate other = (Coordinate) obj;
+		
+		return _lightYear == other._lightYear &&
+		        _meter == other._meter;
+	}
+	
+	@Override
+	public int hashCode()
+	{
+		return (int) (_lightYear + _meter);
+	}
 }
