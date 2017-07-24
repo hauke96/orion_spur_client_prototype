@@ -46,7 +46,7 @@ public class Coordinate
 	
 	public static Coordinate create(long lightYear, long meter)
 	{
-		Contract.Satisfy(meter < LIGHTYEAR_IN_METERS);
+		Contract.Satisfy(meter / LIGHTYEAR_IN_METERS == 0);
 		
 		return new Coordinate(lightYear, meter);
 	}

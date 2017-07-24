@@ -43,15 +43,14 @@ public class Position
 		{
 			if (meter < 0)
 			{
-				long amountLightYear = meter / LIGHTYEAR_IN_METERS + 1;
+				long amountLightYear = -meter / LIGHTYEAR_IN_METERS + 1;
 				lightYear -= amountLightYear;
-				meter = LIGHTYEAR_IN_METERS + (meter % LIGHTYEAR_IN_METERS); // just modulo wont work, for java is: -1 % 5 == -1
 			}
 			else
 			{
 				lightYear += meter / LIGHTYEAR_IN_METERS;
-				meter %= LIGHTYEAR_IN_METERS;
 			}
+			meter %= LIGHTYEAR_IN_METERS;
 		}
 		
 		return Coordinate.create(lightYear, meter);
