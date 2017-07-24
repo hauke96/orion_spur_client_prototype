@@ -7,6 +7,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL30;
 
 import juard.injection.Locator;
+import orion_spur.level.service.ILevelService;
 import orion_spur.player.service.IPlayerService;
 import orion_spur.screen.MainGameScreen;
 
@@ -26,7 +27,7 @@ public class OrionSpur extends Game implements ApplicationListener
 	@Override
 	public void create()
 	{
-		Screen mainGameScreen = new MainGameScreen(Locator.get(IPlayerService.class), _width, _height, WORLD_UNITS_PER_PIXEL);
+		Screen mainGameScreen = new MainGameScreen(Locator.get(IPlayerService.class), Locator.get(ILevelService.class), _width, _height, WORLD_UNITS_PER_PIXEL);
 		
 		setScreen(mainGameScreen);
 	}

@@ -46,4 +46,12 @@ public class ImageActor extends Actor
 		_sprite.translate(x, y);
 		super.moveBy(x, y);
 	}
+	
+	@Override
+	public void setPosition(float x, float y)
+	{
+		_sprite.setPosition(x, y);
+		
+		super.setPosition(x, y);
+	}
 }

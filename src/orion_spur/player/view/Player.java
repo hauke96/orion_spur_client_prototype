@@ -41,7 +41,7 @@ public class Player extends ImageActor
 		
 		_movementVector = new Vector2();
 		
-		_sprite.setBounds(getX() - getWidth() / 2, getY() - getHeight() / 2, getWidth(), getHeight());
+		_sprite.setBounds(getX(), getY(), getWidth(), getHeight());
 		_sprite.setOrigin(getWidth() / 2, getHeight() / 2);
 		_sprite.rotate(_rotationDegree);
 		
@@ -53,7 +53,7 @@ public class Player extends ImageActor
 	@Override
 	public void draw(Batch batch, float parentAlpha)
 	{
-		System.out.println(_movementVector.len() * 0.2f * 3.6f + " km/h");
+		// System.out.println(_movementVector.len() * 0.2f * 3.6f + " km/h");
 		_sprite.draw(batch);
 	}
 	
@@ -112,8 +112,6 @@ public class Player extends ImageActor
 	public void setPosition(float x, float y)
 	{
 		Vector2 offset = new Vector2(x - getX(), y - getY());
-		
-		_sprite.setPosition(x - getWidth() / 2, y - getWidth() / 2);
 		
 		super.setPosition(x, y);
 		

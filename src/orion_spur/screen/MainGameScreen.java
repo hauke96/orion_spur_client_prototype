@@ -35,19 +35,21 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 	private Player			_player;
 	private ScreenViewport	_viewport;
 	
-	public MainGameScreen(IPlayerService playerService, int width, int height, float worldUnitsPerPixel)
+	public MainGameScreen(IPlayerService playerService, ILevelService levelService, int width, int height, float worldUnitsPerPixel)
 	{
 		Contract.NotNull(playerService);
 		Locator.register(IUnitConverter.class, () -> this);
+		Locator.register(ICoordinateConverter.class, () -> this);
 		
 		_camera = new OrthographicCamera(_width, _height);
 		
 		_viewport = new ScreenViewport(_camera);
 		_viewport.setUnitsPerPixel(worldUnitsPerPixel);
 		
-		_level = new LevelActor(Locator.get(ILevelService.class), Locator.get(IActorFactory.class));
+		_level = new LevelActor(levelService, Locator.get(IActorFactory.class), Locator.get(ICoordinateConverter.class));
+		_level.loadLevelElements();
 		
-		_playerLevelElement = new LevelElement(Position.create(0, 0, 0, 0), LayerType.LAYER_PLAYER, LevelType.PLAYER, "assets/textures/spaceship.png");
+		_playerLevelElement = new LevelElement(levelService.getPosition(""), LayerType.LAYER_PLAYER, LevelType.PLAYER, "assets/textures/spaceship.png");
 		_player = (Player) _level.addToLayer(_playerLevelElement);
 		
 		_currentStage = new Stage(_viewport);
@@ -111,12 +113,18 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 	@Override
 	public Vector2 screenToWorld(Vector2 position)
 	{
+		Contract.NotNull(position);
+		Contract.NotNull(_viewport);
+		
 		return _viewport.unproject(position);
 	}
 	
 	@Override
 	public Position worldToUniverse(Vector2 position)
 	{
+		Contract.NotNull(position);
+		Contract.NotNull(_level);
+		
 		Position positionInWorld = Position.create(0, 0, (long) position.x, (long) position.y);
 		
 		return _level.getPosition().add(positionInWorld);
@@ -125,17 +133,23 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 	@Override
 	public Vector2 worldToScreen(Vector2 position)
 	{
+		Contract.NotNull(position);
+		Contract.NotNull(_viewport);
+		
 		return _viewport.project(position);
 	}
 	
 	@Override
-	public Vector2 universeToWorld(Position position) throws Exception
+	public Vector2 universeToWorld(Position position) throws RuntimeException
 	{
+		Contract.NotNull(position);
+		Contract.NotNull(_level);
+		
 		Position positionInLevel = position.subtract(_level.getPosition());
 		
 		if (positionInLevel.getX().getLightYear() != 0 || positionInLevel.getY().getLightYear() != 0)
 		{
-			throw new Exception("Position too far away from level (max 1 Ly). Distance is: " + positionInLevel.toString());
+			throw new RuntimeException("Position too far away from level (max 1 Ly). Distance is: " + positionInLevel.toString());
 		}
 		
 		return new Vector2(positionInLevel.getX().getMeter(), positionInLevel.getY().getMeter());
@@ -144,12 +158,16 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 	@Override
 	public float convertToWorld(float value)
 	{
+		Contract.NotNull(_viewport);
+		
 		return value * _viewport.getUnitsPerPixel();
 	}
 	
 	@Override
 	public float convertFromWorld(float value)
 	{
+		Contract.NotNull(_viewport);
+		
 		return value / _viewport.getUnitsPerPixel();
 	}
 }

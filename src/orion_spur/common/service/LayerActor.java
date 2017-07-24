@@ -5,17 +5,16 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import javax.swing.text.LayeredHighlighter;
-
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import juard.contract.Contract;
+import orion_spur.common.converter.ICoordinateConverter;
 import orion_spur.common.factory.IActorFactory;
 import orion_spur.level.material.LevelElement;
 
-//TODO rename
+// TODO rename
 public class LayerActor extends Actor
 {
 	public enum LayerType
@@ -25,11 +24,16 @@ public class LayerActor extends Actor
 	
 	private Map<LayerType, Set<Actor>>	_layers;
 	private Map<LayerType, Float>		_layerToScale;
-	private IActorFactory _actorFactory;
+	private IActorFactory				_actorFactory;
+	private ICoordinateConverter		_coordinateConverter;
 	
-	public LayerActor(IActorFactory actorFactory)
+	public LayerActor(IActorFactory actorFactory, ICoordinateConverter coordinateConverter)
 	{
+		Contract.NotNull(actorFactory);
+		Contract.NotNull(coordinateConverter);
+		
 		_actorFactory = actorFactory;
+		_coordinateConverter = coordinateConverter;
 		
 		_layers = new HashMap<LayerActor.LayerType, Set<Actor>>();
 		
@@ -63,16 +67,19 @@ public class LayerActor extends Actor
 		Contract.Satisfy(_layerToScale.values().size() == LayerType.values().length);
 	}
 	
-	public Actor addToLayer(LevelElement levelElement)
+	public Actor addToLayer(LevelElement levelElement) throws RuntimeException
 	{
 		Contract.NotNull(levelElement);
-		Contract.Satisfy(levelElement.getLayer() != LayerType.LAYER_PLAYER || levelElement.getLayer()== LayerType.LAYER_PLAYER && !hasPlayer());
-		//TODO contract: !hasLevelElement()
+		Contract.Satisfy(levelElement.getLayer() != LayerType.LAYER_PLAYER || levelElement.getLayer() == LayerType.LAYER_PLAYER && !hasPlayer());
+		// TODO contract: !hasLevelElement()
 		
 		Actor actor = _actorFactory.convert(levelElement);
+		Vector2 position = _coordinateConverter.universeToWorld(levelElement.getPosition());
+		System.out.println(position);
+		actor.setPosition(position.x, position.y);
 		
 		// Even if the background is the most far away layer, it'll not be scales, but moves slower
-		if (levelElement.getLayer()!= LayerType.LAYER_BACKGROUND)
+		if (levelElement.getLayer() != LayerType.LAYER_BACKGROUND)
 		{
 			actor.setScale(_layerToScale.get(levelElement.getLayer()));
 		}

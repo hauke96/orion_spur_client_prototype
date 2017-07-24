@@ -42,5 +42,5 @@ public interface ICoordinateConverter
 	 * @throws Exception
 	 *             Will be thrown when the position to check is too far away from the actual level position.
 	 */
-	Vector2 universeToWorld(Position position) throws Exception;
+	Vector2 universeToWorld(Position position) throws RuntimeException;
 }
