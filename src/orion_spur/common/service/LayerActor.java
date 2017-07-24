@@ -5,12 +5,17 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.text.LayeredHighlighter;
+
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import juard.contract.Contract;
+import orion_spur.common.factory.IActorFactory;
+import orion_spur.level.material.LevelElement;
 
+//TODO rename
 public class LayerActor extends Actor
 {
 	public enum LayerType
@@ -20,9 +25,12 @@ public class LayerActor extends Actor
 	
 	private Map<LayerType, Set<Actor>>	_layers;
 	private Map<LayerType, Float>		_layerToScale;
+	private IActorFactory _actorFactory;
 	
-	public LayerActor()
+	public LayerActor(IActorFactory actorFactory)
 	{
+		_actorFactory = actorFactory;
+		
 		_layers = new HashMap<LayerActor.LayerType, Set<Actor>>();
 		
 		_layers.put(LayerType.LAYER_BACKGROUND, new HashSet<>());
@@ -55,22 +63,29 @@ public class LayerActor extends Actor
 		Contract.Satisfy(_layerToScale.values().size() == LayerType.values().length);
 	}
 	
-	public void addToLayer(Actor newActor, LayerType layerType)
+	public Actor addToLayer(LevelElement levelElement)
 	{
-		Contract.Satisfy(layerType != LayerType.LAYER_PLAYER || layerType == LayerType.LAYER_PLAYER && !hasPlayer());
+		Contract.NotNull(levelElement);
+		Contract.Satisfy(levelElement.getLayer() != LayerType.LAYER_PLAYER || levelElement.getLayer()== LayerType.LAYER_PLAYER && !hasPlayer());
+		//TODO contract: !hasLevelElement()
+		
+		Actor actor = _actorFactory.convert(levelElement);
 		
 		// Even if the background is the most far away layer, it'll not be scales, but moves slower
-		if (layerType != LayerType.LAYER_BACKGROUND)
+		if (levelElement.getLayer()!= LayerType.LAYER_BACKGROUND)
 		{
-			newActor.setScale(_layerToScale.get(layerType));
+			actor.setScale(_layerToScale.get(levelElement.getLayer()));
 		}
 		
-		Set<Actor> layer = _layers.get(layerType);
+		Set<Actor> layer = _layers.get(levelElement.getLayer());
 		
 		layer = new HashSet<>();
-		_layers.put(layerType, layer);
+		_layers.put(levelElement.getLayer(), layer);
 		
-		layer.add(newActor);
+		layer.add(actor);
+		
+		Contract.NotNull(actor);
+		return actor;
 	}
 	
 	public boolean hasPlayer()

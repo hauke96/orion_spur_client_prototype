@@ -115,6 +115,7 @@ public class Player extends ImageActor
 		
 		super.setPosition(x, y);
 		
+		//TODO set position on player service
 		PositionChanged.fireEvent(offset);
 	}
 	

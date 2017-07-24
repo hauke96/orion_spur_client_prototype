@@ -1,5 +1,7 @@
 package orion_spur.appcontext;
 
+import java.io.ObjectInputStream.GetField;
+
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
@@ -13,8 +15,8 @@ import orion_spur.player.service.PlayerServiceDummy;
 
 public class Main
 {
-	private static final int	WIDTH	= 1600;
-	private static final int	HEIGHT	= 900;
+	private static final int	WIDTH	= 1200;
+	private static final int	HEIGHT	= 700;
 	
 	public static void main(String[] args)
 	{
@@ -34,6 +36,6 @@ public class Main
 	{
 		Locator.register(IPlayerService.class, () -> new PlayerServiceDummy());
 		Locator.register(ILevelService.class, () -> new LevelDummyService());
-		Locator.register(IActorFactory.class, () -> new ActorFactoryImpl());
+		Locator.register(IActorFactory.class, () -> new ActorFactoryImpl(Locator.get(IPlayerService.class)));
 	}
 }
