@@ -9,9 +9,10 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import juard.contract.Contract;
 import juard.injection.Locator;
+import orion_spur.common.converter.ICoordinateConverter;
+import orion_spur.common.converter.IUnitConverter;
 import orion_spur.common.domainvalue.Position;
 import orion_spur.common.factory.IActorFactory;
-import orion_spur.common.service.ICoordinateConverter;
 import orion_spur.common.service.LayerActor.LayerType;
 import orion_spur.level.domainvalue.LevelType;
 import orion_spur.level.material.LevelElement;
@@ -20,7 +21,8 @@ import orion_spur.level.view.LevelActor;
 import orion_spur.player.service.IPlayerService;
 import orion_spur.player.view.Player;
 
-public class MainGameScreen implements Screen, ICoordinateConverter
+// TODO Extract Coordinate and unit converter
+public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConverter
 {
 	private Stage	_currentStage;
 	private Camera	_camera;
@@ -36,6 +38,7 @@ public class MainGameScreen implements Screen, ICoordinateConverter
 	public MainGameScreen(IPlayerService playerService, int width, int height, float worldUnitsPerPixel)
 	{
 		Contract.NotNull(playerService);
+		Locator.register(IUnitConverter.class, () -> this);
 		
 		_camera = new OrthographicCamera(_width, _height);
 		
@@ -61,9 +64,7 @@ public class MainGameScreen implements Screen, ICoordinateConverter
 		_camera.position.set(playerPosition, 0);
 		_camera.update();
 		
-		System.out.println(playerPosition);
-		screenToWorld(new Vector2(600, 349));
-		System.out.println(_viewport.project(playerPosition).toString());
+		System.out.println(worldToUniverse(playerPosition));
 		
 		_level.onPlayerPositionChanged(offset);
 	}
@@ -138,5 +139,17 @@ public class MainGameScreen implements Screen, ICoordinateConverter
 		}
 		
 		return new Vector2(positionInLevel.getX().getMeter(), positionInLevel.getY().getMeter());
+	}
+	
+	@Override
+	public float convertToWorld(float value)
+	{
+		return value * _viewport.getUnitsPerPixel();
+	}
+	
+	@Override
+	public float convertFromWorld(float value)
+	{
+		return value / _viewport.getUnitsPerPixel();
 	}
 }

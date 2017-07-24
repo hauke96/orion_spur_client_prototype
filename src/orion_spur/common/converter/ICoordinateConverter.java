@@ -1,4 +1,4 @@
-package orion_spur.common.service;
+package orion_spur.common.converter;
 
 import com.badlogic.gdx.math.Vector2;
 

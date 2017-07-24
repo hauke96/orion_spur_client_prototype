@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import juard.contract.Contract;
 import juard.event.EventArgs;
+import orion_spur.common.converter.IUnitConverter;
 import orion_spur.common.view.ImageActor;
 import orion_spur.player.service.IPlayerService;
 
@@ -14,8 +15,8 @@ public class Player extends ImageActor
 {
 	public EventArgs PositionChanged = new EventArgs(); // sending the offset at [0]
 	
-	private float	_acceleration;
-	private float	_maxSpeed;
+	private float	_acceleration;	// m/s²
+	private float	_maxSpeed;		// m/s
 	private float	_rotationSpeed;	// degree per second
 	private float	_rotationDegree;// degree the player is rotated
 	
@@ -23,7 +24,7 @@ public class Player extends ImageActor
 	
 	private IPlayerService _playerService;
 	
-	public Player(IPlayerService playerService, String file)
+	public Player(IPlayerService playerService, IUnitConverter unitConverter, String file)
 	{
 		super(file);
 		
@@ -33,8 +34,8 @@ public class Player extends ImageActor
 		
 		setBounds(0, 0, 20, 20);
 		
-		_acceleration = 15f;
-		_maxSpeed = 500;
+		_acceleration = unitConverter.convertFromWorld(3);
+		_maxSpeed = unitConverter.convertFromWorld(100);
 		_rotationSpeed = 250;
 		_rotationDegree = 0;
 		
@@ -52,6 +53,7 @@ public class Player extends ImageActor
 	@Override
 	public void draw(Batch batch, float parentAlpha)
 	{
+		System.out.println(_movementVector.len() * 0.2f * 3.6f + " km/h");
 		_sprite.draw(batch);
 	}
 	
@@ -96,7 +98,7 @@ public class Player extends ImageActor
 			_movementVector.setLength(_maxSpeed);
 		}
 		
-		position.add(_movementVector.x * delta, _movementVector.y * delta);
+		position.add(_movementVector.x * delta / getScaleX(), _movementVector.y * delta / getScaleY());
 		
 		if (position.x != getX() || position.y != getY())
 		{
