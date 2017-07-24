@@ -20,7 +20,7 @@ public class PositionTest
 	@Test
 	public void addNegativeMeter()
 	{
-		Position result = _position.add(-2, -1);
+		Position result = _position.add(Position.create(0, 0, -2, -1));
 		
 		assertEquals(0, result.getX().getLightYear());
 		assertEquals(LIGHTYEAR_IN_METERS - 1, result.getX().getMeter());
@@ -32,7 +32,7 @@ public class PositionTest
 	@Test
 	public void addLargeMeter()
 	{
-		Position result = _position.add(LIGHTYEAR_IN_METERS, 0);
+		Position result = _position.add(Position.create(0, 0, LIGHTYEAR_IN_METERS, 0));
 		
 		assertEquals(2, result.getX().getLightYear());
 		assertEquals(1, result.getX().getMeter());

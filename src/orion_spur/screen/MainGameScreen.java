@@ -116,7 +116,9 @@ public class MainGameScreen implements Screen, ICoordinateConverter
 	@Override
 	public Position worldToUniverse(Vector2 position)
 	{
-		return null;
+		Position positionInWorld = Position.create(0, 0, (long) position.x, (long) position.y);
+		
+		return _level.getPosition().add(positionInWorld);
 	}
 	
 	@Override
@@ -126,8 +128,15 @@ public class MainGameScreen implements Screen, ICoordinateConverter
 	}
 	
 	@Override
-	public Vector2 universeToWorld(Position position)
+	public Vector2 universeToWorld(Position position) throws Exception
 	{
-		return null;
+		Position positionInLevel = position.subtract(_level.getPosition());
+		
+		if (positionInLevel.getX().getLightYear() != 0 || positionInLevel.getY().getLightYear() != 0)
+		{
+			throw new Exception("Position too far away from level (max 1 Ly). Distance is: " + positionInLevel.toString());
+		}
+		
+		return new Vector2(positionInLevel.getX().getMeter(), positionInLevel.getY().getMeter());
 	}
 }

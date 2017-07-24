@@ -96,14 +96,28 @@ public class Position
 	}
 	
 	/**
-	 * Adds the given offset (given in meters) and creates a new position object.
+	 * Adds the given position and creates a new position object. This is like vector addition.
 	 * 
-	 * @param offset
-	 *            The offset in meters.
+	 * @param position
+	 *            The position to add.
 	 * @return The new position.
 	 */
-	public Position add(long xOffset, long yOffset)
+	public Position add(Position position)
 	{
-		return create(_xLightYear, _yLightYear, _xMeter + xOffset, _yMeter + yOffset);
+		return create(_xLightYear + position.getX().getLightYear(), _yLightYear + position.getY().getLightYear(), _xMeter + position.getX().getMeter(), _yMeter
+		        + position.getY().getMeter());
+	}
+	
+	/**
+	 * Subtracts the given position and creates a new position object. This is like vector subtraction.
+	 * 
+	 * @param position
+	 *            The position to subtract.
+	 * @return The new position.
+	 */
+	public Position subtract(Position position)
+	{
+		return create(_xLightYear - position.getX().getLightYear(), _yLightYear - position.getY().getLightYear(), _xMeter - position.getX().getMeter(), _yMeter
+		        - position.getY().getMeter());
 	}
 }
