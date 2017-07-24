@@ -2,10 +2,6 @@ package orion_spur.common.domainvalue;
 
 import java.text.MessageFormat;
 
-import com.badlogic.gdx.math.Vector2;
-
-import juard.contract.Contract;
-
 public class Position
 {
 	private static final long LIGHTYEAR_IN_METERS = 9460730472580800L;
@@ -106,10 +102,8 @@ public class Position
 	 *            The offset in meters.
 	 * @return The new position.
 	 */
-	public Position add(Vector2 offset)
+	public Position add(long xOffset, long yOffset)
 	{
-		Contract.NotNull(offset);
-		
-		return create(_xLightYear, _yLightYear, _xMeter + (long) offset.x, _yMeter + (long) offset.y);
+		return create(_xLightYear, _yLightYear, _xMeter + xOffset, _yMeter + yOffset);
 	}
 }
