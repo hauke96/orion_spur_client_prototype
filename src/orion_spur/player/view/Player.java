@@ -33,7 +33,10 @@ public class Player extends ImageActor
 		
 		_playerService = playerService;
 		
-		setBounds(positionInLevel.x, positionInLevel.y, 20, 20);
+		setWidth(20);
+		setHeight(20);
+		setX(positionInLevel.x - getWidth() / 2);
+		setY(positionInLevel.y - getHeight() / 2);
 		
 		_acceleration = unitConverter.convertFromWorld(3);
 		_maxSpeed = unitConverter.convertFromWorld(100);
@@ -45,6 +48,8 @@ public class Player extends ImageActor
 		_sprite.setBounds(getX(), getY(), getWidth(), getHeight());
 		_sprite.setOrigin(getWidth() / 2, getHeight() / 2);
 		_sprite.rotate(_rotationDegree);
+		
+		super.setPosition(getX(), getY());
 		
 		Contract.Satisfy(_sprite != null);
 		Contract.Satisfy(_sprite.getTexture() != null);
