@@ -50,7 +50,7 @@ public class LayerActor extends Actor
 		
 		_layerToScale = new HashMap<LayerActor.LayerType, Float>();
 		
-		_layerToScale.put(LayerType.LAYER_BACKGROUND, 0.95f);
+		_layerToScale.put(LayerType.LAYER_BACKGROUND, 0.98f);
 		
 		_layerToScale.put(LayerType.LAYER_1_BEHIND, 0.4f);
 		_layerToScale.put(LayerType.LAYER_0_BEHIND, 0.75f);
@@ -74,9 +74,6 @@ public class LayerActor extends Actor
 		// TODO contract: !hasLevelElement()
 		
 		Actor actor = _actorFactory.convert(levelElement);
-		Vector2 position = _coordinateConverter.universeToWorld(levelElement.getPosition());
-		System.out.println(position);
-		actor.setPosition(position.x, position.y);
 		
 		// Even if the background is the most far away layer, it'll not be scales, but moves slower
 		if (levelElement.getLayer() != LayerType.LAYER_BACKGROUND)

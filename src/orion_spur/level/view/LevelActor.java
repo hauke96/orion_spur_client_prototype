@@ -1,5 +1,7 @@
 package orion_spur.level.view;
 
+import com.badlogic.gdx.math.Vector2;
+
 import juard.contract.Contract;
 import orion_spur.common.converter.ICoordinateConverter;
 import orion_spur.common.domainvalue.Position;
@@ -11,6 +13,7 @@ public class LevelActor extends LayerActor
 {
 	private Position		_position;
 	private ILevelService	_levelService;
+	private Vector2			_size;
 	
 	public LevelActor(ILevelService levelService, IActorFactory actorFactory, ICoordinateConverter coordinateConverter)
 	{
@@ -21,6 +24,7 @@ public class LevelActor extends LayerActor
 		
 		// TODO add real level name when implemented
 		_position = _levelService.getPosition("");
+		_size = _levelService.getSizeInMeters("");
 		
 		Contract.NotNull(_position);
 	}
@@ -34,5 +38,11 @@ public class LevelActor extends LayerActor
 	{
 		Contract.NotNull(_position);
 		return _position;
+	}
+	
+	public Vector2 getSize()
+	{
+		Contract.NotNull(_size);
+		return _size;
 	}
 }

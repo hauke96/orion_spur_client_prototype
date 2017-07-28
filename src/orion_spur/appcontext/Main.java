@@ -4,6 +4,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
 import juard.injection.Locator;
+import orion_spur.common.converter.ICoordinateConverter;
 import orion_spur.common.converter.IUnitConverter;
 import orion_spur.common.factory.ActorFactoryImpl;
 import orion_spur.common.factory.IActorFactory;
@@ -35,6 +36,6 @@ public class Main
 	{
 		Locator.register(IPlayerService.class, () -> new PlayerServiceDummy());
 		Locator.register(ILevelService.class, () -> new LevelDummyService());
-		Locator.register(IActorFactory.class, () -> new ActorFactoryImpl(Locator.get(IPlayerService.class), Locator.get(IUnitConverter.class)));
+		Locator.register(IActorFactory.class, () -> new ActorFactoryImpl(Locator.get(IPlayerService.class), Locator.get(ILevelService.class), Locator.get(IUnitConverter.class), Locator.get(ICoordinateConverter.class)));
 	}
 }

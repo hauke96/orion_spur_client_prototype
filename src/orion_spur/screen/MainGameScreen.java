@@ -46,6 +46,8 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 		_viewport = new ScreenViewport(_camera);
 		_viewport.setUnitsPerPixel(worldUnitsPerPixel);
 		
+		playerService.setPosition(levelService.getCenterPosition(""));
+		
 		_level = new LevelActor(levelService, Locator.get(IActorFactory.class), Locator.get(ICoordinateConverter.class));
 		_level.loadLevelElements();
 		
@@ -56,17 +58,18 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 		_currentStage.addActor(_level);
 		
 		_player.PositionChanged.add((Object... data) -> onPlayerPositionChanged((Vector2) data[0]));
-		onPlayerPositionChanged(new Vector2());
+		onPlayerPositionChanged(new Vector2(0, 0));
 	}
 	
 	private void onPlayerPositionChanged(Vector2 offset)
 	{
 		Vector2 playerPosition = _player.getCenterPosition();
+		float playerSpeed = _player.getSpeed();
 		
 		_camera.position.set(playerPosition, 0);
 		_camera.update();
 		
-		System.out.println(worldToUniverse(playerPosition));
+		printPlayerData(playerPosition, playerSpeed);
 		
 		_level.onPlayerPositionChanged(offset);
 	}
@@ -169,5 +172,11 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 		Contract.NotNull(_viewport);
 		
 		return value / _viewport.getUnitsPerPixel();
+	}
+	
+	private void printPlayerData(Vector2 playerPosition, float playerSpeed)
+	{
+		String speedString = String.format("%08.2f", playerSpeed);
+		System.out.printf("%s km/h     at world pos: %-25s    at universe pos: %s\n", speedString, playerPosition, worldToUniverse(playerPosition));
 	}
 }

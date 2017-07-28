@@ -2,7 +2,6 @@ package orion_spur.player.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 
 import juard.contract.Contract;
@@ -24,15 +23,17 @@ public class Player extends ImageActor
 	
 	private IPlayerService _playerService;
 	
-	public Player(IPlayerService playerService, IUnitConverter unitConverter, String file)
+	public Player(IPlayerService playerService, IUnitConverter unitConverter, String file, Vector2 positionInLevel)
 	{
 		super(file);
 		
 		Contract.NotNull(playerService);
+		Contract.NotNull(unitConverter);
+		Contract.NotNull(positionInLevel);
 		
 		_playerService = playerService;
 		
-		setBounds(0, 0, 20, 20);
+		setBounds(positionInLevel.x, positionInLevel.y, 20, 20);
 		
 		_acceleration = unitConverter.convertFromWorld(3);
 		_maxSpeed = unitConverter.convertFromWorld(100);
@@ -48,13 +49,6 @@ public class Player extends ImageActor
 		Contract.Satisfy(_sprite != null);
 		Contract.Satisfy(_sprite.getTexture() != null);
 		Contract.Satisfy(_acceleration > 0);
-	}
-	
-	@Override
-	public void draw(Batch batch, float parentAlpha)
-	{
-		// System.out.println(_movementVector.len() * 0.2f * 3.6f + " km/h");
-		_sprite.draw(batch);
 	}
 	
 	@Override
@@ -121,6 +115,11 @@ public class Player extends ImageActor
 	
 	public Vector2 getCenterPosition()
 	{
-		return new Vector2(getX(), getY());
+		return new Vector2(getX() + getWidth() / 2, getY() + getHeight() / 2);
+	}
+	
+	public float getSpeed()
+	{
+		return _movementVector.len();
 	}
 }
