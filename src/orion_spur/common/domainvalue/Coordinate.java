@@ -1,5 +1,7 @@
 package orion_spur.common.domainvalue;
 
+import com.google.gson.annotations.SerializedName;
+
 import juard.contract.Contract;
 
 /*
@@ -35,7 +37,9 @@ public class Coordinate
 {
 	private static final long LIGHTYEAR_IN_METERS = 9460730472580800L;
 	
+	@SerializedName ("LightYears")
 	private final long	_lightYear;
+	@SerializedName ("Meters")
 	private final long	_meter;
 	
 	private Coordinate(long lightYear, long meter)

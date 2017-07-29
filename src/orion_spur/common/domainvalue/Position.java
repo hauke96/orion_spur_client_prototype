@@ -2,13 +2,17 @@ package orion_spur.common.domainvalue;
 
 import java.text.MessageFormat;
 
+import com.google.gson.annotations.SerializedName;
+
 import juard.contract.Contract;
 
 public class Position
 {
 	private static final long LIGHTYEAR_IN_METERS = 9460730472580800L;
 	
+	@SerializedName ("X")
 	private final Coordinate	_xCoordinate;
+	@SerializedName ("Y")
 	private final Coordinate	_yCoordinate;
 	
 	private Position(Coordinate x, Coordinate y)
