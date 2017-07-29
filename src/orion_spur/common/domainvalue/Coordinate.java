@@ -80,4 +80,9 @@ public class Coordinate
 	{
 		return (int) (_lightYear + _meter);
 	}
+	
+	public Coordinate copy()
+	{
+		return create(_lightYear, _meter);
+	}
 }

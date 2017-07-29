@@ -2,21 +2,22 @@ package orion_spur.common.domainvalue;
 
 import java.text.MessageFormat;
 
+import juard.contract.Contract;
+
 public class Position
 {
 	private static final long LIGHTYEAR_IN_METERS = 9460730472580800L;
 	
-	private final long	_xLightYear;
-	private final long	_yLightYear;
-	private final long	_xMeter;
-	private final long	_yMeter;
+	private final Coordinate	_xCoordinate;
+	private final Coordinate	_yCoordinate;
 	
 	private Position(Coordinate x, Coordinate y)
 	{
-		_xLightYear = x.getLightYear();
-		_yLightYear = y.getLightYear();
-		_xMeter = x.getMeter();
-		_yMeter = y.getMeter();
+		Contract.NotNull(x);
+		Contract.NotNull(y);
+		
+		_xCoordinate = x;
+		_yCoordinate = y;
 	}
 	
 	public static Position create(long xLightYear, long yLightYear, long xMeter, long yMeter)
@@ -90,18 +91,18 @@ public class Position
 	
 	public Coordinate getX()
 	{
-		return Coordinate.create(_xLightYear, _xMeter);
+		return _xCoordinate.copy();
 	}
 	
 	public Coordinate getY()
 	{
-		return Coordinate.create(_yLightYear, _yMeter);
+		return _yCoordinate.copy();
 	}
 	
 	@Override
 	public String toString()
 	{
-		return MessageFormat.format("({0}:{1}, {2}:{3})", _xLightYear, _xMeter, _yLightYear, _yMeter);
+		return MessageFormat.format("({0}:{1}, {2}:{3})", getX().getLightYear(), getX().getMeter(), getY().getLightYear(), getY().getMeter());
 	}
 	
 	@Override
@@ -114,16 +115,14 @@ public class Position
 		
 		Position other = (Position) obj;
 		
-		return _xLightYear == other._xLightYear &&
-		        _yLightYear == other._yLightYear &&
-		        _xMeter == other._xMeter &&
-		        _yMeter == other._yMeter;
+		return getX().equals(other.getX()) &&
+		        getY().equals(other.getY());
 	}
 	
 	@Override
 	public int hashCode()
 	{
-		return (int) (_xLightYear + _yLightYear + _xMeter + _yMeter);
+		return getX().hashCode() + getY().hashCode();
 	}
 	
 	/**
@@ -135,8 +134,13 @@ public class Position
 	 */
 	public Position add(Position position)
 	{
-		return create(_xLightYear + position.getX().getLightYear(), _yLightYear + position.getY().getLightYear(), _xMeter + position.getX().getMeter(), _yMeter
-		        + position.getY().getMeter());
+		long newLightYearX = getX().getLightYear() + position.getX().getLightYear();
+		long newLightYearY = getY().getLightYear() + position.getY().getLightYear();
+		
+		long newMetersX = getX().getMeter() + position.getX().getMeter();
+		long newMetersY = getY().getMeter() + position.getY().getMeter();
+		
+		return create(newLightYearX, newLightYearY, newMetersX, newMetersY);
 	}
 	
 	/**
@@ -148,7 +152,12 @@ public class Position
 	 */
 	public Position subtract(Position position)
 	{
-		return create(_xLightYear - position.getX().getLightYear(), _yLightYear - position.getY().getLightYear(), _xMeter - position.getX().getMeter(), _yMeter
-		        - position.getY().getMeter());
+		long newLightYearX = getX().getLightYear() - position.getX().getLightYear();
+		long newLightYearY = getY().getLightYear() - position.getY().getLightYear();
+		
+		long newMetersX = getX().getMeter() - position.getX().getMeter();
+		long newMetersY = getY().getMeter() - position.getY().getMeter();
+		
+		return create(newLightYearX, newLightYearY, newMetersX, newMetersY);
 	}
 }
