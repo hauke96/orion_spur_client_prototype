@@ -33,7 +33,7 @@ public class ActorFactoryImpl implements IActorFactory
 	}
 	
 	@Override
-	public Actor convert(LevelElement levelElement)
+	public Actor convert(LevelElement levelElement) throws Exception
 	{
 		Actor result = null;
 		

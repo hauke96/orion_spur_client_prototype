@@ -6,5 +6,5 @@ import orion_spur.level.material.LevelElement;
 
 public interface IActorFactory
 {
-	Actor convert(LevelElement levelElement);
+	Actor convert(LevelElement levelElement) throws Exception;
 }

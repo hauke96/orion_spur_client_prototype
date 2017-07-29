@@ -46,8 +46,6 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 		_viewport = new ScreenViewport(_camera);
 		_viewport.setUnitsPerPixel(worldUnitsPerPixel);
 		
-		playerService.setPosition(levelService.getCenterPosition(""));
-		
 		_level = new LevelActor(levelService, Locator.get(IActorFactory.class), Locator.get(ICoordinateConverter.class));
 		_level.loadLevelElements();
 		

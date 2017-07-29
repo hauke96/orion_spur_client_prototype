@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import juard.contract.Contract;
+import juard.log.Logger;
 import orion_spur.common.converter.ICoordinateConverter;
 import orion_spur.common.factory.IActorFactory;
 import orion_spur.level.material.LevelElement;
@@ -50,7 +51,7 @@ public class LayerActor extends Actor
 		
 		_layerToScale = new HashMap<LayerActor.LayerType, Float>();
 		
-		_layerToScale.put(LayerType.LAYER_BACKGROUND, 0.98f);
+		_layerToScale.put(LayerType.LAYER_BACKGROUND, 0.995f);
 		
 		_layerToScale.put(LayerType.LAYER_1_BEHIND, 0.4f);
 		_layerToScale.put(LayerType.LAYER_0_BEHIND, 0.75f);
@@ -73,7 +74,15 @@ public class LayerActor extends Actor
 		Contract.Satisfy(levelElement.getLayer() != LayerType.LAYER_PLAYER || levelElement.getLayer() == LayerType.LAYER_PLAYER && !hasPlayer());
 		// TODO contract: !hasLevelElement()
 		
-		Actor actor = _actorFactory.convert(levelElement);
+		Actor actor = new Actor();
+		try
+		{
+			actor = _actorFactory.convert(levelElement);
+		}
+		catch (Exception e)
+		{
+			Logger.__error("Error converting level element!", e);
+		}
 		
 		// Even if the background is the most far away layer, it'll not be scales, but moves slower
 		if (levelElement.getLayer() != LayerType.LAYER_BACKGROUND)

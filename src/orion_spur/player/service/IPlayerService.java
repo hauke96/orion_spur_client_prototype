@@ -1,6 +1,5 @@
 package orion_spur.player.service;
 
-import juard.event.Event;
 import juard.event.EventArgs;
 import orion_spur.common.domainvalue.Position;
 
@@ -10,7 +9,7 @@ public interface IPlayerService
 	
 	void setPosition(Position newPosition);
 	
-	Position getPosition();
+	Position getPosition() throws Exception;
 	
-	//TODO getCenteredPosition
+	// TODO getCenteredPosition
 }
