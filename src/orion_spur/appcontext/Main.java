@@ -12,11 +12,14 @@ import orion_spur.level.service.ILevelService;
 import orion_spur.level.service.LevelDummyService;
 import orion_spur.player.service.IPlayerService;
 import orion_spur.player.service.PlayerServiceDummy;
+import orion_spur.player.service.PlayerServiceProxy;
 
 public class Main
 {
 	private static final int	WIDTH	= 1200;
 	private static final int	HEIGHT	= 700;
+	
+	private static final boolean USE_DUMMY_SERVICES = false;
 	
 	public static void main(String[] args)
 	{
@@ -34,7 +37,16 @@ public class Main
 	
 	private static void initDummyServices()
 	{
-		Locator.register(IPlayerService.class, () -> new PlayerServiceDummy());
+		if (USE_DUMMY_SERVICES)
+		{
+			Locator.register(IPlayerService.class, () -> new PlayerServiceDummy());
+		}
+		else
+		{
+			Locator.register(IPlayerService.class, () -> new PlayerServiceProxy());
+			
+		}
+		
 		Locator.register(ILevelService.class, () -> new LevelDummyService());
 		Locator.register(IActorFactory.class, () -> new ActorFactoryImpl(Locator.get(IPlayerService.class), Locator.get(ILevelService.class), Locator.get(IUnitConverter.class), Locator.get(ICoordinateConverter.class)));
 	}
