@@ -5,8 +5,12 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.stream.Collectors;
 
 import javax.xml.ws.http.HTTPException;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import juard.log.Logger;
 import orion_spur.common.domainvalue.Position;
@@ -28,8 +32,15 @@ public class PlayerServiceProxy implements IPlayerService
 		
 		if (connection.getResponseCode() == 200)
 		{
-			Reader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			return Position.create(0, 0, 0, 0);
+			BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+			
+			// read response lines into single string
+			String response = reader.lines().collect(Collectors.joining());
+			
+			Gson gson = new GsonBuilder().create();
+			Position position = gson.fromJson(response, Position.class);
+			
+			return position;
 		}
 		else
 		{
