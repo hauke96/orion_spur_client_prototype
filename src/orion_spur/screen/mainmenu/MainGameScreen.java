@@ -1,4 +1,4 @@
-package orion_spur.screen;
+package orion_spur.screen.mainmenu;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
