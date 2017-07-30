@@ -6,23 +6,19 @@ com.badlogic.gdx.graphics.g2d.BitmapFont: {
 }
 com.badlogic.gdx.graphics.Color: {
 	blue: {
-		r: 0.19529414
-		g: 0.6157588
+		r: 0
+		g: 0.67255545
 		b: 1
 		a: 1
 	}
 	green: {
-		r: 0.2044444
+		r: 0.0016339419
 		g: 1
-		b: 0.19999999
+		b: 0
 		a: 1
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
-	up_green: {
-		name: up
-		color: green
-	}
 	down_green: {
 		name: down
 		color: green
@@ -31,12 +27,21 @@ com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
 		name: over
 		color: green
 	}
+	up_green: {
+		name: up
+		color: green
+	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
 	default: {
 		up: up_green
 		down: down_green
 		over: over_green
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
+	default: {
+		font: freemono_16
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {

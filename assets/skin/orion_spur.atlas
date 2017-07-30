@@ -6,7 +6,7 @@ filter: Linear,Linear
 repeat: none
 down
   rotate: false
-  xy: 515, 595
+  xy: 1, 81
   size: 135, 55
   split: 18, 18, 18, 18
   pad: 16, 16, 16, 16
@@ -17,12 +17,14 @@ freemono_16
   rotate: false
   xy: 1, 138
   size: 512, 512
+  split: 18, 18, 18, 18
+  pad: 16, 16, 16, 16
   orig: 512, 512
   offset: 0, 0
   index: -1
 over
   rotate: false
-  xy: 1, 24
+  xy: 515, 595
   size: 135, 55
   split: 18, 18, 18, 18
   pad: 16, 16, 16, 16
@@ -31,7 +33,7 @@ over
   index: -1
 up
   rotate: false
-  xy: 1, 81
+  xy: 1, 24
   size: 135, 55
   split: 18, 18, 18, 18
   pad: 16, 16, 16, 16
