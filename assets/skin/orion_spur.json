@@ -1,0 +1,50 @@
+{
+com.badlogic.gdx.graphics.g2d.BitmapFont: {
+	freemono_16: {
+		file: freemono_16.fnt
+	}
+}
+com.badlogic.gdx.graphics.Color: {
+	blue: {
+		r: 0.19529414
+		g: 0.6157588
+		b: 1
+		a: 1
+	}
+	green: {
+		r: 0.2044444
+		g: 1
+		b: 0.19999999
+		a: 1
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
+	up_green: {
+		name: up
+		color: green
+	}
+	down_green: {
+		name: down
+		color: green
+	}
+	over_green: {
+		name: over
+		color: green
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
+	default: {
+		up: up_green
+		down: down_green
+		over: over_green
+	}
+}
+com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+	default: {
+		font: freemono_16
+		up: up_green
+		down: down_green
+		over: over_green
+	}
+}
+}
