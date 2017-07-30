@@ -61,6 +61,7 @@ public class Player extends ImageActor
 	{
 		Vector2 position = new Vector2(getX(), getY());
 		Vector2 movementAdjustion = new Vector2();
+		boolean rotationChanged = false;
 		
 		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D))
 		{
@@ -82,10 +83,12 @@ public class Player extends ImageActor
 		if (Gdx.input.isKeyPressed(Input.Keys.Q))
 		{
 			_rotationDegree += _rotationSpeed * delta;
+			rotationChanged = true;
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.E))
 		{
 			_rotationDegree -= _rotationSpeed * delta;
+			rotationChanged = true;
 		}
 		
 		movementAdjustion.rotate(_rotationDegree);
@@ -99,7 +102,7 @@ public class Player extends ImageActor
 		
 		position.add(_movementVector.x * delta / getScaleX(), _movementVector.y * delta / getScaleY());
 		
-		if (position.x != getX() || position.y != getY())
+		if (position.x != getX() || position.y != getY() || rotationChanged)
 		{
 			setPosition(position.x, position.y);
 		}
@@ -116,6 +119,12 @@ public class Player extends ImageActor
 		
 		// TODO set position on player service
 		PositionChanged.fireEvent(offset);
+	}
+	
+	@Override
+	public float getRotation()
+	{
+		return _rotationDegree;
 	}
 	
 	public Vector2 getCenterPosition()

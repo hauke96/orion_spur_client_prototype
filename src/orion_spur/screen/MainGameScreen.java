@@ -65,6 +65,12 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 		float playerSpeed = _player.getSpeed();
 		
 		_camera.position.set(playerPosition, 0);
+		
+		// Set rotation
+		_camera.up.set(0, 1, 0);
+		_camera.direction.set(0, 0, -1);
+		_camera.rotate(_player.getRotation(), 0, 0, 1);
+		
 		_camera.update();
 		
 		printPlayerData(playerPosition, playerSpeed);
