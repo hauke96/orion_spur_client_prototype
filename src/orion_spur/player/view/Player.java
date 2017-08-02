@@ -5,14 +5,14 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 
 import juard.contract.Contract;
-import juard.event.EventArgs;
+import juard.event.DataEvent;
 import orion_spur.common.converter.IUnitConverter;
 import orion_spur.common.view.ImageActor;
 import orion_spur.player.service.IPlayerService;
 
 public class Player extends ImageActor
 {
-	public EventArgs PositionChanged = new EventArgs(); // sending the offset at [0]
+	public DataEvent<Vector2> PositionChanged = new DataEvent<Vector2>(); // sending the offset at [0]
 	
 	private float	_acceleration;	// m/s²
 	private float	_maxSpeed;		// m/s

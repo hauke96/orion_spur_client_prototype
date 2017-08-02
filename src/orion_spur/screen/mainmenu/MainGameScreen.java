@@ -55,7 +55,7 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 		_currentStage = new Stage(_viewport);
 		_currentStage.addActor(_level);
 		
-		_player.PositionChanged.add((Object... data) -> onPlayerPositionChanged((Vector2) data[0]));
+		_player.PositionChanged.add(position -> onPlayerPositionChanged(position));
 		onPlayerPositionChanged(new Vector2(0, 0));
 	}
 	

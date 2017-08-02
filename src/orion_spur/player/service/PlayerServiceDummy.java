@@ -14,7 +14,7 @@ public class PlayerServiceDummy implements IPlayerService
 		
 		_playerPosition = newPosition;
 		
-		PositionChanged.fireEvent();
+		PositionChanged.fireEvent(_playerPosition);
 	}
 	
 	@Override
