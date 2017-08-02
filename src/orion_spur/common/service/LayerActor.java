@@ -81,7 +81,7 @@ public class LayerActor extends Actor
 		}
 		catch (Exception e)
 		{
-			Logger.__error("Error converting level element!", e);
+			Logger.error("Error converting level element!", e);
 		}
 		
 		// Even if the background is the most far away layer, it'll not be scales, but moves slower

@@ -20,7 +20,7 @@ public class PlayerServiceProxy implements IPlayerService
 	@Override
 	public void setPosition(Position newPosition)
 	{
-		Logger.__error("not implemented");
+		Logger.error("not implemented");
 	}
 	
 	@Override
