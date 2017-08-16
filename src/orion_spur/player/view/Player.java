@@ -6,6 +6,8 @@ import com.badlogic.gdx.math.Vector2;
 
 import juard.contract.Contract;
 import juard.event.DataEvent;
+import juard.log.Logger;
+import orion_spur.common.converter.ICoordinateConverter;
 import orion_spur.common.converter.IUnitConverter;
 import orion_spur.common.view.ImageActor;
 import orion_spur.player.service.IPlayerService;
@@ -23,15 +25,19 @@ public class Player extends ImageActor
 	
 	private IPlayerService _playerService;
 	
-	public Player(IPlayerService playerService, IUnitConverter unitConverter, String file, Vector2 positionInLevel)
+	private ICoordinateConverter _coordinateConverter;
+	
+	public Player(IPlayerService playerService, IUnitConverter unitConverter, ICoordinateConverter coordinateConverter, String file, Vector2 positionInLevel)
 	{
 		super(file);
 		
 		Contract.NotNull(playerService);
 		Contract.NotNull(unitConverter);
+		Contract.NotNull(coordinateConverter);
 		Contract.NotNull(positionInLevel);
 		
 		_playerService = playerService;
+		_coordinateConverter = coordinateConverter;
 		
 		setWidth(20);
 		setHeight(20);
@@ -116,6 +122,15 @@ public class Player extends ImageActor
 		Vector2 offset = new Vector2(x - getX(), y - getY());
 		
 		super.setPosition(x, y);
+		
+		try
+		{
+			_playerService.setPosition(_coordinateConverter.worldToUniverse(getCenterPosition()));
+		}
+		catch (Exception e)
+		{
+			Logger.error("Could not send updated position: ", e);
+		}
 		
 		// TODO set position on player service
 		PositionChanged.fireEvent(offset);

@@ -12,23 +12,43 @@ import javax.xml.ws.http.HTTPException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import juard.log.Logger;
 import orion_spur.common.domainvalue.Position;
 
 public class PlayerServiceProxy implements IPlayerService
 {
+	private String _serviceUrlString = "http://localhost:8080/player/1";
+	
 	@Override
-	public void setPosition(Position newPosition)
+	public void setPosition(Position newPosition) throws Exception
 	{
-		Logger.error("not implemented");
+		StringBuilder params = new StringBuilder(_serviceUrlString + "?");
+		
+		params.append("xLightYear=");
+		params.append(newPosition.getX().getLightYear());
+		
+		params.append("&xMeter=");
+		params.append(newPosition.getX().getMeter());
+		
+		params.append("&yLightYear=");
+		params.append(newPosition.getY().getLightYear());
+		
+		params.append("&yMeter=");
+		params.append(newPosition.getY().getMeter());
+		
+		URL url = new URL(params.toString());
+		
+		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+		connection.setRequestMethod("PUT");
+		connection.setDoOutput(true);
+		connection.getResponseCode();
+		
+		PositionChanged.fireEvent(newPosition);
 	}
 	
 	@Override
 	public Position getPosition() throws Exception
 	{
-		URL url = new URL("http://localhost:8080/player");
-		
-		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+		HttpURLConnection connection = (HttpURLConnection) new URL(_serviceUrlString).openConnection();
 		
 		if (connection.getResponseCode() == 200)
 		{

@@ -7,7 +7,7 @@ public interface IPlayerService
 {
 	public DataEvent<Position> PositionChanged = new DataEvent<Position>();
 	
-	void setPosition(Position newPosition);
+	void setPosition(Position newPosition) throws Exception;
 	
 	Position getPosition() throws Exception;
 	
