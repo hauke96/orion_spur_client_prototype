@@ -2,6 +2,7 @@ package orion_spur.player.service;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.HttpURLConnection;
@@ -19,17 +20,23 @@ import com.google.gson.GsonBuilder;
 import de.hauke_stieler.goms.service.ConnectionService;
 import de.hauke_stieler.goms.service.GoMessagingService;
 import juard.contract.Contract;
+import juard.log.Logger;
 import orion_spur.common.domainvalue.Position;
 import orion_spur.common.exception.HttpException;
 
 public class PlayerServiceProxy implements IPlayerService
 {
-	private String _serviceUrlString = "http://localhost:8080/player/1";
+	private static final String PLAYER_CREATED = "player.created";
+	private String _serviceUrlString = "http://localhost:8080/player/"+System.nanoTime();
 	
 	public PlayerServiceProxy(GoMessagingService messagingService) {
 		Contract.NotNull(messagingService);
 		
-		//TODO register for creation event
+		try {
+			messagingService.register(data -> System.out.println(data), PLAYER_CREATED);
+		} catch (IOException e) {
+			Logger.fatal("Could not register to " + PLAYER_CREATED + " event.", e);
+		}
 	}
 	
 	@Override
