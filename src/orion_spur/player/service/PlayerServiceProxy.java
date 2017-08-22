@@ -23,22 +23,34 @@ import juard.contract.Contract;
 import juard.log.Logger;
 import orion_spur.common.domainvalue.Position;
 import orion_spur.common.exception.HttpException;
+import orion_spur.player.view.Player;
 
 public class PlayerServiceProxy implements IPlayerService
 {
+	private static final String PLAYER_NAME = ""+System.nanoTime();
 	private static final String PLAYER_CREATED = "player.created";
-	private String _serviceUrlString = "http://localhost:8080/player/"+System.nanoTime();
+	private String _serviceUrlString = "http://localhost:8080/player/"+PLAYER_NAME;
+	private Gson _gson;
 	
 	public PlayerServiceProxy(GoMessagingService messagingService) {
 		Contract.NotNull(messagingService);
 		
-		try {
-			messagingService.register(data -> System.out.println(data), PLAYER_CREATED);
-		} catch (IOException e) {
+		try
+		{
+			messagingService.register(data -> gomsOnPlayerCreated(data), PLAYER_CREATED);
+		}
+		catch (IOException e)
+		{
 			Logger.fatal("Could not register to " + PLAYER_CREATED + " event.", e);
 		}
+		
+		_gson = new Gson();
 	}
 	
+	private void gomsOnPlayerCreated(String data) {
+		System.out.println(data);
+	}
+
 	@Override
 	public void createPlayer() throws Exception
 	{
