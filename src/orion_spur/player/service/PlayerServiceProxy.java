@@ -1,5 +1,6 @@
 package orion_spur.player.service;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -16,6 +17,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import orion_spur.common.domainvalue.Position;
+import orion_spur.common.exception.HttpException;
 
 public class PlayerServiceProxy implements IPlayerService
 {
@@ -32,7 +34,10 @@ public class PlayerServiceProxy implements IPlayerService
 		if(connection.getResponseCode() != HttpStatus.SC_OK)
 		{
 			Reader reader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
-			throw new HTTPException(connection.getResponseCode());
+			//TODO check if this works or if the number from the .read() method is wrong
+			char[] cbuf = new char[reader.read()];
+			reader.read(cbuf);
+			throw new HttpException(connection.getResponseCode(), new String(cbuf));
 		}
 	}
 
