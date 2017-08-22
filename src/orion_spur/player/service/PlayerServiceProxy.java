@@ -20,13 +20,18 @@ public class PlayerServiceProxy implements IPlayerService
 	private String _serviceUrlString = "http://localhost:8080/player/1";
 	
 	@Override
-	public void createPlayer() throws Exception {
+	public void createPlayer() throws Exception
+	{
 		URL url = new URL(_serviceUrlString);
 		
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		connection.setRequestMethod("POST");
-		connection.getResponseCode();
-		//TODO get response code and throw exception if needed
+		
+		if(connection.getResponseCode()!=200)
+		{
+			Reader reader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+			throw new HTTPException(connection.getResponseCode());
+		}
 	}
 
 	@Override
@@ -52,9 +57,16 @@ public class PlayerServiceProxy implements IPlayerService
 		connection.setRequestMethod("PUT");
 		connection.setDoOutput(true);
 		connection.getResponseCode();
-		//TODO get response code and throw exception if needed
 		
-		PositionChanged.fireEvent(newPosition);
+		if(connection.getResponseCode()==200)
+		{
+			PositionChanged.fireEvent(newPosition);
+		}
+		else
+		{
+			Reader reader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+			throw new HTTPException(connection.getResponseCode());
+		}
 	}
 	
 	@Override
