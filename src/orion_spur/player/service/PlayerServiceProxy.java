@@ -16,12 +16,21 @@ import com.badlogic.gdx.net.HttpStatus;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import de.hauke_stieler.goms.service.ConnectionService;
+import de.hauke_stieler.goms.service.GoMessagingService;
+import juard.contract.Contract;
 import orion_spur.common.domainvalue.Position;
 import orion_spur.common.exception.HttpException;
 
 public class PlayerServiceProxy implements IPlayerService
 {
 	private String _serviceUrlString = "http://localhost:8080/player/1";
+	
+	public PlayerServiceProxy(GoMessagingService messagingService) {
+		Contract.NotNull(messagingService);
+		
+		//TODO register for creation event
+	}
 	
 	@Override
 	public void createPlayer() throws Exception

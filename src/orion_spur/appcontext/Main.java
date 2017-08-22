@@ -3,7 +3,11 @@ package orion_spur.appcontext;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
+import de.hauke_stieler.goms.service.GoMessagingService;
+import de.hauke_stieler.goms.service.TcpConnectionService;
 import juard.injection.Locator;
+import juard.injection.ResolutionFailedException;
+import juard.log.Logger;
 import orion_spur.common.converter.ICoordinateConverter;
 import orion_spur.common.converter.IUnitConverter;
 import orion_spur.common.factory.ActorFactoryImpl;
@@ -43,7 +47,16 @@ public class Main
 		}
 		else
 		{
-			Locator.register(IPlayerService.class, () -> new PlayerServiceProxy());
+			Locator.register(GoMessagingService.class, () ->
+			{
+				try {
+					return new GoMessagingService(new TcpConnectionService("localhost", 55545));
+				} catch (Throwable t) {
+					Logger.error("Could not create GoMessagingService.", t);
+					throw new ResolutionFailedException(GoMessagingService.class);
+				}
+			});
+			Locator.register(IPlayerService.class, () -> new PlayerServiceProxy(Locator.get(GoMessagingService.class)));
 			
 		}
 		
