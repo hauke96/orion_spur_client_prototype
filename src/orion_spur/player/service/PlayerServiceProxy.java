@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 
 import javax.xml.ws.http.HTTPException;
 
+import com.badlogic.gdx.Net.HttpMethods;
+import com.badlogic.gdx.net.HttpStatus;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -25,9 +27,9 @@ public class PlayerServiceProxy implements IPlayerService
 		URL url = new URL(_serviceUrlString);
 		
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-		connection.setRequestMethod("POST");
+		connection.setRequestMethod(HttpMethods.POST);
 		
-		if(connection.getResponseCode()!=200)
+		if(connection.getResponseCode() != HttpStatus.SC_OK)
 		{
 			Reader reader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
 			throw new HTTPException(connection.getResponseCode());
@@ -54,11 +56,11 @@ public class PlayerServiceProxy implements IPlayerService
 		URL url = new URL(params.toString());
 		
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-		connection.setRequestMethod("PUT");
+		connection.setRequestMethod(HttpMethods.PUT);
 		connection.setDoOutput(true);
 		connection.getResponseCode();
 		
-		if(connection.getResponseCode()==200)
+		if(connection.getResponseCode() == HttpStatus.SC_OK)
 		{
 			PositionChanged.fireEvent(newPosition);
 		}
@@ -73,8 +75,9 @@ public class PlayerServiceProxy implements IPlayerService
 	public Position getPosition() throws Exception
 	{
 		HttpURLConnection connection = (HttpURLConnection) new URL(_serviceUrlString).openConnection();
+		connection.setRequestMethod(HttpMethods.GET);
 		
-		if (connection.getResponseCode() == 200)
+		if (connection.getResponseCode() == HttpStatus.SC_OK)
 		{
 			BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 			
