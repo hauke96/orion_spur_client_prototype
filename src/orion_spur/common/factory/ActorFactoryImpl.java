@@ -44,6 +44,7 @@ public class ActorFactoryImpl implements IActorFactory
 				setPosition(levelElement, result);
 				break;
 			case PLAYER:
+				_playerService.createPlayer();
 				result = new Player(_playerService, _unitConverter, _coordinateConverter, levelElement.getAssetPath(), _coordinateConverter.universeToWorld(_playerService.getPosition()));
 				break;
 			default:

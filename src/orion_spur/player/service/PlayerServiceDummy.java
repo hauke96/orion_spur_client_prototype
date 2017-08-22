@@ -22,5 +22,8 @@ public class PlayerServiceDummy implements IPlayerService
 	{
 		return _playerPosition;
 	}
-	
+
+	@Override
+	public void createPlayer() throws Exception {
+	}
 }

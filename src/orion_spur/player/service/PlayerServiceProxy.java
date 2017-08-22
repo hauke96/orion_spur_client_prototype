@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.stream.Collectors;
 
@@ -18,6 +19,16 @@ public class PlayerServiceProxy implements IPlayerService
 {
 	private String _serviceUrlString = "http://localhost:8080/player/1";
 	
+	@Override
+	public void createPlayer() throws Exception {
+		URL url = new URL(_serviceUrlString);
+		
+		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+		connection.setRequestMethod("POST");
+		connection.getResponseCode();
+		//TODO get response code and throw exception if needed
+	}
+
 	@Override
 	public void setPosition(Position newPosition) throws Exception
 	{
@@ -41,6 +52,7 @@ public class PlayerServiceProxy implements IPlayerService
 		connection.setRequestMethod("PUT");
 		connection.setDoOutput(true);
 		connection.getResponseCode();
+		//TODO get response code and throw exception if needed
 		
 		PositionChanged.fireEvent(newPosition);
 	}
