@@ -10,7 +10,7 @@ import orion_spur.common.view.ImageActor;
 import orion_spur.level.material.LevelElement;
 import orion_spur.level.service.ILevelService;
 import orion_spur.player.service.IPlayerService;
-import orion_spur.player.view.Player;
+import orion_spur.player.view.PlayerView;
 import orion_spur.ships.material.SpaceShip;
 
 public class ActorFactoryImpl implements IActorFactory
@@ -47,7 +47,7 @@ public class ActorFactoryImpl implements IActorFactory
 			case PLAYER:
 				_playerService.createPlayer();
 				SpaceShip ship = new SpaceShip(_unitConverter.convertFromWorld(3), _unitConverter.convertFromWorld(100), 250, 0, levelElement.getAssetPath());
-				result = new Player(_playerService, _unitConverter, _coordinateConverter, _coordinateConverter.universeToWorld(_playerService.getPosition()), ship);
+				result = new PlayerView(_playerService, _unitConverter, _coordinateConverter, _coordinateConverter.universeToWorld(_playerService.getPosition()), ship);
 				break;
 			default:
 				result = new Actor();

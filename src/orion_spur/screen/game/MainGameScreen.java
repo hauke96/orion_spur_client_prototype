@@ -19,7 +19,7 @@ import orion_spur.level.material.LevelElement;
 import orion_spur.level.service.ILevelService;
 import orion_spur.level.view.LevelActor;
 import orion_spur.player.service.IPlayerService;
-import orion_spur.player.view.Player;
+import orion_spur.player.view.PlayerView;
 
 // TODO Extract Coordinate and unit converter
 public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConverter
@@ -32,7 +32,7 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 	
 	private LevelElement	_playerLevelElement;
 	private LevelActor		_level;
-	private Player			_player;
+	private PlayerView			_player;
 	private ScreenViewport	_viewport;
 	
 	public MainGameScreen(IPlayerService playerService, ILevelService levelService, int width, int height, float worldUnitsPerPixel)
@@ -50,7 +50,7 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 		_level.loadLevelElements();
 		
 		_playerLevelElement = new LevelElement(levelService.getPosition(""), LayerType.LAYER_PLAYER, LevelType.PLAYER, "assets/textures/spaceship.png");
-		_player = (Player) _level.addToLayer(_playerLevelElement);
+		_player = (PlayerView) _level.addToLayer(_playerLevelElement);
 		
 		_currentStage = new Stage(_viewport);
 		_currentStage.addActor(_level);

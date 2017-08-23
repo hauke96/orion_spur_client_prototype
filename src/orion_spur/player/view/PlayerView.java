@@ -13,7 +13,7 @@ import orion_spur.common.view.ImageActor;
 import orion_spur.player.service.IPlayerService;
 import orion_spur.ships.material.SpaceShip;
 
-public class Player extends ImageActor
+public class PlayerView extends ImageActor
 {
 	public DataEvent<Vector2> PositionChanged = new DataEvent<Vector2>(); // sending the offset at [0]
 	
@@ -23,7 +23,7 @@ public class Player extends ImageActor
 
 	private SpaceShip _ship;
 	
-	public Player(IPlayerService playerService, IUnitConverter unitConverter, ICoordinateConverter coordinateConverter, Vector2 positionInLevel, SpaceShip ship)
+	public PlayerView(IPlayerService playerService, IUnitConverter unitConverter, ICoordinateConverter coordinateConverter, Vector2 positionInLevel, SpaceShip ship)
 	{
 		super(ship.getAssetFile());
 		
