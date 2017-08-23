@@ -35,7 +35,7 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 	private PlayerView			_player;
 	private ScreenViewport	_viewport;
 	
-	public MainGameScreen(IPlayerService playerService, ILevelService levelService, int width, int height, float worldUnitsPerPixel)
+	public MainGameScreen(IPlayerService playerService, ILevelService levelService, int width, int height, float worldUnitsPerPixel) throws RuntimeException, Exception
 	{
 		Contract.NotNull(playerService);
 		Locator.register(IUnitConverter.class, () -> this);
@@ -46,11 +46,12 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 		_viewport = new ScreenViewport(_camera);
 		_viewport.setUnitsPerPixel(worldUnitsPerPixel);
 		
-		_level = new LevelActor(levelService, Locator.get(IActorFactory.class), Locator.get(ICoordinateConverter.class));
-		_level.loadLevelElements();
+		_level = new LevelActor(levelService, Locator.get(IActorFactory.class), Locator.get(ICoordinateConverter.class), playerService);
 		
 		_playerLevelElement = new LevelElement(levelService.getPosition(""), LayerType.LAYER_PLAYER, LevelType.PLAYER, "assets/textures/spaceship.png");
 		_player = (PlayerView) _level.addToLayer(_playerLevelElement);
+		
+		_level.loadLevelElements();
 		
 		_currentStage = new Stage(_viewport);
 		_currentStage.addActor(_level);

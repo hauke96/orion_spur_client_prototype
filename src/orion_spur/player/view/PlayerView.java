@@ -55,7 +55,7 @@ public class PlayerView extends ImageActor
 	@Override
 	public void act(float delta)
 	{
-		Vector2 position = new Vector2(getX(), getY());
+		Vector2 positionOfView = new Vector2(getX(), getY());
 		Vector2 movementAdjustion = new Vector2();
 		boolean rotationChanged = false;
 		
@@ -91,11 +91,11 @@ public class PlayerView extends ImageActor
 		
 		_ship.accelerateShipBy(movementAdjustion);
 		
-		position.add(_ship.getMovementVector().x * delta / getScaleX(), _ship.getMovementVector().y * delta / getScaleY());
+		positionOfView.add(_ship.getMovementVector().x * delta / getScaleX(), _ship.getMovementVector().y * delta / getScaleY());
 		
-		if (position.x != getX() || position.y != getY() || rotationChanged)
+		if (positionOfView.x != getX() || positionOfView.y != getY() || rotationChanged)
 		{
-			setPosition(position.x, position.y);
+			setPosition(positionOfView.x, positionOfView.y);
 		}
 		
 		_sprite.setRotation(_ship.getRotationDegree());

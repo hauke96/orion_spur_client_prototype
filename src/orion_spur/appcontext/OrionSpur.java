@@ -7,6 +7,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL30;
 
 import juard.injection.Locator;
+import juard.log.Logger;
 import orion_spur.level.service.ILevelService;
 import orion_spur.player.service.IPlayerService;
 import orion_spur.screen.game.MainGameScreen;
@@ -31,8 +32,16 @@ public class OrionSpur extends Game implements ApplicationListener
 		MainMenuScreen screen = new MainMenuScreen();
 		screen.PlayButtonClicked.add(() ->
 		{
-			Screen newScreen = new MainGameScreen(Locator.get(IPlayerService.class), Locator.get(ILevelService.class), _width, _height, WORLD_UNITS_PER_PIXEL);
-			setScreen(newScreen);
+			Screen newScreen;
+			try
+			{
+				newScreen = new MainGameScreen(Locator.get(IPlayerService.class), Locator.get(ILevelService.class), _width, _height, WORLD_UNITS_PER_PIXEL);
+				setScreen(newScreen);
+			}
+			catch (Exception e)
+			{
+				Logger.error("Could not create main game screen", e);
+			}
 		});
 		
 		setScreen(screen);
