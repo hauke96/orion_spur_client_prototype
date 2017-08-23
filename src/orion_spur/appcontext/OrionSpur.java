@@ -9,8 +9,8 @@ import com.badlogic.gdx.graphics.GL30;
 import juard.injection.Locator;
 import orion_spur.level.service.ILevelService;
 import orion_spur.player.service.IPlayerService;
-import orion_spur.screen.game.MainMenuScreen;
-import orion_spur.screen.mainmenu.MainGameScreen;
+import orion_spur.screen.game.MainGameScreen;
+import orion_spur.screen.mainmenu.MainMenuScreen;
 
 public class OrionSpur extends Game implements ApplicationListener
 {

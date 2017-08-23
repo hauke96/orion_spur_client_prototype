@@ -1,4 +1,4 @@
-package orion_spur.screen.game;
+package orion_spur.screen.mainmenu;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
