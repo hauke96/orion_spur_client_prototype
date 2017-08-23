@@ -63,11 +63,7 @@ public class PlayerServiceProxy implements IPlayerService
 		
 		if(connection.getResponseCode() != HttpStatus.SC_OK)
 		{
-			Reader reader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
-			//TODO check if this works or if the number from the .read() method is wrong
-			char[] cbuf = new char[reader.read()];
-			reader.read(cbuf);
-			throw new HttpException(connection.getResponseCode(), new String(cbuf));
+			throwHttpException(connection);
 		}
 	}
 
@@ -101,8 +97,7 @@ public class PlayerServiceProxy implements IPlayerService
 		}
 		else
 		{
-			Reader reader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
-			throw new HTTPException(connection.getResponseCode());
+			throwHttpException(connection);
 		}
 	}
 	
@@ -126,8 +121,18 @@ public class PlayerServiceProxy implements IPlayerService
 		}
 		else
 		{
-			Reader reader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
-			throw new HTTPException(connection.getResponseCode());
+			throwHttpException(connection);
 		}
+		
+		// Java doen't seem to be able to detect, that throwHttpException always throws an exception. 
+		return null;
+	}
+
+	private void throwHttpException(HttpURLConnection connection) throws IOException, HttpException {
+		Reader reader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+		//TODO first charavter is thrown away
+		char[] cbuf = new char[reader.read()];
+		reader.read(cbuf);
+		throw new HttpException(connection.getResponseCode(), new String(cbuf));
 	}
 }
