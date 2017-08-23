@@ -46,8 +46,8 @@ public class ActorFactoryImpl implements IActorFactory
 				break;
 			case PLAYER:
 				_playerService.createPlayer();
-				new SpaceShip(_unitConverter.convertFromWorld(3), _unitConverter.convertFromWorld(100), 250, 0, levelElement.getAssetPath());
-				result = new Player(_playerService, _unitConverter, _coordinateConverter, levelElement.getAssetPath(), _coordinateConverter.universeToWorld(_playerService.getPosition()));
+				SpaceShip ship = new SpaceShip(_unitConverter.convertFromWorld(3), _unitConverter.convertFromWorld(100), 250, 0, levelElement.getAssetPath());
+				result = new Player(_playerService, _unitConverter, _coordinateConverter, _coordinateConverter.universeToWorld(_playerService.getPosition()), ship);
 				break;
 			default:
 				result = new Actor();

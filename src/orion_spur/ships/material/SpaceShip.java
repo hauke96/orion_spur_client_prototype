@@ -28,6 +28,10 @@ public class SpaceShip
 		_rotationSpeed = rotationSpeed;
 		_rotationDegree = rotationDegree;
 		_assetFile = assetFile;
+		
+		_movementVector = new Vector2();
+		
+		Contract.NotNull(_movementVector);
 	}
 	
 	public float getAcceleration() 
@@ -55,7 +59,7 @@ public class SpaceShip
 		return _movementVector;
 	}
 	
-	public void setMovementVector(Vector2 movementAdjustion)
+	public void accelerateShipBy(Vector2 movementAdjustion)
 	{
 		_movementVector = _movementVector.add(movementAdjustion);
 		
@@ -68,5 +72,15 @@ public class SpaceShip
 	public String getAssetFile()
 	{
 		return _assetFile;
+	}
+	
+	public void rotateBy(float amount)
+	{
+		_rotationDegree += amount;
+	}
+	
+	public void rotateTo(float newDegree)
+	{
+		_rotationDegree = newDegree;
 	}
 }
