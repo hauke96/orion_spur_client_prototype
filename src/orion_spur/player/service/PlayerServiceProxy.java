@@ -1,12 +1,10 @@
 package orion_spur.player.service;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.stream.Collectors;
 
@@ -17,13 +15,12 @@ import com.badlogic.gdx.net.HttpStatus;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import de.hauke_stieler.goms.service.ConnectionService;
 import de.hauke_stieler.goms.service.GoMessagingService;
 import juard.contract.Contract;
 import juard.log.Logger;
 import orion_spur.common.domainvalue.Position;
 import orion_spur.common.exception.HttpException;
-import orion_spur.player.view.Player;
+import orion_spur.common.material.Player;
 
 public class PlayerServiceProxy implements IPlayerService
 {
@@ -48,7 +45,12 @@ public class PlayerServiceProxy implements IPlayerService
 	}
 	
 	private void gomsOnPlayerCreated(String data) {
-		System.out.println(data);
+		Player player = _gson.fromJson(data, Player.class);
+		
+		if(!player.getName().equals(PLAYER_NAME))
+		{
+			System.out.println(data);
+		}
 	}
 
 	@Override
