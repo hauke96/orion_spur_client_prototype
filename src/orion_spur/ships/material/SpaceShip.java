@@ -12,38 +12,46 @@ public class SpaceShip
 	private float	_rotationDegree;// degree the player is rotated
 	
 	private Vector2 _movementVector;
+	private String _assetFile;
 	
-	public SpaceShip(float accleration, float maxSpeed, float rotationSpeed, float rotationDegree)
+	public SpaceShip(float accleration, float maxSpeed, float rotationSpeed, float rotationDegree, String assetFile)
 	{
 		Contract.Satisfy(accleration>=0);
 		Contract.Satisfy(maxSpeed>=0);
 		Contract.Satisfy(rotationSpeed>=0);
 		Contract.Satisfy(rotationDegree>=0);
 		Contract.Satisfy(rotationDegree<360);
+		Contract.NotNullOrEmpty(assetFile);
 		
 		_acceleration = accleration;
 		_maxSpeed = maxSpeed;
 		_rotationSpeed = rotationSpeed;
 		_rotationDegree = rotationDegree;
+		_assetFile = assetFile;
 	}
 	
-	public float getAcceleration() {
+	public float getAcceleration() 
+	{
 		return _acceleration;
 	}
 	
-	public float getMaxSpeed() {
+	public float getMaxSpeed()
+	{
 		return _maxSpeed;
 	}
 	
-	public float getRotationSpeed() {
+	public float getRotationSpeed()
+	{
 		return _rotationSpeed;
 	}
 	
-	public float getRotationDegree() {
+	public float getRotationDegree()
+	{
 		return _rotationDegree;
 	}
 	
-	public Vector2 getMovementVector() {
+	public Vector2 getMovementVector()
+	{
 		return _movementVector;
 	}
 	
@@ -55,5 +63,10 @@ public class SpaceShip
 		{
 			_movementVector.setLength(_maxSpeed);
 		}
+	}
+	
+	public String getAssetFile()
+	{
+		return _assetFile;
 	}
 }
