@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import javax.xml.ws.http.HTTPException;
 
 import com.badlogic.gdx.Net.HttpMethods;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.net.HttpStatus;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -18,6 +19,7 @@ import com.google.gson.GsonBuilder;
 import de.hauke_stieler.goms.service.GoMessagingService;
 import juard.contract.Contract;
 import juard.log.Logger;
+import orion_spur.common.converter.ICoordinateConverter;
 import orion_spur.common.domainvalue.Position;
 import orion_spur.common.exception.HttpException;
 import orion_spur.common.material.Player;
@@ -28,9 +30,14 @@ public class PlayerServiceProxy implements IPlayerService
 	private static final String PLAYER_CREATED = "player.created";
 	private String _serviceUrlString = "http://localhost:8080/player/"+PLAYER_NAME;
 	private Gson _gson;
+	private Vector2 _oldPosition;
+	private ICoordinateConverter _coordinateConverter;
 	
-	public PlayerServiceProxy(GoMessagingService messagingService) {
+	public PlayerServiceProxy(GoMessagingService messagingService, ICoordinateConverter coordinateConverter) {
 		Contract.NotNull(messagingService);
+		Contract.NotNull(coordinateConverter);
+		
+		_coordinateConverter = coordinateConverter;
 		
 		try
 		{
@@ -51,6 +58,11 @@ public class PlayerServiceProxy implements IPlayerService
 		{
 			System.out.println(data);
 		}
+		// Getting message of own player
+		else
+		{
+			_oldPosition = _coordinateConverter.universeToWorld(Position.create(player.getX().getLightYears(), player.getY().getLightYears(), player.getX().getMeters(), player.getY().getMeters()));
+		}
 	}
 
 	@Override
@@ -68,21 +80,23 @@ public class PlayerServiceProxy implements IPlayerService
 	}
 
 	@Override
-	public void setPosition(Position newPosition) throws Exception
+	public void setPosition(Vector2 newPosition) throws Exception
 	{
 		StringBuilder params = new StringBuilder(_serviceUrlString + "?");
 		
+		Position newUniversePosition = _coordinateConverter.worldToUniverse(newPosition);
+		
 		params.append("xLightYear=");
-		params.append(newPosition.getX().getLightYear());
+		params.append(newUniversePosition.getX().getLightYear());
 		
 		params.append("&xMeter=");
-		params.append(newPosition.getX().getMeter());
+		params.append(newUniversePosition.getX().getMeter());
 		
 		params.append("&yLightYear=");
-		params.append(newPosition.getY().getLightYear());
+		params.append(newUniversePosition.getY().getLightYear());
 		
 		params.append("&yMeter=");
-		params.append(newPosition.getY().getMeter());
+		params.append(newUniversePosition.getY().getMeter());
 		
 		URL url = new URL(params.toString());
 		
@@ -93,7 +107,12 @@ public class PlayerServiceProxy implements IPlayerService
 		
 		if(connection.getResponseCode() == HttpStatus.SC_OK)
 		{
-			PositionChanged.fireEvent(newPosition);
+			// TODO add real level name when implemented
+			Vector2 offset = new Vector2(newPosition.x - _oldPosition.x, newPosition.y - _oldPosition.y);
+			
+			_oldPosition = newPosition;
+			
+			PositionChanged.fireEvent(offset);
 		}
 		else
 		{

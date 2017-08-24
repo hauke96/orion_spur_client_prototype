@@ -35,11 +35,12 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 	private PlayerView			_player;
 	private ScreenViewport	_viewport;
 	
-	public MainGameScreen(IPlayerService playerService, ILevelService levelService, int width, int height, float worldUnitsPerPixel) throws RuntimeException, Exception
+	public MainGameScreen(ILevelService levelService, int width, int height, float worldUnitsPerPixel) throws RuntimeException, Exception
 	{
-		Contract.NotNull(playerService);
 		Locator.register(IUnitConverter.class, () -> this);
 		Locator.register(ICoordinateConverter.class, () -> this);
+		
+		IPlayerService playerService = Locator.get(IPlayerService.class);
 		
 		_camera = new OrthographicCamera(_width, _height);
 		
@@ -56,7 +57,8 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 		_currentStage = new Stage(_viewport);
 		_currentStage.addActor(_level);
 		
-		_player.PositionChanged.add(position -> onPlayerPositionChanged(position));
+//		_player.PositionChanged.add(position -> onPlayerPositionChanged(position));
+		playerService.PositionChanged.add(position -> onPlayerPositionChanged(position));
 		onPlayerPositionChanged(new Vector2(0, 0));
 	}
 	

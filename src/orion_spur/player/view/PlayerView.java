@@ -15,8 +15,6 @@ import orion_spur.ships.material.SpaceShip;
 
 public class PlayerView extends ImageActor
 {
-	public DataEvent<Vector2> PositionChanged = new DataEvent<Vector2>(); // sending the offset at [0]
-	
 	private IPlayerService _playerService;
 	
 	private ICoordinateConverter _coordinateConverter;
@@ -110,15 +108,12 @@ public class PlayerView extends ImageActor
 		
 		try
 		{
-			_playerService.setPosition(_coordinateConverter.worldToUniverse(getCenterPosition()));
+			_playerService.setPosition(getCenterPosition());
 		}
 		catch (Exception e)
 		{
 			Logger.error("Could not send updated position: ", e);
 		}
-		
-		// TODO set position on player service
-		PositionChanged.fireEvent(offset);
 	}
 	
 	@Override

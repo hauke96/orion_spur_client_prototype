@@ -23,7 +23,7 @@ public class Main
 	private static final int	WIDTH	= 1200;
 	private static final int	HEIGHT	= 700;
 	
-	private static final boolean USE_DUMMY_SERVICES = false;
+	private static final boolean USE_DUMMY_SERVICES = true;
 	
 	public static void main(String[] args)
 	{
@@ -43,7 +43,7 @@ public class Main
 	{
 		if (USE_DUMMY_SERVICES)
 		{
-			Locator.register(IPlayerService.class, () -> new PlayerServiceDummy());
+			Locator.register(IPlayerService.class, () -> new PlayerServiceDummy(Locator.get(ICoordinateConverter.class)));
 		}
 		else
 		{
@@ -56,7 +56,7 @@ public class Main
 					throw new ResolutionFailedException(GoMessagingService.class);
 				}
 			});
-			Locator.register(IPlayerService.class, () -> new PlayerServiceProxy(Locator.get(GoMessagingService.class)));
+			Locator.register(IPlayerService.class, () -> new PlayerServiceProxy(Locator.get(GoMessagingService.class), Locator.get(ICoordinateConverter.class)));
 			
 		}
 		

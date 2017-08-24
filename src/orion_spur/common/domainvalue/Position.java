@@ -29,6 +29,11 @@ public class Position
 		Coordinate x = getCoordinate(xLightYear, xMeter);
 		Coordinate y = getCoordinate(yLightYear, yMeter);
 		
+		return create(x, y);
+	}
+	
+	public static Position create(Coordinate x, Coordinate y)
+	{
 		return new Position(x, y);
 	}
 	
