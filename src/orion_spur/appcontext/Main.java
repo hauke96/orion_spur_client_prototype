@@ -23,7 +23,7 @@ public class Main
 	private static final int	WIDTH	= 1200;
 	private static final int	HEIGHT	= 700;
 	
-	private static final boolean USE_DUMMY_SERVICES = true;
+	private static final boolean USE_DUMMY_SERVICES = false;
 	
 	public static void main(String[] args)
 	{

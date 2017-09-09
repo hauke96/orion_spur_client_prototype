@@ -8,8 +8,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.stream.Collectors;
 
-import javax.xml.ws.http.HTTPException;
-
 import com.badlogic.gdx.Net.HttpMethods;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.net.HttpStatus;
@@ -26,14 +24,16 @@ import orion_spur.common.material.Player;
 
 public class PlayerServiceProxy implements IPlayerService
 {
-	private static final String PLAYER_NAME = ""+System.nanoTime();
-	private static final String PLAYER_CREATED = "player.created";
-	private String _serviceUrlString = "http://localhost:8080/player/"+PLAYER_NAME;
-	private Gson _gson;
-	private Vector2 _oldPosition;
-	private ICoordinateConverter _coordinateConverter;
+	private static final String		PLAYER_NAME			= "" + System.nanoTime();
+	private static final String		PLAYER_CREATED		= "player.created";
+	private static final String		PLAYER_MOVED		= "player.moved";
+	private String					_serviceUrlString	= "http://localhost:8080/player/" + PLAYER_NAME;
+	private Gson					_gson;
+	private Vector2					_oldPosition;
+	private ICoordinateConverter	_coordinateConverter;
 	
-	public PlayerServiceProxy(GoMessagingService messagingService, ICoordinateConverter coordinateConverter) {
+	public PlayerServiceProxy(GoMessagingService messagingService, ICoordinateConverter coordinateConverter)
+	{
 		Contract.NotNull(messagingService);
 		Contract.NotNull(coordinateConverter);
 		
@@ -42,6 +42,7 @@ public class PlayerServiceProxy implements IPlayerService
 		try
 		{
 			messagingService.register(data -> gomsOnPlayerCreated(data), PLAYER_CREATED);
+			messagingService.register(data -> gomsOnPlayerMoved(data), PLAYER_MOVED);
 		}
 		catch (IOException e)
 		{
@@ -51,10 +52,11 @@ public class PlayerServiceProxy implements IPlayerService
 		_gson = new Gson();
 	}
 	
-	private void gomsOnPlayerCreated(String data) {
+	private void gomsOnPlayerCreated(String data)
+	{
 		Player player = _gson.fromJson(data, Player.class);
 		
-		if(!player.getName().equals(PLAYER_NAME))
+		if (!player.getName().equals(PLAYER_NAME))
 		{
 			System.out.println(data);
 		}
@@ -64,7 +66,30 @@ public class PlayerServiceProxy implements IPlayerService
 			_oldPosition = _coordinateConverter.universeToWorld(Position.create(player.getX().getLightYears(), player.getY().getLightYears(), player.getX().getMeters(), player.getY().getMeters()));
 		}
 	}
-
+	
+	private void gomsOnPlayerMoved(String data)
+	{
+		Player player = _gson.fromJson(data, Player.class);
+		
+		if (!player.getName().equals(PLAYER_NAME))
+		{
+			System.out.println(data);
+		}
+		// Getting message of own player
+		else
+		{
+//			Vector2 newPosition = _coordinateConverter.universeToWorld(Position.create(player.getX().getLightYears(), player.getY().getLightYears(), player.getX().getMeters(), player.getY().getMeters()));
+//			try
+//			{
+//				setPosition(newPosition);
+//			}
+//			catch (Exception e)
+//			{
+//				Logger.error("Could not set new player position", e);
+//			}
+		}
+	}
+	
 	@Override
 	public void createPlayer() throws Exception
 	{
@@ -73,12 +98,12 @@ public class PlayerServiceProxy implements IPlayerService
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		connection.setRequestMethod(HttpMethods.POST);
 		
-		if(connection.getResponseCode() != HttpStatus.SC_OK)
+		if (connection.getResponseCode() != HttpStatus.SC_OK)
 		{
 			throwHttpException(connection);
 		}
 	}
-
+	
 	@Override
 	public void setPosition(Vector2 newPosition) throws Exception
 	{
@@ -105,7 +130,7 @@ public class PlayerServiceProxy implements IPlayerService
 		connection.setDoOutput(true);
 		connection.getResponseCode();
 		
-		if(connection.getResponseCode() == HttpStatus.SC_OK)
+		if (connection.getResponseCode() == HttpStatus.SC_OK)
 		{
 			// TODO add real level name when implemented
 			Vector2 offset = new Vector2(newPosition.x - _oldPosition.x, newPosition.y - _oldPosition.y);
@@ -143,13 +168,14 @@ public class PlayerServiceProxy implements IPlayerService
 			throwHttpException(connection);
 		}
 		
-		// Java doen't seem to be able to detect, that throwHttpException always throws an exception. 
+		// Java doen't seem to be able to detect, that throwHttpException always throws an exception.
 		return null;
 	}
-
-	private void throwHttpException(HttpURLConnection connection) throws IOException, HttpException {
+	
+	private void throwHttpException(HttpURLConnection connection) throws IOException, HttpException
+	{
 		Reader reader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
-		//TODO first charavter is thrown away
+		// TODO first charavter is thrown away
 		char[] cbuf = new char[reader.read()];
 		reader.read(cbuf);
 		throw new HttpException(connection.getResponseCode(), new String(cbuf));
