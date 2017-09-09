@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import juard.contract.Contract;
 import juard.log.Logger;
 import orion_spur.common.converter.ICoordinateConverter;
-import orion_spur.common.domainvalue.Position;
 import orion_spur.common.factory.IActorFactory;
 import orion_spur.level.material.LevelElement;
 
@@ -94,9 +93,6 @@ public class LayerActor extends Actor
 		
 		Set<Actor> layer = _layers.get(levelElement.getLayer());
 		
-		layer = new HashSet<>();
-		_layers.put(levelElement.getLayer(), layer);
-		
 		layer.add(actor);
 		
 		Contract.NotNull(actor);
@@ -139,7 +135,7 @@ public class LayerActor extends Actor
 		for (LayerType type : LayerType.values())
 		{
 			// The player already got its offset
-			if (type != LayerType.LAYER_PLAYER)
+			if (type != LayerType.LAYER_PLAYER && type != LayerType.LAYER_ANIMATION)
 			{
 				moveLayer(offset, type);
 			}
@@ -151,12 +147,16 @@ public class LayerActor extends Actor
 		float scale = _layerToScale.get(type);
 		
 		if (type == LayerType.LAYER_0_BEFORE
-		        || type == LayerType.LAYER_1_BEFORE
-		        || type == LayerType.LAYER_0_BEHIND
-		        || type == LayerType.LAYER_1_BEHIND)
+		        || type == LayerType.LAYER_1_BEFORE)
 		{
 			// Negate, because otherwise the image will move in the opposite direction.
 			scale *= -1;
+		}
+		else if (type == LayerType.LAYER_0_BEHIND
+		        || type == LayerType.LAYER_1_BEHIND)
+		{
+			// Negate, because otherwise the image will move in the opposite direction.
+			scale = 1 - scale;
 		}
 		
 		move(_layers.get(type), new Vector2(offset.x * scale, offset.y * scale));
