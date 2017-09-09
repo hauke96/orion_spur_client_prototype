@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 
 import juard.contract.Contract;
-import juard.event.DataEvent;
 import juard.log.Logger;
 import orion_spur.common.converter.ICoordinateConverter;
 import orion_spur.common.converter.IUnitConverter;
@@ -18,7 +17,7 @@ public class PlayerView extends ImageActor
 	private IPlayerService _playerService;
 	
 	private ICoordinateConverter _coordinateConverter;
-
+	
 	private SpaceShip _ship;
 	
 	public PlayerView(IPlayerService playerService, IUnitConverter unitConverter, ICoordinateConverter coordinateConverter, Vector2 positionInLevel, SpaceShip ship)
@@ -63,7 +62,7 @@ public class PlayerView extends ImageActor
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A))
 		{
-			movementAdjustion = movementAdjustion.add(-_ship.getAcceleration()* delta, 0);
+			movementAdjustion = movementAdjustion.add(-_ship.getAcceleration() * delta, 0);
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W))
 		{

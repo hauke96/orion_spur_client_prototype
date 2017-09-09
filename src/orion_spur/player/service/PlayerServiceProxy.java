@@ -78,15 +78,15 @@ public class PlayerServiceProxy implements IPlayerService
 		// Getting message of own player
 		else
 		{
-//			Vector2 newPosition = _coordinateConverter.universeToWorld(Position.create(player.getX().getLightYears(), player.getY().getLightYears(), player.getX().getMeters(), player.getY().getMeters()));
-//			try
-//			{
-//				setPosition(newPosition);
-//			}
-//			catch (Exception e)
-//			{
-//				Logger.error("Could not set new player position", e);
-//			}
+			// Vector2 newPosition = _coordinateConverter.universeToWorld(Position.create(player.getX().getLightYears(), player.getY().getLightYears(), player.getX().getMeters(), player.getY().getMeters()));
+			// try
+			// {
+			// setPosition(newPosition);
+			// }
+			// catch (Exception e)
+			// {
+			// Logger.error("Could not set new player position", e);
+			// }
 		}
 	}
 	
