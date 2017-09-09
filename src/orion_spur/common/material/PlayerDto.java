@@ -2,15 +2,15 @@ package orion_spur.common.material;
 
 import java.util.List;
 
-public class Player 
+public class PlayerDto 
 {
 	private String Name;
-	private Coordinate X;
-	private Coordinate Y;
+	private CoordinateDto X;
+	private CoordinateDto Y;
 
-	public Player(){}
+	public PlayerDto(){}
 
-	public Player(String Name, Coordinate X, Coordinate Y)
+	public PlayerDto(String Name, CoordinateDto X, CoordinateDto Y)
 	{
 		this.Name = Name;
 		this.X = X;
@@ -22,12 +22,12 @@ public class Player
 		return Name;
 	}
 
-	public Coordinate getX()
+	public CoordinateDto getX()
 	{
 		return X;
 	}
 
-	public Coordinate getY()
+	public CoordinateDto getY()
 	{
 		return Y;
 	}

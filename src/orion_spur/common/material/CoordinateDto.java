@@ -2,14 +2,14 @@ package orion_spur.common.material;
 
 import java.util.List;
 
-public class Coordinate 
+public class CoordinateDto 
 {
 	private long LightYears;
 	private long Meters;
 
-	public Coordinate(){}
+	public CoordinateDto(){}
 
-	public Coordinate(long LightYears, long Meters)
+	public CoordinateDto(long LightYears, long Meters)
 	{
 		this.LightYears = LightYears;
 		this.Meters = Meters;
