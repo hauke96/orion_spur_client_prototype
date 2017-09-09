@@ -20,6 +20,8 @@ import orion_spur.level.service.ILevelService;
 import orion_spur.level.view.LevelActor;
 import orion_spur.player.service.IPlayerService;
 import orion_spur.player.view.PlayerView;
+import orion_spur.remoteObjects.Service.IRemoteObjectService;
+import orion_spur.remoteObjects.material.RemoteObject;
 
 // TODO Extract Coordinate and unit converter
 public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConverter
@@ -41,6 +43,7 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 		Locator.register(ICoordinateConverter.class, () -> this);
 		
 		IPlayerService playerService = Locator.get(IPlayerService.class);
+		IRemoteObjectService remoteObjectService = Locator.get(IRemoteObjectService.class);
 		
 		_camera = new OrthographicCamera(_width, _height);
 		
@@ -53,6 +56,12 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 		_player = (PlayerView) _level.addToLayer(_playerLevelElement);
 		
 		_level.loadLevelElements();
+		
+		for (RemoteObject remoteObject : remoteObjectService.getAllObjectsForLevel(""))
+		{
+			LevelElement levelElement = new LevelElement(remoteObject.getPosition(), LayerType.LAYER_ANIMATION, LevelType.REMOTE_OBJECT, remoteObject.getAssetFile());
+			_level.addToLayer(levelElement);
+		}
 		
 		_currentStage = new Stage(_viewport);
 		_currentStage.addActor(_level);
