@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import de.hauke_stieler.goms.service.GoMessagingService;
 import juard.contract.Contract;
 import juard.log.Logger;
+import orion_spur.common.domainvalue.Position;
 import orion_spur.common.exception.HttpException;
 import orion_spur.common.material.RemoteObjectDto;
 import orion_spur.common.material.RemoteObjectListDto;
@@ -27,7 +28,7 @@ import orion_spur.remoteObjects.material.RemoteObject;
 public class RemoteObjectServiceProxy implements IRemoteObjectService
 {
 	private static final String	OBJECT_MOVED		= "object.moved";
-	private String				_serviceUrlString	= "http://localhost:8080/objects/";
+	private String				_serviceUrlString	= "http://localhost:8080/objects";
 	private Gson				_gson;
 	
 	public RemoteObjectServiceProxy(GoMessagingService messagingService)
@@ -89,7 +90,9 @@ public class RemoteObjectServiceProxy implements IRemoteObjectService
 			
 			String assetFile = dto.getAssetFile();
 			
-			new RemoteObject(movementVector, assetFile);
+			Position position = Position.create(dto.getX().getLightYears(), dto.getY().getLightYears(), dto.getX().getMeters(), dto.getY().getMeters());
+			
+			new RemoteObject(movementVector, assetFile, position);
 		}
 		
 		return result;
