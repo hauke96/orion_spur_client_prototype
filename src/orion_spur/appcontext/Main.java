@@ -17,6 +17,8 @@ import orion_spur.level.service.LevelDummyService;
 import orion_spur.player.service.IPlayerService;
 import orion_spur.player.service.PlayerServiceDummy;
 import orion_spur.player.service.PlayerServiceProxy;
+import orion_spur.remoteObjects.Service.IRemoteObjectService;
+import orion_spur.remoteObjects.Service.RemoteObjectServiceProxy;
 
 public class Main
 {
@@ -44,23 +46,27 @@ public class Main
 		if (USE_DUMMY_SERVICES)
 		{
 			Locator.register(IPlayerService.class, () -> new PlayerServiceDummy(Locator.get(ICoordinateConverter.class)));
+			// TODO create dummy service for remote objects
 		}
 		else
 		{
 			Locator.register(GoMessagingService.class, () ->
 			{
-				try {
+				try
+				{
 					return new GoMessagingService(new TcpConnectionService("localhost", 55545));
-				} catch (Throwable t) {
+				}
+				catch (Throwable t)
+				{
 					Logger.error("Could not create GoMessagingService.", t);
 					throw new ResolutionFailedException(GoMessagingService.class);
 				}
 			});
 			Locator.register(IPlayerService.class, () -> new PlayerServiceProxy(Locator.get(GoMessagingService.class), Locator.get(ICoordinateConverter.class)));
-			
+			Locator.register(IRemoteObjectService.class, () -> new RemoteObjectServiceProxy(Locator.get(GoMessagingService.class)));
 		}
 		
 		Locator.register(ILevelService.class, () -> new LevelDummyService());
-		Locator.register(IActorFactory.class, () -> new ActorFactoryImpl(Locator.get(IPlayerService.class), Locator.get(ILevelService.class), Locator.get(IUnitConverter.class), Locator.get(ICoordinateConverter.class)));
+		Locator.register(IActorFactory.class, () -> new ActorFactoryImpl(Locator.get(IPlayerService.class), Locator.get(IRemoteObjectService.class), Locator.get(ILevelService.class), Locator.get(IUnitConverter.class), Locator.get(ICoordinateConverter.class)));
 	}
 }

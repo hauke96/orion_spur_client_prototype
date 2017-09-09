@@ -32,7 +32,7 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 	
 	private LevelElement	_playerLevelElement;
 	private LevelActor		_level;
-	private PlayerView			_player;
+	private PlayerView		_player;
 	private ScreenViewport	_viewport;
 	
 	public MainGameScreen(ILevelService levelService, int width, int height, float worldUnitsPerPixel) throws RuntimeException, Exception
@@ -57,7 +57,7 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 		_currentStage = new Stage(_viewport);
 		_currentStage.addActor(_level);
 		
-//		_player.PositionChanged.add(position -> onPlayerPositionChanged(position));
+		// _player.PositionChanged.add(position -> onPlayerPositionChanged(position));
 		playerService.PositionChanged.add(position -> onPlayerPositionChanged(position));
 		onPlayerPositionChanged(new Vector2(0, 0));
 	}
