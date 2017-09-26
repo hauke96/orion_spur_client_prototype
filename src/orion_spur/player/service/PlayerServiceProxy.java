@@ -105,7 +105,7 @@ public class PlayerServiceProxy implements IPlayerService
 	}
 	
 	@Override
-	public void setPosition(Vector2 newPosition) throws Exception
+	public void setPosition(Vector2 newPosition, float rotation) throws Exception
 	{
 		StringBuilder params = new StringBuilder(_serviceUrlString + "?");
 		
@@ -122,6 +122,9 @@ public class PlayerServiceProxy implements IPlayerService
 		
 		params.append("&yMeter=");
 		params.append(newUniversePosition.getY().getMeter());
+		
+		params.append("&rotation=");
+		params.append(rotation);
 		
 		URL url = new URL(params.toString());
 		

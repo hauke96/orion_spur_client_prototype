@@ -7,14 +7,16 @@ public class PlayerDto
 	private String Name;
 	private CoordinateDto X;
 	private CoordinateDto Y;
+	private float Rotation;
 
 	public PlayerDto(){}
 
-	public PlayerDto(String Name, CoordinateDto X, CoordinateDto Y)
+	public PlayerDto(String Name, CoordinateDto X, CoordinateDto Y, float Rotation)
 	{
 		this.Name = Name;
 		this.X = X;
 		this.Y = Y;
+		this.Rotation = Rotation;
 	}
 
 	public String getName()
@@ -30,6 +32,11 @@ public class PlayerDto
 	public CoordinateDto getY()
 	{
 		return Y;
+	}
+
+	public float getRotation()
+	{
+		return Rotation;
 	}
 }
 

@@ -11,7 +11,7 @@ public interface IPlayerService
 	
 	void createPlayer() throws Exception;
 	
-	void setPosition(Vector2 newPosition) throws Exception;
+	void setPosition(Vector2 newPosition, float rotation) throws Exception;
 	
 	Position getPosition() throws Exception;
 	

@@ -8,7 +8,7 @@ import orion_spur.common.domainvalue.Position;
 
 public class PlayerServiceDummy implements IPlayerService
 {
-	//TODO replace by a vector (world position)
+	// TODO replace by a vector (world position)
 	private Position _playerPosition = Position.create(0, -23013, 600, -6467355351055975L);
 	
 	private ICoordinateConverter _coordinateConverter;
@@ -21,7 +21,7 @@ public class PlayerServiceDummy implements IPlayerService
 	}
 	
 	@Override
-	public void setPosition(Vector2 newPosition)
+	public void setPosition(Vector2 newPosition, float rotation)
 	{
 		Contract.NotNull(newPosition);
 		
@@ -38,8 +38,9 @@ public class PlayerServiceDummy implements IPlayerService
 	{
 		return _playerPosition;
 	}
-
+	
 	@Override
-	public void createPlayer() throws Exception {
+	public void createPlayer() throws Exception
+	{
 	}
 }

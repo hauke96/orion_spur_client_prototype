@@ -19,11 +19,11 @@ public class LevelDummyService implements ILevelService
 		
 		// center: -6467355351055975L
 		
-		result.add(new LevelElement(Position.create(0, -23013, 0, -6467355351056235L), LayerType.LAYER_BACKGROUND, LevelType.IMAGE, "assets/textures/milkyway.jpg"));
-		result.add(new LevelElement(Position.create(0, -23013, 590, -6467355351055975L), LayerType.LAYER_1_BEHIND, LevelType.IMAGE, "assets/textures/asteroid-0.png"));
-		result.add(new LevelElement(Position.create(0, -23013, 600, -6467355351055955L), LayerType.LAYER_0_BEHIND, LevelType.IMAGE, "assets/textures/asteroid-0.png"));
-		result.add(new LevelElement(Position.create(0, -23013, 610, -6467355351056000L), LayerType.LAYER_0_BEFORE, LevelType.IMAGE, "assets/textures/asteroid-0.png"));
-		result.add(new LevelElement(Position.create(0, -23013, 560, -6467355351055955L), LayerType.LAYER_1_BEFORE, LevelType.IMAGE, "assets/textures/asteroid-0.png"));
+		result.add(new LevelElement(Position.create(0, -23013, 0, -6467355351056235L), 0, LayerType.LAYER_BACKGROUND, LevelType.IMAGE, "assets/textures/milkyway.jpg"));
+		result.add(new LevelElement(Position.create(0, -23013, 590, -6467355351055975L), 20, LayerType.LAYER_1_BEHIND, LevelType.IMAGE, "assets/textures/asteroid-0.png"));
+		result.add(new LevelElement(Position.create(0, -23013, 600, -6467355351055955L), 60, LayerType.LAYER_0_BEHIND, LevelType.IMAGE, "assets/textures/asteroid-0.png"));
+		result.add(new LevelElement(Position.create(0, -23013, 610, -6467355351056000L), 110, LayerType.LAYER_0_BEFORE, LevelType.IMAGE, "assets/textures/asteroid-0.png"));
+		result.add(new LevelElement(Position.create(0, -23013, 560, -6467355351055955L), 230, LayerType.LAYER_1_BEFORE, LevelType.IMAGE, "assets/textures/asteroid-0.png"));
 		
 		return result;
 	}

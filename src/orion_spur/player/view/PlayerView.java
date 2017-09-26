@@ -107,7 +107,7 @@ public class PlayerView extends ImageActor
 		
 		try
 		{
-			_playerService.setPosition(getCenterPosition());
+			_playerService.setPosition(getCenterPosition(), _ship.getRotationDegree());
 		}
 		catch (Exception e)
 		{

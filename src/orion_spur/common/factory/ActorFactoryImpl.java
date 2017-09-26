@@ -52,11 +52,11 @@ public class ActorFactoryImpl implements IActorFactory
 				break;
 			case PLAYER:
 				_playerService.createPlayer();
-				ship = new SpaceShip(_unitConverter.convertFromWorld(3), _unitConverter.convertFromWorld(100), 250, 0, levelElement.getAssetPath());
+				ship = new SpaceShip(_unitConverter.convertFromWorld(3), _unitConverter.convertFromWorld(100), 250, levelElement.getRotation(), levelElement.getAssetPath());
 				result = new PlayerView(_playerService, _unitConverter, _coordinateConverter, _coordinateConverter.universeToWorld(_playerService.getPosition()), ship);
 				break;
 			case REMOTE_OBJECT:
-				ship = new SpaceShip(_unitConverter.convertFromWorld(3), _unitConverter.convertFromWorld(100), 250, 0, levelElement.getAssetPath());
+				ship = new SpaceShip(_unitConverter.convertFromWorld(3), _unitConverter.convertFromWorld(100), 250, levelElement.getRotation(), levelElement.getAssetPath());
 				result = new RemotePlayerView(_remoteObjectService, _coordinateConverter, _coordinateConverter.universeToWorld(levelElement.getPosition()), ship);
 				break;
 			default:

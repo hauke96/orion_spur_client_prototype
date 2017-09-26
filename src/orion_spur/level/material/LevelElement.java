@@ -8,16 +8,18 @@ import orion_spur.level.domainvalue.LevelType;
 public class LevelElement
 {
 	private Position	_position;
+	private float		_rotation;
 	private LayerType	_layer;
 	private LevelType	_type;
 	private String		_assetPath;
 	
-	public LevelElement(Position position, LayerType layer, LevelType type, String assetPath)
+	public LevelElement(Position position, float rotation, LayerType layer, LevelType type, String assetPath)
 	{
 		Contract.NotNull(position);
 		Contract.NotNull(assetPath);
 		
 		_position = position;
+		_rotation = rotation;
 		_layer = layer;
 		_type = type;
 		_assetPath = assetPath;
@@ -41,6 +43,11 @@ public class LevelElement
 	public String getAssetPath()
 	{
 		return _assetPath;
+	}
+	
+	public float getRotation()
+	{
+		return _rotation;
 	}
 	
 	// TODO equals, hashcode
