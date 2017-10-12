@@ -114,7 +114,7 @@ public class PlayerServiceProxy implements IPlayerService
 	{
 		Contract.NotNull(player);
 		
-		StringBuilder params = new StringBuilder(_serviceUrlString + "?");
+		StringBuilder params = new StringBuilder(_serviceUrlString);
 
 		URL url = new URL(params.toString());
 		
@@ -123,7 +123,7 @@ public class PlayerServiceProxy implements IPlayerService
 		connection.setDoOutput(true);
 		connection.setDoInput(true);
 		
-		RemoteObjectDto dto = new RemoteObjectDto("",
+		RemoteObjectDto dto = new RemoteObjectDto(PLAYER_NAME,
 				player.getAssetPath(),
 				toVectorDto(player.getMovementVector()), 
 				toCoordinateDto(_coordinateConverter.worldToUniverse(player.getPosition()).getX()),
