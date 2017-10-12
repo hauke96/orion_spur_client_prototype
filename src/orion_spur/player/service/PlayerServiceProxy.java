@@ -20,7 +20,7 @@ import juard.log.Logger;
 import orion_spur.common.converter.ICoordinateConverter;
 import orion_spur.common.domainvalue.Position;
 import orion_spur.common.exception.HttpException;
-import orion_spur.common.material.PlayerDto;
+import orion_spur.common.material.RemoteObjectDto;
 
 public class PlayerServiceProxy implements IPlayerService
 {
@@ -54,7 +54,7 @@ public class PlayerServiceProxy implements IPlayerService
 	
 	private void gomsOnPlayerCreated(String data)
 	{
-		PlayerDto player = _gson.fromJson(data, PlayerDto.class);
+		RemoteObjectDto player = _gson.fromJson(data, RemoteObjectDto.class);
 		
 		if (!player.getName().equals(PLAYER_NAME))
 		{
@@ -69,7 +69,7 @@ public class PlayerServiceProxy implements IPlayerService
 	
 	private void gomsOnPlayerMoved(String data)
 	{
-		PlayerDto player = _gson.fromJson(data, PlayerDto.class);
+		RemoteObjectDto player = _gson.fromJson(data, RemoteObjectDto.class);
 		
 		if (!player.getName().equals(PLAYER_NAME))
 		{
