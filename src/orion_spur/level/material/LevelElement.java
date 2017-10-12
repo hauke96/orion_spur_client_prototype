@@ -59,6 +59,18 @@ public class LevelElement
 	{
 		return new Vector2(_movementVector.x, _movementVector.y);
 	}
+
+	public void setRotation(float newRotation)
+	{
+		_rotation = newRotation;
+	}
+
+	public void setPosition(Position newPosition)
+	{
+		Contract.NotNull(newPosition);
+		
+		_position = newPosition;
+	}
 	
 	// TODO equals, hashcode
 }

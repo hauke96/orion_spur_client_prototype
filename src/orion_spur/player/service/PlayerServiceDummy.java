@@ -1,10 +1,14 @@
 package orion_spur.player.service;
 
+import java.io.IOException;
+
 import com.badlogic.gdx.math.Vector2;
 
 import juard.contract.Contract;
 import orion_spur.common.converter.ICoordinateConverter;
 import orion_spur.common.domainvalue.Position;
+import orion_spur.common.exception.HttpException;
+import orion_spur.level.material.LevelElement;
 
 public class PlayerServiceDummy implements IPlayerService
 {
@@ -42,5 +46,11 @@ public class PlayerServiceDummy implements IPlayerService
 	@Override
 	public void createPlayer() throws Exception
 	{
+	}
+
+	@Override
+	public void setPosition(LevelElement player) throws IOException, HttpException {
+		// TODO Implement method
+		throw new RuntimeException("NOT IMPLEMENTED");
 	}
 }

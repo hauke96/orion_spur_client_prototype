@@ -50,8 +50,6 @@ public class RemotePlayerView extends ImageActor
 	{
 		Vector2 movementAdjustion = _levelElement.getMovementVector().scl(delta);
 		
-		System.out.println(movementAdjustion.toString());
-		
 		setPosition(getX() + movementAdjustion.x, getY() + movementAdjustion.y);
 		
 		super.act(delta);

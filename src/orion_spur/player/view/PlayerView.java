@@ -8,7 +8,9 @@ import juard.contract.Contract;
 import juard.log.Logger;
 import orion_spur.common.converter.ICoordinateConverter;
 import orion_spur.common.converter.IUnitConverter;
+import orion_spur.common.domainvalue.Position;
 import orion_spur.common.view.ImageActor;
+import orion_spur.level.material.LevelElement;
 import orion_spur.player.service.IPlayerService;
 import orion_spur.ships.material.SpaceShip;
 
@@ -19,8 +21,10 @@ public class PlayerView extends ImageActor
 	private ICoordinateConverter _coordinateConverter;
 	
 	private SpaceShip _ship;
+
+	private LevelElement _levelElement;
 	
-	public PlayerView(IPlayerService playerService, IUnitConverter unitConverter, ICoordinateConverter coordinateConverter, Vector2 positionInLevel, SpaceShip ship)
+	public PlayerView(IPlayerService playerService, IUnitConverter unitConverter, ICoordinateConverter coordinateConverter, LevelElement levelElement, Vector2 positionInLevel, SpaceShip ship)
 	{
 		super(ship.getAssetFile());
 		
@@ -33,6 +37,7 @@ public class PlayerView extends ImageActor
 		_playerService = playerService;
 		_coordinateConverter = coordinateConverter;
 		_ship = ship;
+		_levelElement = levelElement;
 		
 		setWidth(20);
 		setHeight(20);
@@ -105,9 +110,13 @@ public class PlayerView extends ImageActor
 		
 		super.setPosition(x, y);
 		
+		_levelElement.setPosition(_coordinateConverter.worldToUniverse(new Vector2(x, y)));
+		_levelElement.setRotation(_ship.getRotationDegree());
+		
 		try
 		{
-			_playerService.setPosition(getCenterPosition(), _ship.getRotationDegree());
+//			_playerService.setPosition(getCenterPosition(), _ship.getRotationDegree());
+			_playerService.setPosition(_levelElement);
 		}
 		catch (Exception e)
 		{
