@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.stream.Collectors;
 
@@ -18,9 +19,13 @@ import de.hauke_stieler.goms.service.GoMessagingService;
 import juard.contract.Contract;
 import juard.log.Logger;
 import orion_spur.common.converter.ICoordinateConverter;
+import orion_spur.common.domainvalue.Coordinate;
 import orion_spur.common.domainvalue.Position;
 import orion_spur.common.exception.HttpException;
+import orion_spur.common.material.CoordinateDto;
 import orion_spur.common.material.RemoteObjectDto;
+import orion_spur.common.material.VectorDto;
+import orion_spur.level.material.LevelElement;
 
 public class PlayerServiceProxy implements IPlayerService
 {
@@ -105,6 +110,54 @@ public class PlayerServiceProxy implements IPlayerService
 	}
 	
 	@Override
+	public void setPosition(LevelElement player) throws IOException, HttpException
+	{
+		Contract.NotNull(player);
+		
+		StringBuilder params = new StringBuilder(_serviceUrlString + "?");
+
+		URL url = new URL(params.toString());
+		
+		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+		connection.setRequestMethod(HttpMethods.PUT);
+		connection.setDoOutput(true);
+		connection.setDoInput(true);
+		
+		RemoteObjectDto dto = new RemoteObjectDto("", player.getAssetPath(), toVectorDto(player.getMovementVector()), toCoordinateDto(player.getPosition().getX()), toCoordinateDto(player.getPosition().getY()), player.getRotation());
+		
+		String data = _gson.toJson(dto);
+		
+		connection.getOutputStream().write(data.getBytes());
+		
+		if (connection.getResponseCode() == HttpStatus.SC_OK)
+		{
+			Vector2 newPosition = _coordinateConverter.universeToWorld(player.getPosition());
+			
+			// TODO add real level name when implemented
+			Vector2 offset = new Vector2(newPosition.x - _oldPosition.x, newPosition.y - _oldPosition.y);
+			
+			_oldPosition = newPosition;
+			
+			PositionChanged.fireEvent(offset);
+		}
+		else
+		{
+			throwHttpException(connection);
+		}
+	}
+
+	private CoordinateDto toCoordinateDto(Coordinate coordinate)
+	{
+		return new CoordinateDto(coordinate.getLightYear(), coordinate.getMeter());
+	}
+	
+	private VectorDto toVectorDto(Vector2 vector)
+	{
+		return new VectorDto(vector.x, vector.y);
+	}
+
+	@Override
+	@Deprecated
 	public void setPosition(Vector2 newPosition, float rotation) throws Exception
 	{
 		StringBuilder params = new StringBuilder(_serviceUrlString + "?");
