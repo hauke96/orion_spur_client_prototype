@@ -14,13 +14,18 @@ public class RemotePlayerView extends ImageActor
 	private IRemoteObjectService	_remoteObjectService;
 	private ICoordinateConverter	_coordinateConverter;
 	private SpaceShip				_ship;
+	private LevelElement			_levelElement;
 	
 	public RemotePlayerView(IRemoteObjectService remoteObjectService, ICoordinateConverter coordinateConverter, LevelElement levelElement, SpaceShip ship)
 	{
 		super(ship.getAssetFile());
+		Contract.NotNull(remoteObjectService);
+		Contract.NotNull(coordinateConverter);
+		Contract.NotNull(levelElement);
 		
 		_remoteObjectService = remoteObjectService;
 		_coordinateConverter = coordinateConverter;
+		_levelElement = levelElement;
 		_ship = ship;
 		
 		Vector2 positionInLevel = _coordinateConverter.universeToWorld(levelElement.getPosition());
@@ -38,5 +43,17 @@ public class RemotePlayerView extends ImageActor
 		
 		Contract.Satisfy(_sprite != null);
 		Contract.Satisfy(_sprite.getTexture() != null);
+	}
+	
+	@Override
+	public void act(float delta)
+	{
+		Vector2 movementAdjustion = _levelElement.getMovementVector().scl(delta);
+		
+		System.out.println(movementAdjustion.toString());
+		
+		setPosition(getX() + movementAdjustion.x, getY() + movementAdjustion.y);
+		
+		super.act(delta);
 	}
 }

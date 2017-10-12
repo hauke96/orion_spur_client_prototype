@@ -52,14 +52,14 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 		
 		_level = new LevelActor(levelService, Locator.get(IActorFactory.class), Locator.get(ICoordinateConverter.class), playerService);
 		
-		_playerLevelElement = new LevelElement(levelService.getPosition(""), 0, LayerType.LAYER_PLAYER, LevelType.PLAYER, "assets/textures/spaceship.png");
+		_playerLevelElement = new LevelElement(levelService.getPosition(""), new Vector2(), 0, LayerType.LAYER_PLAYER, LevelType.PLAYER, "assets/textures/spaceship.png");
 		_player = (PlayerView) _level.addToLayer(_playerLevelElement);
 		
 		_level.loadLevelElements();
 		
 		for (RemoteObject remoteObject : remoteObjectService.getAllObjectsForLevel(""))
 		{
-			LevelElement levelElement = new LevelElement(remoteObject.getPosition(), remoteObject.getRotation(), LayerType.LAYER_ANIMATION, LevelType.REMOTE_OBJECT, remoteObject.getAssetFile());
+			LevelElement levelElement = new LevelElement(remoteObject.getPosition(), remoteObject.getMovementVector(), remoteObject.getRotation(), LayerType.LAYER_ANIMATION, LevelType.REMOTE_OBJECT, remoteObject.getAssetFile());
 			_level.addToLayer(levelElement);
 		}
 		

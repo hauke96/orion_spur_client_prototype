@@ -4,6 +4,7 @@ import java.util.List;
 
 public class RemoteObjectDto 
 {
+	private String Name;
 	private String AssetFile;
 	private VectorDto MovementVector;
 	private CoordinateDto X;
@@ -12,13 +13,19 @@ public class RemoteObjectDto
 
 	public RemoteObjectDto(){}
 
-	public RemoteObjectDto(String AssetFile, VectorDto MovementVector, CoordinateDto X, CoordinateDto Y, float Rotation)
+	public RemoteObjectDto(String Name, String AssetFile, VectorDto MovementVector, CoordinateDto X, CoordinateDto Y, float Rotation)
 	{
+		this.Name = Name;
 		this.AssetFile = AssetFile;
 		this.MovementVector = MovementVector;
 		this.X = X;
 		this.Y = Y;
 		this.Rotation = Rotation;
+	}
+
+	public String getName()
+	{
+		return Name;
 	}
 
 	public String getAssetFile()

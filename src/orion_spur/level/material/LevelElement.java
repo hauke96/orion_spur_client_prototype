@@ -1,5 +1,7 @@
 package orion_spur.level.material;
 
+import com.badlogic.gdx.math.Vector2;
+
 import juard.contract.Contract;
 import orion_spur.common.domainvalue.Position;
 import orion_spur.common.service.LayerActor.LayerType;
@@ -12,13 +14,16 @@ public class LevelElement
 	private LayerType	_layer;
 	private LevelType	_type;
 	private String		_assetPath;
+	private Vector2		_movementVector;
 	
-	public LevelElement(Position position, float rotation, LayerType layer, LevelType type, String assetPath)
+	public LevelElement(Position position, Vector2 movementVector, float rotation, LayerType layer, LevelType type, String assetPath)
 	{
 		Contract.NotNull(position);
+		Contract.NotNull(movementVector);		
 		Contract.NotNull(assetPath);
 		
 		_position = position;
+		_movementVector = movementVector;
 		_rotation = rotation;
 		_layer = layer;
 		_type = type;
@@ -48,6 +53,11 @@ public class LevelElement
 	public float getRotation()
 	{
 		return _rotation;
+	}
+	
+	public Vector2 getMovementVector()
+	{
+		return new Vector2(_movementVector.x, _movementVector.y);
 	}
 	
 	// TODO equals, hashcode
