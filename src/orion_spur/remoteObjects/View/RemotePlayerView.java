@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import juard.contract.Contract;
 import orion_spur.common.converter.ICoordinateConverter;
 import orion_spur.common.view.ImageActor;
+import orion_spur.level.material.LevelElement;
 import orion_spur.remoteObjects.Service.IRemoteObjectService;
 import orion_spur.ships.material.SpaceShip;
 
@@ -14,13 +15,15 @@ public class RemotePlayerView extends ImageActor
 	private ICoordinateConverter	_coordinateConverter;
 	private SpaceShip				_ship;
 	
-	public RemotePlayerView(IRemoteObjectService remoteObjectService, ICoordinateConverter coordinateConverter, Vector2 positionInLevel, SpaceShip ship)
+	public RemotePlayerView(IRemoteObjectService remoteObjectService, ICoordinateConverter coordinateConverter, LevelElement levelElement, SpaceShip ship)
 	{
 		super(ship.getAssetFile());
 		
 		_remoteObjectService = remoteObjectService;
 		_coordinateConverter = coordinateConverter;
 		_ship = ship;
+		
+		Vector2 positionInLevel = _coordinateConverter.universeToWorld(levelElement.getPosition());
 		
 		setWidth(20);
 		setHeight(20);
