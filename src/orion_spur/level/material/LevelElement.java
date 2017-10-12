@@ -9,14 +9,14 @@ import orion_spur.level.domainvalue.LevelType;
 
 public class LevelElement
 {
-	private Position	_position;
+	private Vector2		_position;
 	private float		_rotation;
 	private LayerType	_layer;
 	private LevelType	_type;
 	private String		_assetPath;
 	private Vector2		_movementVector;
 	
-	public LevelElement(Position position, Vector2 movementVector, float rotation, LayerType layer, LevelType type, String assetPath)
+	public LevelElement(Vector2 position, Vector2 movementVector, float rotation, LayerType layer, LevelType type, String assetPath)
 	{
 		Contract.NotNull(position);
 		Contract.NotNull(movementVector);		
@@ -30,7 +30,7 @@ public class LevelElement
 		_assetPath = assetPath;
 	}
 	
-	public Position getPosition()
+	public Vector2 getPosition()
 	{
 		return _position;
 	}
@@ -65,7 +65,7 @@ public class LevelElement
 		_rotation = newRotation;
 	}
 
-	public void setPosition(Position newPosition)
+	public void setPosition(Vector2 newPosition)
 	{
 		Contract.NotNull(newPosition);
 		

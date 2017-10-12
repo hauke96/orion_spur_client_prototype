@@ -108,14 +108,13 @@ public class PlayerView extends ImageActor
 	{
 		Vector2 offset = new Vector2(x - getX(), y - getY());
 		
-		super.setPosition(x, y);
-		
-		_levelElement.setPosition(_coordinateConverter.worldToUniverse(new Vector2(x, y)));
+		_levelElement.setPosition(new Vector2(getCenterPosition()));
 		_levelElement.setRotation(_ship.getRotationDegree());
+		
+		super.setPosition(x, y);
 		
 		try
 		{
-//			_playerService.setPosition(getCenterPosition(), _ship.getRotationDegree());
 			_playerService.setPosition(_levelElement);
 		}
 		catch (Exception e)

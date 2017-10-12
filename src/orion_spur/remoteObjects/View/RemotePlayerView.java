@@ -28,12 +28,10 @@ public class RemotePlayerView extends ImageActor
 		_levelElement = levelElement;
 		_ship = ship;
 		
-		Vector2 positionInLevel = _coordinateConverter.universeToWorld(levelElement.getPosition());
-		
 		setWidth(20);
 		setHeight(20);
-		setX(positionInLevel.x - getWidth() / 2);
-		setY(positionInLevel.y - getHeight() / 2);
+		setX(levelElement.getPosition().x - getWidth() / 2);
+		setY(levelElement.getPosition().y - getHeight() / 2);
 		
 		_sprite.setBounds(getX(), getY(), getWidth(), getHeight());
 		_sprite.setOrigin(getWidth() / 2, getHeight() / 2);

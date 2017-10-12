@@ -123,7 +123,12 @@ public class PlayerServiceProxy implements IPlayerService
 		connection.setDoOutput(true);
 		connection.setDoInput(true);
 		
-		RemoteObjectDto dto = new RemoteObjectDto("", player.getAssetPath(), toVectorDto(player.getMovementVector()), toCoordinateDto(player.getPosition().getX()), toCoordinateDto(player.getPosition().getY()), player.getRotation());
+		RemoteObjectDto dto = new RemoteObjectDto("",
+				player.getAssetPath(),
+				toVectorDto(player.getMovementVector()), 
+				toCoordinateDto(_coordinateConverter.worldToUniverse(player.getPosition()).getX()),
+				toCoordinateDto(_coordinateConverter.worldToUniverse(player.getPosition()).getY()),
+				player.getRotation());
 		
 		String data = _gson.toJson(dto);
 		
@@ -131,12 +136,10 @@ public class PlayerServiceProxy implements IPlayerService
 		
 		if (connection.getResponseCode() == HttpStatus.SC_OK)
 		{
-			Vector2 newPosition = _coordinateConverter.universeToWorld(player.getPosition());
-			
 			// TODO add real level name when implemented
-			Vector2 offset = new Vector2(newPosition.x - _oldPosition.x, newPosition.y - _oldPosition.y);
+			Vector2 offset = new Vector2(player.getPosition().x - _oldPosition.x, player.getPosition().y - _oldPosition.y);
 			
-			_oldPosition = newPosition;
+			_oldPosition = player.getPosition();
 			
 			PositionChanged.fireEvent(offset);
 		}

@@ -71,8 +71,6 @@ public class ActorFactoryImpl implements IActorFactory
 	
 	private void setPosition(LevelElement levelElement, Actor actor)
 	{
-		Vector2 position = _coordinateConverter.universeToWorld(levelElement.getPosition());
-		System.out.println(position);
-		actor.setPosition(position.x, position.y);
+		actor.setPosition(levelElement.getPosition().x, levelElement.getPosition().y);
 	}
 }
