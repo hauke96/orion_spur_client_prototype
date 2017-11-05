@@ -25,6 +25,7 @@ import orion_spur.common.material.CoordinateDto;
 import orion_spur.common.material.RemoteObjectDto;
 import orion_spur.common.material.VectorDto;
 import orion_spur.level.material.LevelElement;
+import orion_spur.remoteObjects.material.RemoteObject;
 
 public class PlayerServiceProxy implements IPlayerService
 {
@@ -33,8 +34,9 @@ public class PlayerServiceProxy implements IPlayerService
 	private static final String		PLAYER_MOVED		= "player.moved";
 	private String					_serviceUrlString	= "http://localhost:8080/player/" + PLAYER_NAME;
 	private Gson					_gson;
-	private Vector2					_oldPosition;
+	private Vector2					_lastSetPosition;													// TODO remove this variable
 	private ICoordinateConverter	_coordinateConverter;
+	private RemoteObject			_player;
 	
 	public PlayerServiceProxy(GoMessagingService messagingService, ICoordinateConverter coordinateConverter)
 	{
@@ -67,8 +69,23 @@ public class PlayerServiceProxy implements IPlayerService
 		// Getting message of own player
 		else
 		{
-			_oldPosition = _coordinateConverter.universeToWorld(Position.create(player.getX().getLightYears(), player.getY().getLightYears(), player.getX().getMeters(), player.getY().getMeters()));
+			_player = convertToPlayer(player);
+			
+			_lastSetPosition = _coordinateConverter.universeToWorld(_player.getPosition());
+			
+			PlayerCreated.fireEvent();
 		}
+	}
+	
+	private RemoteObject convertToPlayer(RemoteObjectDto player)
+	{
+		VectorDto vectorDto = player.getMovementVector();
+		Vector2 movementVector = new Vector2(vectorDto.getX(), vectorDto.getY());
+		
+		Position position = Position.create(player.getX().getLightYears(), player.getY().getLightYears(), player.getX().getMeters(), player.getY().getMeters());
+		
+		RemoteObject player2 = new RemoteObject(movementVector, player.getAssetFile(), position, player.getRotation());
+		return player2;
 	}
 	
 	private void gomsOnPlayerMoved(String data)
@@ -82,15 +99,7 @@ public class PlayerServiceProxy implements IPlayerService
 		// Getting message of own player
 		else
 		{
-			// Vector2 newPosition = _coordinateConverter.universeToWorld(Position.create(player.getX().getLightYears(), player.getY().getLightYears(), player.getX().getMeters(), player.getY().getMeters()));
-			// try
-			// {
-			// setPosition(newPosition);
-			// }
-			// catch (Exception e)
-			// {
-			// Logger.error("Could not set new player position", e);
-			// }
+			// TODO what to do here? Fireing events is to slow due to relatively low network speed.
 		}
 	}
 	
@@ -130,9 +139,9 @@ public class PlayerServiceProxy implements IPlayerService
 		if (connection.getResponseCode() == HttpStatus.SC_OK)
 		{
 			// TODO add real level name when implemented
-			Vector2 offset = new Vector2(player.getPosition().x - _oldPosition.x, player.getPosition().y - _oldPosition.y);
+			Vector2 offset = new Vector2(player.getPosition().x - _lastSetPosition.x, player.getPosition().y - _lastSetPosition.y);
 			
-			_oldPosition = player.getPosition();
+			_lastSetPosition = player.getPosition();
 			
 			PositionChanged.fireEvent(offset);
 		}
@@ -185,9 +194,9 @@ public class PlayerServiceProxy implements IPlayerService
 		if (connection.getResponseCode() == HttpStatus.SC_OK)
 		{
 			// TODO add real level name when implemented
-			Vector2 offset = new Vector2(newPosition.x - _oldPosition.x, newPosition.y - _oldPosition.y);
+			Vector2 offset = new Vector2(newPosition.x - _lastSetPosition.x, newPosition.y - _lastSetPosition.y);
 			
-			_oldPosition = newPosition;
+			_lastSetPosition = newPosition;
 			
 			PositionChanged.fireEvent(offset);
 		}

@@ -45,6 +45,11 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 		IPlayerService playerService = Locator.get(IPlayerService.class);
 		IRemoteObjectService remoteObjectService = Locator.get(IRemoteObjectService.class);
 		
+		playerService.PlayerCreated.add(() ->
+		{
+			System.out.println("Player created event fired :)");
+		});
+		
 		_camera = new OrthographicCamera(_width, _height);
 		
 		_viewport = new ScreenViewport(_camera);
@@ -68,7 +73,7 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 		_currentStage.addActor(_level);
 		
 		// _player.PositionChanged.add(position -> onPlayerPositionChanged(position));
-		playerService.PositionChanged.add(position -> onPlayerPositionChanged(position));
+		playerService.PositionChanged.add(offset -> onPlayerPositionChanged(offset));
 		onPlayerPositionChanged(new Vector2(0, 0));
 	}
 	

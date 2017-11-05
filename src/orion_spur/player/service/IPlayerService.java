@@ -1,18 +1,19 @@
 package orion_spur.player.service;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 
 import com.badlogic.gdx.math.Vector2;
 
 import juard.event.DataEvent;
+import juard.event.Event;
 import orion_spur.common.domainvalue.Position;
 import orion_spur.common.exception.HttpException;
 import orion_spur.level.material.LevelElement;
 
 public interface IPlayerService
 {
-	public DataEvent<Vector2> PositionChanged = new DataEvent<Vector2>();
+	public Event				PlayerCreated	= new Event();
+	public DataEvent<Vector2>	PositionChanged	= new DataEvent<Vector2>();
 	
 	void createPlayer() throws Exception;
 	
