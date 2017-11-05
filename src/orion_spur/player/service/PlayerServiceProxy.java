@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.stream.Collectors;
 
@@ -115,20 +114,14 @@ public class PlayerServiceProxy implements IPlayerService
 		Contract.NotNull(player);
 		
 		StringBuilder params = new StringBuilder(_serviceUrlString);
-
+		
 		URL url = new URL(params.toString());
 		
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		connection.setRequestMethod(HttpMethods.PUT);
 		connection.setDoOutput(true);
-		connection.setDoInput(true);
 		
-		RemoteObjectDto dto = new RemoteObjectDto(PLAYER_NAME,
-				player.getAssetPath(),
-				toVectorDto(player.getMovementVector()), 
-				toCoordinateDto(_coordinateConverter.worldToUniverse(player.getPosition()).getX()),
-				toCoordinateDto(_coordinateConverter.worldToUniverse(player.getPosition()).getY()),
-				player.getRotation());
+		RemoteObjectDto dto = new RemoteObjectDto(PLAYER_NAME, player.getAssetPath(), toVectorDto(player.getMovementVector()), toCoordinateDto(_coordinateConverter.worldToUniverse(player.getPosition()).getX()), toCoordinateDto(_coordinateConverter.worldToUniverse(player.getPosition()).getY()), player.getRotation());
 		
 		String data = _gson.toJson(dto);
 		
@@ -148,7 +141,7 @@ public class PlayerServiceProxy implements IPlayerService
 			throwHttpException(connection);
 		}
 	}
-
+	
 	private CoordinateDto toCoordinateDto(Coordinate coordinate)
 	{
 		return new CoordinateDto(coordinate.getLightYear(), coordinate.getMeter());
@@ -158,7 +151,7 @@ public class PlayerServiceProxy implements IPlayerService
 	{
 		return new VectorDto(vector.x, vector.y);
 	}
-
+	
 	@Override
 	@Deprecated
 	public void setPosition(Vector2 newPosition, float rotation) throws Exception
