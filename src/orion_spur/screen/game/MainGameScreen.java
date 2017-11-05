@@ -52,6 +52,7 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 		
 		_level = new LevelActor(levelService, Locator.get(IActorFactory.class), Locator.get(ICoordinateConverter.class), playerService);
 		
+		// TODO refactor this to first get the player and then create the main game screen
 		_playerLevelElement = new LevelElement(universeToWorld(levelService.getPosition("")), new Vector2(), 0, LayerType.LAYER_PLAYER, LevelType.PLAYER, "assets/textures/spaceship.png");
 		_player = (PlayerView) _level.addToLayer(_playerLevelElement);
 		

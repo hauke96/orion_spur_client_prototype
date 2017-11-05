@@ -12,11 +12,11 @@ import orion_spur.player.service.IPlayerService;
 
 public class LevelActor extends LayerActor
 {
-	private Position		_position;
-	private ILevelService	_levelService;
-	private Vector2			_size;
-	private IPlayerService _playService;
-	private ICoordinateConverter _coordinateConverter;
+	private Position				_position;
+	private ILevelService			_levelService;
+	private Vector2					_size;
+	private IPlayerService			_playService;
+	private ICoordinateConverter	_coordinateConverter;
 	
 	public LevelActor(ILevelService levelService, IActorFactory actorFactory, ICoordinateConverter coordinateConverter, IPlayerService playService)
 	{
@@ -26,7 +26,7 @@ public class LevelActor extends LayerActor
 		_levelService = levelService;
 		_coordinateConverter = coordinateConverter;
 		_playService = playService;
-
+		
 		// TODO add real level name when implemented
 		_position = _levelService.getPosition("");
 		_size = _levelService.getSizeInMeters("");
@@ -37,7 +37,7 @@ public class LevelActor extends LayerActor
 	public void loadLevelElements() throws RuntimeException, Exception
 	{
 		_levelService.getLevel("").forEach((levelElement) -> addToLayer(levelElement));
-
+		
 		// TODO add real level name when implemented
 		Vector2 levelWorldPosition = _coordinateConverter.universeToWorld(_levelService.getCenterPosition(""));
 		Vector2 playerWorldPosition = _coordinateConverter.universeToWorld(_playService.getPosition());

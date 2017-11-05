@@ -69,6 +69,7 @@ public class LayerActor extends Actor
 		Contract.Satisfy(_layerToScale.values().size() == LayerType.values().length);
 	}
 	
+	// TODO refactor this to also add level elements and an actor
 	public Actor addToLayer(LevelElement levelElement) throws RuntimeException
 	{
 		Contract.NotNull(levelElement);
