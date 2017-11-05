@@ -1,6 +1,5 @@
 package orion_spur.common.factory;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import juard.contract.Contract;
@@ -51,7 +50,6 @@ public class ActorFactoryImpl implements IActorFactory
 				setPosition(levelElement, result);
 				break;
 			case PLAYER:
-				_playerService.createPlayer();
 				ship = new SpaceShip(_unitConverter.convertFromWorld(3), _unitConverter.convertFromWorld(100), 250, levelElement.getRotation(), levelElement.getAssetPath());
 				result = new PlayerView(_playerService, _unitConverter, _coordinateConverter, levelElement, _coordinateConverter.universeToWorld(_playerService.getPosition()), ship);
 				break;

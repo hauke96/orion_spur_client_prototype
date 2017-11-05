@@ -1,5 +1,9 @@
 package orion_spur.screen.game;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -9,9 +13,11 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import juard.contract.Contract;
 import juard.injection.Locator;
+import juard.log.Logger;
 import orion_spur.common.converter.ICoordinateConverter;
 import orion_spur.common.converter.IUnitConverter;
 import orion_spur.common.domainvalue.Position;
+import orion_spur.common.exception.HttpException;
 import orion_spur.common.factory.IActorFactory;
 import orion_spur.common.service.LayerActor.LayerType;
 import orion_spur.level.domainvalue.LevelType;
@@ -45,11 +51,6 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 		IPlayerService playerService = Locator.get(IPlayerService.class);
 		IRemoteObjectService remoteObjectService = Locator.get(IRemoteObjectService.class);
 		
-		playerService.PlayerCreated.add(() ->
-		{
-			System.out.println("Player created event fired :)");
-		});
-		
 		_camera = new OrthographicCamera(_width, _height);
 		
 		_viewport = new ScreenViewport(_camera);
@@ -57,6 +58,35 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 		
 		_level = new LevelActor(levelService, Locator.get(IActorFactory.class), Locator.get(ICoordinateConverter.class), playerService);
 		
+		playerService.PlayerCreated.add(() ->
+		{
+			Gdx.app.postRunnable(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					try
+					{
+						initializeLevel(levelService, worldUnitsPerPixel, playerService, remoteObjectService);
+						
+						_currentStage = new Stage(_viewport);
+						_currentStage.addActor(_level);
+						
+						onPlayerPositionChanged(new Vector2(0, 0));
+					}
+					catch (Exception e)
+					{
+						Logger.fatal(e.getMessage());
+					}
+				}
+			});
+		});
+		
+		playerService.createPlayer();
+	}
+	
+	private void initializeLevel(ILevelService levelService, float worldUnitsPerPixel, IPlayerService playerService, IRemoteObjectService remoteObjectService) throws Exception, MalformedURLException, IOException, HttpException
+	{
 		// TODO refactor this to first get the player and then create the main game screen
 		_playerLevelElement = new LevelElement(universeToWorld(levelService.getPosition("")), new Vector2(), 0, LayerType.LAYER_PLAYER, LevelType.PLAYER, "assets/textures/spaceship.png");
 		_player = (PlayerView) _level.addToLayer(_playerLevelElement);
@@ -69,12 +99,8 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 			_level.addToLayer(levelElement);
 		}
 		
-		_currentStage = new Stage(_viewport);
-		_currentStage.addActor(_level);
-		
 		// _player.PositionChanged.add(position -> onPlayerPositionChanged(position));
 		playerService.PositionChanged.add(offset -> onPlayerPositionChanged(offset));
-		onPlayerPositionChanged(new Vector2(0, 0));
 	}
 	
 	private void onPlayerPositionChanged(Vector2 offset)
@@ -104,9 +130,12 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 	@Override
 	public void render(float delta)
 	{
-		_currentStage.act(delta);
-		
-		_currentStage.draw();
+		if (_currentStage != null)
+		{
+			_currentStage.act(delta);
+			
+			_currentStage.draw();
+		}
 	}
 	
 	@Override
