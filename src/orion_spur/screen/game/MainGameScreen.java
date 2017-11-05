@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import juard.contract.Contract;
+import juard.event.Event;
 import juard.injection.Locator;
 import juard.log.Logger;
 import orion_spur.common.converter.ICoordinateConverter;
@@ -32,6 +33,8 @@ import orion_spur.remoteObjects.material.RemoteObject;
 // TODO Extract Coordinate and unit converter
 public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConverter
 {
+	public Event MainScreenInitialized = new Event();
+	
 	private Stage	_currentStage;
 	private Camera	_camera;
 	
@@ -73,6 +76,8 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 						_currentStage.addActor(_level);
 						
 						onPlayerPositionChanged(new Vector2(0, 0));
+						
+						MainScreenInitialized.fireEvent();
 					}
 					catch (Exception e)
 					{
@@ -130,12 +135,9 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 	@Override
 	public void render(float delta)
 	{
-		if (_currentStage != null)
-		{
-			_currentStage.act(delta);
-			
-			_currentStage.draw();
-		}
+		_currentStage.act(delta);
+		
+		_currentStage.draw();
 	}
 	
 	@Override

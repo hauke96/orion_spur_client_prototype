@@ -3,13 +3,11 @@ package orion_spur.appcontext;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL30;
 
 import juard.injection.Locator;
 import juard.log.Logger;
 import orion_spur.level.service.ILevelService;
-import orion_spur.player.service.IPlayerService;
 import orion_spur.screen.game.MainGameScreen;
 import orion_spur.screen.mainmenu.MainMenuScreen;
 
@@ -32,11 +30,11 @@ public class OrionSpur extends Game implements ApplicationListener
 		MainMenuScreen screen = new MainMenuScreen();
 		screen.PlayButtonClicked.add(() ->
 		{
-			Screen newScreen;
 			try
 			{
-				newScreen = new MainGameScreen(Locator.get(ILevelService.class), _width, _height, WORLD_UNITS_PER_PIXEL);
-				setScreen(newScreen);
+				MainGameScreen newScreen = new MainGameScreen(Locator.get(ILevelService.class), _width, _height, WORLD_UNITS_PER_PIXEL);
+				// TODO show a loading screen here
+				newScreen.MainScreenInitialized.add(() -> setScreen(newScreen));
 			}
 			catch (Exception e)
 			{
