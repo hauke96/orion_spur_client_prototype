@@ -20,7 +20,7 @@ public class LayerActor extends Actor
 {
 	public enum LayerType
 	{
-		LAYER_BACKGROUND, LAYER_1_BEHIND, LAYER_0_BEHIND, LAYER_ANIMATION, LAYER_PLAYER, LAYER_0_BEFORE, LAYER_1_BEFORE
+		LAYER_BACKGROUND, LAYER_1_BEHIND, LAYER_0_BEHIND, LAYER_REMOTE_OBJECTS, LAYER_PLAYER, LAYER_ANIMATION, LAYER_0_BEFORE, LAYER_1_BEFORE
 	}
 	
 	private Map<LayerType, Set<Actor>>	_layers;
@@ -44,8 +44,9 @@ public class LayerActor extends Actor
 		_layers.put(LayerType.LAYER_1_BEHIND, new HashSet<>());
 		_layers.put(LayerType.LAYER_0_BEHIND, new HashSet<>());
 		
-		_layers.put(LayerType.LAYER_ANIMATION, new HashSet<>());
+		_layers.put(LayerType.LAYER_REMOTE_OBJECTS, new HashSet<>());
 		_layers.put(LayerType.LAYER_PLAYER, new HashSet<>());
+		_layers.put(LayerType.LAYER_ANIMATION, new HashSet<>());
 		
 		_layers.put(LayerType.LAYER_0_BEFORE, new HashSet<>());
 		_layers.put(LayerType.LAYER_1_BEFORE, new HashSet<>());
@@ -57,8 +58,9 @@ public class LayerActor extends Actor
 		_layerToScale.put(LayerType.LAYER_1_BEHIND, 0.4f);
 		_layerToScale.put(LayerType.LAYER_0_BEHIND, 0.75f);
 		
-		_layerToScale.put(LayerType.LAYER_ANIMATION, 1f);
+		_layerToScale.put(LayerType.LAYER_REMOTE_OBJECTS, 1f);
 		_layerToScale.put(LayerType.LAYER_PLAYER, 1f);
+		_layerToScale.put(LayerType.LAYER_ANIMATION, 1f);
 		
 		_layerToScale.put(LayerType.LAYER_0_BEFORE, 1.25f);
 		_layerToScale.put(LayerType.LAYER_1_BEFORE, 2f);
@@ -136,7 +138,7 @@ public class LayerActor extends Actor
 		for (LayerType type : LayerType.values())
 		{
 			// The player already got its offset
-			if (type != LayerType.LAYER_PLAYER && type != LayerType.LAYER_ANIMATION)
+			if (type != LayerType.LAYER_PLAYER && type != LayerType.LAYER_ANIMATION && type != LayerType.LAYER_REMOTE_OBJECTS)
 			{
 				moveLayer(offset, type);
 			}
