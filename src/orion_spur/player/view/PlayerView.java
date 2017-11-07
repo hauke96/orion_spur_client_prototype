@@ -92,6 +92,7 @@ public class PlayerView extends ImageActor
 		movementAdjustion.rotate(_ship.getRotationDegree());
 		
 		_ship.accelerateShipBy(movementAdjustion);
+		_levelElement.setMovementVector(_ship.getMovementVector());
 		
 		positionOfView.add(_ship.getMovementVector().x * delta / getScaleX(), _ship.getMovementVector().y * delta / getScaleY());
 		

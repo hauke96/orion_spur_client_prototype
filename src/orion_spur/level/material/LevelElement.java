@@ -79,6 +79,13 @@ public class LevelElement
 		
 		_position = newPosition;
 	}
+
+	public void setMovementVector(Vector2 newMovementVector)
+	{
+		Contract.NotNull(newMovementVector);
+		
+		_movementVector = newMovementVector;
+	}
 	
 	// TODO equals, hashcode
 }
