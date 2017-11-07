@@ -93,14 +93,15 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 	private void initializeLevel(ILevelService levelService, float worldUnitsPerPixel, IPlayerService playerService, IRemoteObjectService remoteObjectService) throws Exception, MalformedURLException, IOException, HttpException
 	{
 		// TODO refactor this to first get the player and then create the main game screen
-		_playerLevelElement = new LevelElement(universeToWorld(levelService.getPosition("")), new Vector2(), 0, LayerType.LAYER_PLAYER, LevelType.PLAYER, "assets/textures/spaceship.png");
+		_playerLevelElement = new LevelElement(playerService.getPlayer().getId(), universeToWorld(levelService.getPosition("")), new Vector2(), 0, LayerType.LAYER_PLAYER, LevelType.PLAYER, "assets/textures/spaceship.png");
 		_player = (PlayerView) _level.addToLayer(_playerLevelElement);
 		
 		_level.loadLevelElements();
 		
 		for (RemoteObject remoteObject : remoteObjectService.getAllObjectsForLevel(""))
 		{
-			LevelElement levelElement = new LevelElement(universeToWorld(remoteObject.getPosition()), remoteObject.getMovementVector(), remoteObject.getRotation(), LayerType.LAYER_REMOTE_OBJECTS, LevelType.REMOTE_OBJECT, remoteObject.getAssetFile());
+			Logger.debug("Add remote object '"+remoteObject.getId()+"'");
+			LevelElement levelElement = new LevelElement(remoteObject.getId(), universeToWorld(remoteObject.getPosition()), remoteObject.getMovementVector(), remoteObject.getRotation(), LayerType.LAYER_REMOTE_OBJECTS, LevelType.REMOTE_OBJECT, remoteObject.getAssetFile());
 			_level.addToLayer(levelElement);
 		}
 		

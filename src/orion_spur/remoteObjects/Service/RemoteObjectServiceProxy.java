@@ -94,7 +94,7 @@ public class RemoteObjectServiceProxy implements IRemoteObjectService
 			
 			float rotation = dto.getRotation();
 			
-			result.add(new RemoteObject(movementVector, assetFile, position, rotation));
+			result.add(new RemoteObject(dto.getName(), movementVector, assetFile, position, rotation));
 		}
 		
 		return result;

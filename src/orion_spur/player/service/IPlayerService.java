@@ -9,6 +9,7 @@ import juard.event.Event;
 import orion_spur.common.domainvalue.Position;
 import orion_spur.common.exception.HttpException;
 import orion_spur.level.material.LevelElement;
+import orion_spur.remoteObjects.material.RemoteObject;
 
 public interface IPlayerService
 {
@@ -22,6 +23,8 @@ public interface IPlayerService
 	void setPosition(LevelElement player) throws IOException, HttpException;
 	
 	Position getPosition() throws Exception;
+
+	RemoteObject getPlayer();
 	
 	// TODO getCenteredPosition
 }
