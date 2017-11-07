@@ -33,6 +33,11 @@ public class LevelElement
 		_assetPath = assetPath;
 	}
 	
+	public String getId()
+	{
+		return _id;
+	}
+	
 	public Vector2 getPosition()
 	{
 		return _position;
