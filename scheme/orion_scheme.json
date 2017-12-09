@@ -1,0 +1,119 @@
+{
+	"schemes":
+	[
+		{
+			"name":"CoordinateDto",
+			"properties":
+			[
+				{
+					"name":"LightYears",
+					"type":"long",
+					"constant":"true",
+					"collection":"false"
+				},
+				{
+					"name":"Meters",
+					"type":"long",
+					"constant":"true",
+					"collection":"false"
+				}
+			]
+		},
+		{
+			"name":"AbstractMaterialDto",
+			"properties":
+			[
+				{
+					"name": "ID",
+					"type": "IDDto",
+					"constant": true,
+					"collection": false
+				}
+			]
+		},
+		{
+			"name":"IDDto",
+			"properties":
+			[
+				{
+					"name": "Value",
+					"type": "string",
+					"constant": true,
+					"collection": false
+				}
+			]
+		},
+		{
+			"name":"RemoteObjectDto",
+			"properties":
+			[
+				{
+					"name": "Name",
+					"type": "string",
+					"constant": true,
+					"collection": false
+				},
+				{
+					"name": "AssetFile",
+					"type": "string",
+					"constant": true,
+					"collection": false
+				},
+				{
+					"name": "MovementVector",
+					"type": "VectorDto",
+					"constant": true,
+					"collection": false
+				},
+				{
+					"name": "X",
+					"type": "CoordinateDto",
+					"constant": true,
+					"collection": false
+				},
+				{
+					"name": "Y",
+					"type": "CoordinateDto",
+					"constant": true,
+					"collection": false
+				},
+				{
+					"name": "Rotation",
+					"type": "float",
+					"constant": true,
+					"collection": false
+				}
+			]
+		},
+		{
+			"name":"RemoteObjectListDto",
+			"properties":
+			[
+				{
+					"name": "RemoteObjectList",
+					"type": "RemoteObjectDto",
+					"constant": true,
+					"collection": true
+				}
+			]
+		},
+		{
+			"name":"VectorDto",
+			"properties":
+			[
+				{
+					"name": "X",
+					"type": "float",
+					"constant": true,
+					"collection": false
+				},
+				{
+					"name": "Y",
+					"type": "float",
+					"constant": true,
+					"collection": false
+				}
+			]
+		}
+	]
+}
