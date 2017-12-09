@@ -9,6 +9,7 @@ import orion_spur.common.converter.ICoordinateConverter;
 import orion_spur.common.domainvalue.Position;
 import orion_spur.common.exception.HttpException;
 import orion_spur.level.material.LevelElement;
+import orion_spur.remoteObjects.material.RemoteObject;
 
 public class PlayerServiceDummy implements IPlayerService
 {
@@ -41,6 +42,13 @@ public class PlayerServiceDummy implements IPlayerService
 	public Position getPosition()
 	{
 		return _playerPosition;
+	}
+	
+	@Override
+	public RemoteObject getPlayer()
+	{
+		//TODO reele Daten einfügen
+		return new RemoteObject("player", new Vector2(), "", _playerPosition, 0f);
 	}
 	
 	@Override

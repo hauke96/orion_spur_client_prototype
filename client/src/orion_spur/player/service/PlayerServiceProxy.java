@@ -84,7 +84,7 @@ public class PlayerServiceProxy implements IPlayerService
 		
 		Position position = Position.create(player.getX().getLightYears(), player.getY().getLightYears(), player.getX().getMeters(), player.getY().getMeters());
 		
-		RemoteObject player2 = new RemoteObject(movementVector, player.getAssetFile(), position, player.getRotation());
+		RemoteObject player2 = new RemoteObject(player.getName(), movementVector, player.getAssetFile(), position, player.getRotation());
 		return player2;
 	}
 	
@@ -231,6 +231,12 @@ public class PlayerServiceProxy implements IPlayerService
 		
 		// Java doen't seem to be able to detect, that throwHttpException always throws an exception.
 		return null;
+	}
+	
+	@Override
+	public RemoteObject getPlayer() {
+		Contract.NotNull(_player);
+		return _player;
 	}
 	
 	private void throwHttpException(HttpURLConnection connection) throws IOException, HttpException

@@ -1,5 +1,6 @@
 package orion_spur.common.service;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -23,7 +24,7 @@ public class LayerActor extends Actor
 		LAYER_BACKGROUND, LAYER_1_BEHIND, LAYER_0_BEHIND, LAYER_REMOTE_OBJECTS, LAYER_PLAYER, LAYER_ANIMATION, LAYER_0_BEFORE, LAYER_1_BEFORE
 	}
 	
-	private Map<LayerType, Set<Actor>>	_layers;
+	private Map<LayerType, HashMap<String, Actor>>	_layers;
 	private Map<LayerType, Float>		_layerToScale;
 	private IActorFactory				_actorFactory;
 	private ICoordinateConverter		_coordinateConverter;
@@ -37,19 +38,19 @@ public class LayerActor extends Actor
 		_actorFactory = actorFactory;
 		_coordinateConverter = coordinateConverter;
 		
-		_layers = new HashMap<LayerActor.LayerType, Set<Actor>>();
+		_layers = new HashMap<LayerActor.LayerType, HashMap<String, Actor>>();
 		
-		_layers.put(LayerType.LAYER_BACKGROUND, new HashSet<>());
+		_layers.put(LayerType.LAYER_BACKGROUND, new HashMap<>());
 		
-		_layers.put(LayerType.LAYER_1_BEHIND, new HashSet<>());
-		_layers.put(LayerType.LAYER_0_BEHIND, new HashSet<>());
+		_layers.put(LayerType.LAYER_1_BEHIND, new HashMap<>());
+		_layers.put(LayerType.LAYER_0_BEHIND, new HashMap<>());
 		
-		_layers.put(LayerType.LAYER_REMOTE_OBJECTS, new HashSet<>());
-		_layers.put(LayerType.LAYER_PLAYER, new HashSet<>());
-		_layers.put(LayerType.LAYER_ANIMATION, new HashSet<>());
+		_layers.put(LayerType.LAYER_REMOTE_OBJECTS, new HashMap<>());
+		_layers.put(LayerType.LAYER_PLAYER, new HashMap<>());
+		_layers.put(LayerType.LAYER_ANIMATION, new HashMap<>());
 		
-		_layers.put(LayerType.LAYER_0_BEFORE, new HashSet<>());
-		_layers.put(LayerType.LAYER_1_BEFORE, new HashSet<>());
+		_layers.put(LayerType.LAYER_0_BEFORE, new HashMap<>());
+		_layers.put(LayerType.LAYER_1_BEFORE, new HashMap<>());
 		
 		_layerToScale = new HashMap<LayerActor.LayerType, Float>();
 		
@@ -94,9 +95,9 @@ public class LayerActor extends Actor
 			actor.setScale(_layerToScale.get(levelElement.getLayer()));
 		}
 		
-		Set<Actor> layer = _layers.get(levelElement.getLayer());
+		Map<String, Actor> layer = _layers.get(levelElement.getLayer());
 		
-		layer.add(actor);
+		layer.put(levelElement.getId(), actor);
 		
 		Contract.NotNull(actor);
 		return actor;
@@ -104,7 +105,7 @@ public class LayerActor extends Actor
 	
 	public boolean hasPlayer()
 	{
-		Set<Actor> layer = _layers.get(LayerType.LAYER_PLAYER);
+		Map<String, Actor> layer = _layers.get(LayerType.LAYER_PLAYER);
 		
 		return layer != null && layer.size() != 0;
 	}
@@ -114,7 +115,7 @@ public class LayerActor extends Actor
 	{
 		for (LayerType type : LayerType.values())
 		{
-			for (Actor actor : _layers.get(type))
+			for (Actor actor : _layers.get(type).values())
 			{
 				actor.draw(batch, parentAlpha);
 			}
@@ -126,7 +127,7 @@ public class LayerActor extends Actor
 	{
 		for (LayerType type : LayerType.values())
 		{
-			for (Actor actor : _layers.get(type))
+			for (Actor actor : _layers.get(type).values())
 			{
 				actor.act(delta);
 			}
@@ -162,10 +163,10 @@ public class LayerActor extends Actor
 			scale = 1 - scale;
 		}
 		
-		move(_layers.get(type), new Vector2(offset.x * scale, offset.y * scale));
+		move(_layers.get(type).values(), new Vector2(offset.x * scale, offset.y * scale));
 	}
 	
-	private void move(Set<Actor> actors, Vector2 offset)
+	private void move(Collection<Actor> actors, Vector2 offset)
 	{
 		for (Actor actor : actors)
 		{
