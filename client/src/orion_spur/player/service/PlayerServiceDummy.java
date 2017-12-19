@@ -47,7 +47,7 @@ public class PlayerServiceDummy implements IPlayerService
 	@Override
 	public RemoteObject getPlayer()
 	{
-		//TODO reele Daten einfügen
+		// TODO reele Daten einfügen
 		return new RemoteObject("player", new Vector2(), "", _playerPosition, 0f);
 	}
 	
@@ -55,9 +55,10 @@ public class PlayerServiceDummy implements IPlayerService
 	public void createPlayer() throws Exception
 	{
 	}
-
+	
 	@Override
-	public void setPosition(LevelElement player) throws IOException, HttpException {
+	public void setPosition(LevelElement player) throws IOException, HttpException
+	{
 		// TODO Implement method
 		throw new RuntimeException("NOT IMPLEMENTED");
 	}

@@ -8,7 +8,7 @@ import orion_spur.level.domainvalue.LevelType;
 
 public class LevelElement
 {
-	private String 		_id;
+	private String		_id;
 	private Vector2		_position;
 	private float		_rotation;
 	private LayerType	_layer;
@@ -20,7 +20,7 @@ public class LevelElement
 	{
 		Contract.NotNull(id);
 		Contract.NotNull(position);
-		Contract.NotNull(movementVector);		
+		Contract.NotNull(movementVector);
 		Contract.NotNull(assetPath);
 		
 		_id = id;
@@ -66,19 +66,19 @@ public class LevelElement
 	{
 		return new Vector2(_movementVector.x, _movementVector.y);
 	}
-
+	
 	public void setRotation(float newRotation)
 	{
 		_rotation = newRotation;
 	}
-
+	
 	public void setPosition(Vector2 newPosition)
 	{
 		Contract.NotNull(newPosition);
 		
 		_position = newPosition;
 	}
-
+	
 	public void setMovementVector(Vector2 newMovementVector)
 	{
 		Contract.NotNull(newMovementVector);

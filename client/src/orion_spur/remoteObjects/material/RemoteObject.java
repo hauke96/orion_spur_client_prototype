@@ -7,7 +7,7 @@ import orion_spur.common.domainvalue.Position;
 
 public class RemoteObject
 {
-	private String 		_id;
+	private String		_id;
 	private Vector2		_movementVector;
 	private String		_assetFile;
 	private Position	_position;
