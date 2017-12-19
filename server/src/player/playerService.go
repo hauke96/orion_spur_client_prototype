@@ -5,8 +5,8 @@ import (
 	"errors"
 	"goms4go"
 	"orion_spur_server_prototype/src/common"
+	"orion_spur_server_prototype/src/generated"
 	"orion_spur_server_prototype/src/logger"
-	"orion_spur_server_prototype/src/material"
 )
 
 type PlayerService struct {
@@ -22,13 +22,13 @@ func (service *PlayerService) Init(messagingService *goms4go.GomsClient, playerD
 func (service *PlayerService) CreatePlayer(name string) error {
 	logger.Info("Called CreatePlayer with name '" + name + "'")
 
-	p := &material.RemoteObjectDto{
+	p := &generated.RemoteObjectDto{
 		//0, -23013, 600, -6467355351055975L
-		X:              material.NewCoordinateDto(0, 600),
-		Y:              material.NewCoordinateDto(-23013, -6467355351055975),
+		X:              generated.NewCoordinateDto(0, 600),
+		Y:              generated.NewCoordinateDto(-23013, -6467355351055975),
 		Name:           name,
 		Rotation:       0,
-		MovementVector: material.NewVectorDto(0, 0),
+		MovementVector: generated.NewVectorDto(0, 0),
 		AssetFile:      "assets/textures/spaceship.png",
 	}
 
@@ -41,7 +41,7 @@ func (service *PlayerService) CreatePlayer(name string) error {
 	return err
 }
 
-func (service *PlayerService) GetPlayer(name string) (*material.RemoteObjectDto, error) {
+func (service *PlayerService) GetPlayer(name string) (*generated.RemoteObjectDto, error) {
 	logger.Info("Called GetPlayer with name '" + name + "'")
 
 	player, err := service.dao.GetPlayer(name)
@@ -53,13 +53,13 @@ func (service *PlayerService) GetPlayer(name string) (*material.RemoteObjectDto,
 	return player, nil
 }
 
-func (service *PlayerService) GetAllPlayer() []*material.RemoteObjectDto {
+func (service *PlayerService) GetAllPlayer() []*generated.RemoteObjectDto {
 	logger.Info("Called GetAllPlayer")
 
 	return service.dao.GetAllPlayer()
 }
 
-func (service *PlayerService) SetPlayerPosition(name string, x material.CoordinateDto, y material.CoordinateDto, movementVector material.VectorDto, rotation float32) error {
+func (service *PlayerService) SetPlayerPosition(name string, x generated.CoordinateDto, y generated.CoordinateDto, movementVector generated.VectorDto, rotation float32) error {
 	logger.Info("Called SetPlayerPosition with name '" + name + "'")
 
 	p, err := service.dao.GetPlayer(name)
@@ -77,7 +77,7 @@ func (service *PlayerService) SetPlayerPosition(name string, x material.Coordina
 	return err
 }
 
-func (service *PlayerService) sendPlayer(player *material.RemoteObjectDto, topic string) error {
+func (service *PlayerService) sendPlayer(player *generated.RemoteObjectDto, topic string) error {
 	data, err := json.Marshal(*player)
 
 	if err != nil {

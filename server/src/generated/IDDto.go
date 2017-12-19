@@ -1,4 +1,4 @@
-package material
+package generated
 
 type IDDto struct {
 	Value  string `json:"Value"`

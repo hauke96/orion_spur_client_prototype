@@ -1,4 +1,4 @@
-package material
+package generated
 
 type CoordinateDto struct {
 	LightYears  int64 `json:"LightYears"`

@@ -1,4 +1,4 @@
-package material
+package generated
 
 type VectorDto struct {
 	X  float32 `json:"X"`

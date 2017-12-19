@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"orion_spur_server_prototype/src/generated"
 	"orion_spur_server_prototype/src/logger"
-	"orion_spur_server_prototype/src/material"
 	"orion_spur_server_prototype/src/player"
 	"orion_spur_server_prototype/src/remoteObject"
 	"os"
@@ -40,7 +40,7 @@ func main() {
 	//	playerService.CreatePlayer("2")
 
 	//	p1, _ := playerService.GetPlayer("1")
-	//	playerService.SetPlayerPosition("1", material.CoordinateDto{LightYears: 0, Meters: 650}, p1.GetY())
+	//	playerService.SetPlayerPosition("1", generated.CoordinateDto{LightYears: 0, Meters: 650}, p1.GetY())
 
 	remoteObjectDao := &remoteObject.LocalRemoteObjectDao{}
 	remoteObjectDao.Init(playerDao)
@@ -96,7 +96,7 @@ func getPlayerHandler(w http.ResponseWriter, r *http.Request) {
 func updatePlayerHandler(w http.ResponseWriter, r *http.Request) {
 	logger.Info("Called updatePlayer")
 
-	player := &material.RemoteObjectDto{}
+	player := &generated.RemoteObjectDto{}
 	json.NewDecoder(r.Body).Decode(player)
 
 	logger.Info(fmt.Sprintf("%v", player.MovementVector))

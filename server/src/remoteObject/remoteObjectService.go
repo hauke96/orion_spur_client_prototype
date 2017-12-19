@@ -1,8 +1,8 @@
 package remoteObject
 
 import (
+	"orion_spur_server_prototype/src/generated"
 	"orion_spur_server_prototype/src/logger"
-	"orion_spur_server_prototype/src/material"
 )
 
 type RemoteObjectService struct {
@@ -13,7 +13,7 @@ func (service *RemoteObjectService) Init(dao *LocalRemoteObjectDao) {
 	service.dao = dao
 }
 
-func (service *RemoteObjectService) GetAll() *material.RemoteObjectListDto {
+func (service *RemoteObjectService) GetAll() *generated.RemoteObjectListDto {
 	logger.Info("Called GetAll")
 
 	return service.dao.GetAll()

@@ -1,4 +1,4 @@
-package material
+package generated
 
 type AbstractMaterialDto struct {
 	ID  IDDto `json:"ID"`

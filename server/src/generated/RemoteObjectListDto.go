@@ -1,4 +1,4 @@
-package material
+package generated
 
 type RemoteObjectListDto struct {
 	RemoteObjectList  []RemoteObjectDto `json:"RemoteObjectList"`

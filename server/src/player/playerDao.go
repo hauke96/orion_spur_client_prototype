@@ -3,19 +3,19 @@ package player
 import (
 	"errors"
 	"fmt"
+	"orion_spur_server_prototype/src/generated"
 	"orion_spur_server_prototype/src/logger"
-	"orion_spur_server_prototype/src/material"
 )
 
 type LocalPlayerDao struct {
-	players map[string]*material.RemoteObjectDto
+	players map[string]*generated.RemoteObjectDto
 }
 
 func (dao *LocalPlayerDao) Init() {
-	dao.players = make(map[string]*material.RemoteObjectDto)
+	dao.players = make(map[string]*generated.RemoteObjectDto)
 }
 
-func (dao *LocalPlayerDao) CreatePlayer(player *material.RemoteObjectDto) error {
+func (dao *LocalPlayerDao) CreatePlayer(player *generated.RemoteObjectDto) error {
 	_, err := dao.GetPlayer(player.Name)
 
 	if err != nil {
@@ -26,7 +26,7 @@ func (dao *LocalPlayerDao) CreatePlayer(player *material.RemoteObjectDto) error 
 	return errors.New("Player " + player.Name + " already exists")
 }
 
-func (dao *LocalPlayerDao) GetPlayer(name string) (*material.RemoteObjectDto, error) {
+func (dao *LocalPlayerDao) GetPlayer(name string) (*generated.RemoteObjectDto, error) {
 	player := dao.players[name]
 
 	var err error
@@ -38,8 +38,8 @@ func (dao *LocalPlayerDao) GetPlayer(name string) (*material.RemoteObjectDto, er
 	return player, err
 }
 
-func (dao *LocalPlayerDao) GetAllPlayer() []*material.RemoteObjectDto {
-	result := make([]*material.RemoteObjectDto, len(dao.players))
+func (dao *LocalPlayerDao) GetAllPlayer() []*generated.RemoteObjectDto {
+	result := make([]*generated.RemoteObjectDto, len(dao.players))
 
 	i := 0
 	for _, v := range dao.players {
@@ -52,7 +52,7 @@ func (dao *LocalPlayerDao) GetAllPlayer() []*material.RemoteObjectDto {
 	return result
 }
 
-func (dao *LocalPlayerDao) SetPlayerPosition(name string, newXPosition material.CoordinateDto, newYPosition material.CoordinateDto, newMovementVector material.VectorDto, rotation float32) error {
+func (dao *LocalPlayerDao) SetPlayerPosition(name string, newXPosition generated.CoordinateDto, newYPosition generated.CoordinateDto, newMovementVector generated.VectorDto, rotation float32) error {
 	player, err := dao.GetPlayer(name)
 
 	if err != nil {
@@ -61,8 +61,8 @@ func (dao *LocalPlayerDao) SetPlayerPosition(name string, newXPosition material.
 
 	logger.Debug(fmt.Sprintf("%v", player))
 
-	player.X = material.CoordinateDto{LightYears: newXPosition.LightYears, Meters: newXPosition.Meters}
-	player.Y = material.CoordinateDto{LightYears: newYPosition.LightYears, Meters: newYPosition.Meters}
+	player.X = generated.CoordinateDto{LightYears: newXPosition.LightYears, Meters: newXPosition.Meters}
+	player.Y = generated.CoordinateDto{LightYears: newYPosition.LightYears, Meters: newYPosition.Meters}
 	player.Rotation = rotation
 	player.MovementVector = newMovementVector
 

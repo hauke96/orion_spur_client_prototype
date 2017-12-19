@@ -1,4 +1,4 @@
-package material
+package generated
 
 type RemoteObjectDto struct {
 	Name  string `json:"Name"`
