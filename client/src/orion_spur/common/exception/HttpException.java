@@ -1,7 +1,5 @@
 package orion_spur.common.exception;
 
-import com.badlogic.gdx.net.HttpStatus;
-
 import juard.contract.Contract;
 
 public class HttpException extends Exception {

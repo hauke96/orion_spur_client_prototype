@@ -21,9 +21,9 @@ import orion_spur.common.converter.ICoordinateConverter;
 import orion_spur.common.domainvalue.Coordinate;
 import orion_spur.common.domainvalue.Position;
 import orion_spur.common.exception.HttpException;
-import orion_spur.common.material.CoordinateDto;
-import orion_spur.common.material.RemoteObjectDto;
-import orion_spur.common.material.VectorDto;
+import orion_spur.common.generated.CoordinateDto;
+import orion_spur.common.generated.RemoteObjectDto;
+import orion_spur.common.generated.VectorDto;
 import orion_spur.level.material.LevelElement;
 import orion_spur.remoteObjects.material.RemoteObject;
 
@@ -234,7 +234,8 @@ public class PlayerServiceProxy implements IPlayerService
 	}
 	
 	@Override
-	public RemoteObject getPlayer() {
+	public RemoteObject getPlayer()
+	{
 		Contract.NotNull(_player);
 		return _player;
 	}

@@ -2,9 +2,7 @@ package orion_spur.common.service;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
@@ -25,10 +23,10 @@ public class LayerActor extends Actor
 	}
 	
 	private Map<LayerType, HashMap<String, Actor>>	_layers;
-	private Map<LayerType, Float>		_layerToScale;
-	private IActorFactory				_actorFactory;
-	private ICoordinateConverter		_coordinateConverter;
-	private Vector2						_lastKnownPlayerPosition;
+	private Map<LayerType, Float>					_layerToScale;
+	private IActorFactory							_actorFactory;
+	private ICoordinateConverter					_coordinateConverter;
+	private Vector2									_lastKnownPlayerPosition;
 	
 	public LayerActor(IActorFactory actorFactory, ICoordinateConverter coordinateConverter)
 	{

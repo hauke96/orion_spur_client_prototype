@@ -3,7 +3,6 @@ package orion_spur.remoteObjects.View;
 import com.badlogic.gdx.math.Vector2;
 
 import juard.contract.Contract;
-import juard.log.Logger;
 import orion_spur.common.converter.ICoordinateConverter;
 import orion_spur.common.view.ImageActor;
 import orion_spur.level.material.LevelElement;

@@ -23,7 +23,7 @@ public interface IPlayerService
 	void setPosition(LevelElement player) throws IOException, HttpException;
 	
 	Position getPosition() throws Exception;
-
+	
 	RemoteObject getPlayer();
 	
 	// TODO getCenteredPosition

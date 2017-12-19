@@ -3,7 +3,6 @@ package orion_spur.level.material;
 import com.badlogic.gdx.math.Vector2;
 
 import juard.contract.Contract;
-import orion_spur.common.domainvalue.Position;
 import orion_spur.common.service.LayerActor.LayerType;
 import orion_spur.level.domainvalue.LevelType;
 

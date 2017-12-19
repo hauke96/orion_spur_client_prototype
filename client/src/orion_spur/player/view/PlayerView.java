@@ -8,7 +8,6 @@ import juard.contract.Contract;
 import juard.log.Logger;
 import orion_spur.common.converter.ICoordinateConverter;
 import orion_spur.common.converter.IUnitConverter;
-import orion_spur.common.domainvalue.Position;
 import orion_spur.common.view.ImageActor;
 import orion_spur.level.material.LevelElement;
 import orion_spur.player.service.IPlayerService;
@@ -21,7 +20,7 @@ public class PlayerView extends ImageActor
 	private ICoordinateConverter _coordinateConverter;
 	
 	private SpaceShip _ship;
-
+	
 	private LevelElement _levelElement;
 	
 	public PlayerView(IPlayerService playerService, IUnitConverter unitConverter, ICoordinateConverter coordinateConverter, LevelElement levelElement, Vector2 positionInLevel, SpaceShip ship)

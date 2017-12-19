@@ -1,6 +1,4 @@
-package orion_spur.common.material;
-
-import java.util.List;
+package orion_spur.common.generated;
 
 public class IDDto 
 {

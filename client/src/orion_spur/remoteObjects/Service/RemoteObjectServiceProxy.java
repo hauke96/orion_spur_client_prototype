@@ -21,8 +21,8 @@ import juard.contract.Contract;
 import juard.log.Logger;
 import orion_spur.common.domainvalue.Position;
 import orion_spur.common.exception.HttpException;
-import orion_spur.common.material.RemoteObjectDto;
-import orion_spur.common.material.RemoteObjectListDto;
+import orion_spur.common.generated.RemoteObjectDto;
+import orion_spur.common.generated.RemoteObjectListDto;
 import orion_spur.remoteObjects.material.RemoteObject;
 
 public class RemoteObjectServiceProxy implements IRemoteObjectService

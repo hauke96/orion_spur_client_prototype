@@ -1,4 +1,4 @@
-package orion_spur.common.material;
+package orion_spur.common.generated;
 
 import java.util.List;
 
