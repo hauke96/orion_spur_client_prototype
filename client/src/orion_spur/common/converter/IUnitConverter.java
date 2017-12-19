@@ -3,7 +3,8 @@ package orion_spur.common.converter;
 public interface IUnitConverter
 {
 	/**
-	 * Takes the value (e.g. an x-coordinate) and projects it into the world unit scale.
+	 * Takes the value (e.g. an x-coordinate) and projects it into the world unit
+	 * scale.
 	 * 
 	 * @param value
 	 *            The value to convert.
@@ -12,7 +13,8 @@ public interface IUnitConverter
 	float convertToWorld(float value);
 	
 	/**
-	 * Takes the world value (e.g. an x-coordinate) and projects it into the libgdx unit scale.
+	 * Takes the world value (e.g. an x-coordinate) and projects it into the libgdx
+	 * unit scale.
 	 * 
 	 * @param value
 	 *            The value to convert.

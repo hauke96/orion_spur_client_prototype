@@ -99,7 +99,8 @@ public class PlayerServiceProxy implements IPlayerService
 		// Getting message of own player
 		else
 		{
-			// TODO what to do here? Fireing events is to slow due to relatively low network speed.
+			// TODO what to do here? Fireing events is to slow due to relatively low network
+			// speed.
 		}
 	}
 	
@@ -130,7 +131,8 @@ public class PlayerServiceProxy implements IPlayerService
 		connection.setRequestMethod(HttpMethods.PUT);
 		connection.setDoOutput(true);
 		
-		RemoteObjectDto dto = new RemoteObjectDto(PLAYER_NAME, player.getAssetPath(), toVectorDto(player.getMovementVector()), toCoordinateDto(_coordinateConverter.worldToUniverse(player.getPosition()).getX()), toCoordinateDto(_coordinateConverter.worldToUniverse(player.getPosition()).getY()), player.getRotation());
+		RemoteObjectDto dto =
+		        new RemoteObjectDto(PLAYER_NAME, player.getAssetPath(), toVectorDto(player.getMovementVector()), toCoordinateDto(_coordinateConverter.worldToUniverse(player.getPosition()).getX()), toCoordinateDto(_coordinateConverter.worldToUniverse(player.getPosition()).getY()), player.getRotation());
 		
 		String data = _gson.toJson(dto);
 		
@@ -229,7 +231,8 @@ public class PlayerServiceProxy implements IPlayerService
 			throwHttpException(connection);
 		}
 		
-		// Java doen't seem to be able to detect, that throwHttpException always throws an exception.
+		// Java doen't seem to be able to detect, that throwHttpException always throws
+		// an exception.
 		return null;
 	}
 	

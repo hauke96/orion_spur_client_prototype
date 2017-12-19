@@ -75,8 +75,7 @@ public class Coordinate
 		
 		Coordinate other = (Coordinate) obj;
 		
-		return _lightYear == other._lightYear &&
-		        _meter == other._meter;
+		return _lightYear == other._lightYear && _meter == other._meter;
 	}
 	
 	@Override

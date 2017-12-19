@@ -65,7 +65,8 @@ public class MainMenuScreen implements Screen
 		
 		_outer = new Table();
 		_outer.setFillParent(true);
-		_outer.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("assets/textures/milkyway.jpg")))));
+		_outer.setBackground(new TextureRegionDrawable(
+		        new TextureRegion(new Texture(Gdx.files.internal("assets/textures/milkyway.jpg")))));
 		
 		Table inner = new Table();
 		inner.pad(20);

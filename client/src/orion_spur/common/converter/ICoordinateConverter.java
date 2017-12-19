@@ -16,7 +16,8 @@ public interface ICoordinateConverter
 	Vector2 screenToWorld(Vector2 position);
 	
 	/**
-	 * Converts the position in the level (=world position) into the position in the universe.
+	 * Converts the position in the level (=world position) into the position in the
+	 * universe.
 	 * 
 	 * @param position
 	 *            The position in the level in meters.
@@ -25,7 +26,8 @@ public interface ICoordinateConverter
 	Position worldToUniverse(Vector2 position);
 	
 	/**
-	 * Converts the position in the level in meters into the screen position in pixel.
+	 * Converts the position in the level in meters into the screen position in
+	 * pixel.
 	 * 
 	 * @param position
 	 *            Position in the level in meters.
@@ -40,7 +42,8 @@ public interface ICoordinateConverter
 	 *            The universe-position.
 	 * @return The position in the level in meters.
 	 * @throws Exception
-	 *             Will be thrown when the position to check is too far away from the actual level position.
+	 *             Will be thrown when the position to check is too far away from
+	 *             the actual level position.
 	 */
 	Vector2 universeToWorld(Position position) throws RuntimeException;
 }

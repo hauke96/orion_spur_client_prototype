@@ -38,8 +38,9 @@ public class Position
 	}
 	
 	/**
-	 * Creates a coordinate object after converting negative or too large meter values into light years.
-	 * This means, that the coordinate returning may not have exactly the same values as given here.
+	 * Creates a coordinate object after converting negative or too large meter
+	 * values into light years. This means, that the coordinate returning may not
+	 * have exactly the same values as given here.
 	 * 
 	 * @param lightYear
 	 *            Amount of light years.
@@ -52,7 +53,8 @@ public class Position
 		long lightYearsInMeterPart = meter / LIGHTYEAR_IN_METERS;
 		long actualMeterPart = meter % LIGHTYEAR_IN_METERS;
 		
-		// only (-1,-1) or (1,1) but not (1,-1) is allowed: Positive Ly -> positive meter. Negative Ly -> negative meter
+		// only (-1,-1) or (1,1) but not (1,-1) is allowed: Positive Ly -> positive
+		// meter. Negative Ly -> negative meter
 		if (lightYear > 0 && meter < 0)
 		{
 			lightYear -= lightYearsInMeterPart;
@@ -61,7 +63,8 @@ public class Position
 			{
 				if (actualMeterPart != 0)
 				{
-					// remove the left over negative part. This means subtracting one of the lightYear and filling the rest with meters.
+					// remove the left over negative part. This means subtracting one of the
+					// lightYear and filling the rest with meters.
 					lightYear--;
 					meter = LIGHTYEAR_IN_METERS - Math.abs(actualMeterPart);
 				}
@@ -79,7 +82,8 @@ public class Position
 			{
 				if (actualMeterPart != 0)
 				{
-					// remove the left over negative part. This means subtracting one of the lightYear and filling the rest with meters.
+					// remove the left over negative part. This means subtracting one of the
+					// lightYear and filling the rest with meters.
 					lightYear++;
 					meter = -LIGHTYEAR_IN_METERS + Math.abs(actualMeterPart);
 				}
@@ -124,8 +128,7 @@ public class Position
 		
 		Position other = (Position) obj;
 		
-		return getX().equals(other.getX()) &&
-		        getY().equals(other.getY());
+		return getX().equals(other.getX()) && getY().equals(other.getY());
 	}
 	
 	@Override
@@ -135,7 +138,8 @@ public class Position
 	}
 	
 	/**
-	 * Adds the given position and creates a new position object. This is like vector addition.
+	 * Adds the given position and creates a new position object. This is like
+	 * vector addition.
 	 * 
 	 * @param position
 	 *            The position to add.
@@ -153,7 +157,8 @@ public class Position
 	}
 	
 	/**
-	 * Subtracts the given position and creates a new position object. This is like vector subtraction.
+	 * Subtracts the given position and creates a new position object. This is like
+	 * vector subtraction.
 	 * 
 	 * @param position
 	 *            The position to subtract.

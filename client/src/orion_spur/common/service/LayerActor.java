@@ -74,7 +74,8 @@ public class LayerActor extends Actor
 	public Actor addToLayer(LevelElement levelElement) throws RuntimeException
 	{
 		Contract.NotNull(levelElement);
-		Contract.Satisfy(levelElement.getLayer() != LayerType.LAYER_PLAYER || levelElement.getLayer() == LayerType.LAYER_PLAYER && !hasPlayer());
+		Contract.Satisfy(levelElement.getLayer() != LayerType.LAYER_PLAYER
+		        || levelElement.getLayer() == LayerType.LAYER_PLAYER && !hasPlayer());
 		// TODO contract: !hasLevelElement()
 		
 		Actor actor = new Actor();
@@ -87,7 +88,8 @@ public class LayerActor extends Actor
 			Logger.error("Error converting level element!", e);
 		}
 		
-		// Even if the background is the most far away layer, it'll not be scales, but moves slower
+		// Even if the background is the most far away layer, it'll not be scales, but
+		// moves slower
 		if (levelElement.getLayer() != LayerType.LAYER_BACKGROUND)
 		{
 			actor.setScale(_layerToScale.get(levelElement.getLayer()));
@@ -137,7 +139,8 @@ public class LayerActor extends Actor
 		for (LayerType type : LayerType.values())
 		{
 			// The player already got its offset
-			if (type != LayerType.LAYER_PLAYER && type != LayerType.LAYER_ANIMATION && type != LayerType.LAYER_REMOTE_OBJECTS)
+			if (type != LayerType.LAYER_PLAYER && type != LayerType.LAYER_ANIMATION
+			        && type != LayerType.LAYER_REMOTE_OBJECTS)
 			{
 				moveLayer(offset, type);
 			}
@@ -148,14 +151,12 @@ public class LayerActor extends Actor
 	{
 		float scale = _layerToScale.get(type);
 		
-		if (type == LayerType.LAYER_0_BEFORE
-		        || type == LayerType.LAYER_1_BEFORE)
+		if (type == LayerType.LAYER_0_BEFORE || type == LayerType.LAYER_1_BEFORE)
 		{
 			// Negate, because otherwise the image will move in the opposite direction.
 			scale *= -1;
 		}
-		else if (type == LayerType.LAYER_0_BEHIND
-		        || type == LayerType.LAYER_1_BEHIND)
+		else if (type == LayerType.LAYER_0_BEHIND || type == LayerType.LAYER_1_BEHIND)
 		{
 			// Negate, because otherwise the image will move in the opposite direction.
 			scale = 1 - scale;
