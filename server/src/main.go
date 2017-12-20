@@ -122,7 +122,28 @@ func getAllPlayerHandler(w http.ResponseWriter, r *http.Request) {
 func getAllRemoteObjects(w http.ResponseWriter, r *http.Request) {
 	logger.Info("Called getAll remote objects")
 
-	objects := remoteObjectService.GetAll()
+	array := remoteObjectService.GetAll()
+
+	// TODO: make converter for this
+	dtos := make([]generated.RemoteObjectDto, len(*array), len(*array))
+
+	for i, v := range *array {
+		movementVector := generated.NewVectorDto(v.MovementVector.X, v.MovementVector.Y)
+
+		x := generated.NewCoordinateDto(v.X.LightYears, v.X.Meters)
+		y := generated.NewCoordinateDto(v.Y.LightYears, v.Y.Meters)
+
+		dtos[i] = generated.RemoteObjectDto{
+			Name:           v.Name,
+			AssetFile:      v.AssetFile,
+			MovementVector: movementVector,
+			X:              x,
+			Y:              y,
+			Rotation:       v.Rotation,
+		}
+	}
+
+	objects := generated.NewRemoteObjectListDto(dtos)
 
 	encoder := json.NewEncoder(w)
 	encoder.Encode(objects)

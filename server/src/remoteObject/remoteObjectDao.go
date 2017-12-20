@@ -1,7 +1,7 @@
 package remoteObject
 
 import (
-	"generated"
+	"common"
 	"player"
 )
 
@@ -13,17 +13,28 @@ func (dao *LocalRemoteObjectDao) Init(playerDao *player.LocalPlayerDao) {
 	dao.playerDao = playerDao
 }
 
-func (dao *LocalRemoteObjectDao) GetAll() *generated.RemoteObjectListDto {
-	list := []generated.RemoteObjectDto{}
+func (dao *LocalRemoteObjectDao) GetAll() *[]RemoteObject {
+	list := []RemoteObject{}
 
 	for _, v := range dao.playerDao.GetAllPlayer() {
-		dto := generated.NewRemoteObjectDto(v.GetName(), "assets/textures/spaceship.png", v.GetMovementVector(), v.GetX(), v.GetY(), v.GetRotation())
+		vec := common.Vector{
+			X: v.GetMovementVector().GetX(),
+			Y: v.GetMovementVector().GetY(),
+		}
+
+		x := common.Coordinate{
+			LightYears: v.GetX().GetLightYears(),
+			Meters:     v.GetX().GetMeters(),
+		}
+
+		y := common.Coordinate{
+			LightYears: v.GetY().GetLightYears(),
+			Meters:     v.GetY().GetMeters(),
+		}
+
+		dto := RemoteObject{Name: v.GetName(), AssetFile: "assets/textures/spaceship.png", MovementVector: vec, X: x, Y: y, Rotation: v.GetRotation()}
 		list = append(list, dto)
 	}
 
-	result := generated.RemoteObjectListDto{
-		RemoteObjectList: list,
-	}
-
-	return &result
+	return &list
 }
