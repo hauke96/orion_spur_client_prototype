@@ -3,8 +3,8 @@ package player
 import (
 	"errors"
 	"fmt"
-	"orion_spur_server_prototype/src/generated"
-	"orion_spur_server_prototype/src/logger"
+	"generated"
+	"logger"
 )
 
 type LocalPlayerDao struct {

@@ -3,12 +3,12 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"generated"
+	"logger"
 	"net/http"
-	"orion_spur_server_prototype/src/generated"
-	"orion_spur_server_prototype/src/logger"
-	"orion_spur_server_prototype/src/player"
-	"orion_spur_server_prototype/src/remoteObject"
 	"os"
+	"player"
+	"remoteObject"
 
 	"goms4go"
 

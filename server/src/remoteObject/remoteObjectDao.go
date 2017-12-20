@@ -1,8 +1,8 @@
 package remoteObject
 
 import (
-	"orion_spur_server_prototype/src/generated"
-	"orion_spur_server_prototype/src/player"
+	"generated"
+	"player"
 )
 
 type LocalRemoteObjectDao struct {

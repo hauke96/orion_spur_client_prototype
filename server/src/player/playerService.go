@@ -1,12 +1,12 @@
 package player
 
 import (
+	"common"
 	"encoding/json"
 	"errors"
+	"generated"
 	"goms4go"
-	"orion_spur_server_prototype/src/common"
-	"orion_spur_server_prototype/src/generated"
-	"orion_spur_server_prototype/src/logger"
+	"logger"
 )
 
 type PlayerService struct {
