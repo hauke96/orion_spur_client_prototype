@@ -7,6 +7,13 @@ Written in Java using the following frameworks:
 
 
 # Orion Spur Server
+## Setup
+For convenience, add the project directory of the server into `GOPATH`:
+
+```
+export GOPATH=$GOPATH:/.../orion_spur_prototype/server
+```
+
 ## Start
 Just run
 ```
