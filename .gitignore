@@ -1,6 +1,7 @@
 # Compiled files
 *.class
 server/src/src
+server/pkg
 
 # Log file
 *.log
@@ -21,3 +22,6 @@ server/src/src
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+# some dolphin specific stuff
+**/.directory
