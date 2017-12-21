@@ -34,7 +34,8 @@ public class PlayerServiceProxy implements IPlayerService
 	private static final String		PLAYER_MOVED		= "player.moved";
 	private String					_serviceUrlString	= "http://localhost:8080/player/" + PLAYER_NAME;
 	private Gson					_gson;
-	private Vector2					_lastSetPosition;													// TODO remove this variable
+	private Vector2					_lastSetPosition;													// TODO remove
+	                                                                                                    // this variable
 	private ICoordinateConverter	_coordinateConverter;
 	private RemoteObject			_player;
 	
@@ -82,9 +83,12 @@ public class PlayerServiceProxy implements IPlayerService
 		VectorDto vectorDto = player.getMovementVector();
 		Vector2 movementVector = new Vector2(vectorDto.getX(), vectorDto.getY());
 		
-		Position position = Position.create(player.getX().getLightYears(), player.getY().getLightYears(), player.getX().getMeters(), player.getY().getMeters());
+		Position position =
+		        Position.create(player.getX().getLightYears(), player.getY().getLightYears(), player.getX().getMeters(), player.getY().getMeters());
 		
-		RemoteObject player2 = new RemoteObject(player.getName(), movementVector, player.getAssetFile(), position, player.getRotation());
+		RemoteObject player2 =
+		        new RemoteObject(player.getName(), movementVector, player.getAssetFile(), position, player.getRotation());
+		
 		return player2;
 	}
 	
@@ -141,7 +145,8 @@ public class PlayerServiceProxy implements IPlayerService
 		if (connection.getResponseCode() == HttpStatus.SC_OK)
 		{
 			// TODO add real level name when implemented
-			Vector2 offset = new Vector2(player.getPosition().x - _lastSetPosition.x, player.getPosition().y - _lastSetPosition.y);
+			Vector2 offset = new Vector2(player.getPosition().x - _lastSetPosition.x, player.getPosition().y
+			        - _lastSetPosition.y);
 			
 			_lastSetPosition = player.getPosition();
 			
