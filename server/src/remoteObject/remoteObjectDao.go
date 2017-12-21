@@ -33,8 +33,9 @@ func (dao *LocalRemoteObjectDao) GetAll() *[]remoteObject.RemoteObject {
 			Meters:     v.GetY().GetMeters(),
 		}
 
-		dto := remoteObject.RemoteObject{Name: v.GetName(), AssetFile: "assets/textures/spaceship.png", MovementVector: vec, X: x, Y: y, Rotation: v.GetRotation()}
-		list = append(list, dto)
+		object := remoteObject.RemoteObject{Name: v.GetName(), AssetFile: "assets/textures/spaceship.png", MovementVector: vec, X: x, Y: y, Rotation: v.GetRotation()}
+
+		list = append(list, object)
 	}
 
 	return &list
