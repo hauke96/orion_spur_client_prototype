@@ -42,16 +42,33 @@ func (service *PlayerService) CreatePlayer(name string) error {
 	return err
 }
 
-func (service *PlayerService) GetPlayer(name string) (*generated.RemoteObjectDto, error) {
+func (service *PlayerService) GetPlayer(name string) (*remoteObject.RemoteObject, error) {
 	logger.Info("Called GetPlayer with name '" + name + "'")
 
 	player, err := service.dao.GetPlayer(name)
+
+	vec := common.Vector{
+		X: player.GetMovementVector().GetX(),
+		Y: player.GetMovementVector().GetY(),
+	}
+
+	x := common.Coordinate{
+		LightYears: player.GetX().GetLightYears(),
+		Meters:     player.GetX().GetMeters(),
+	}
+
+	y := common.Coordinate{
+		LightYears: player.GetY().GetLightYears(),
+		Meters:     player.GetY().GetMeters(),
+	}
+
+	object := remoteObject.RemoteObject{Name: player.GetName(), AssetFile: "assets/textures/spaceship.png", MovementVector: vec, X: x, Y: y, Rotation: player.GetRotation()}
 
 	if err != nil {
 		return nil, err
 	}
 
-	return player, nil
+	return &object, nil
 }
 
 func (service *PlayerService) GetAllPlayer() []*remoteObject.RemoteObject {
@@ -60,24 +77,12 @@ func (service *PlayerService) GetAllPlayer() []*remoteObject.RemoteObject {
 	list := []*remoteObject.RemoteObject{}
 
 	for _, v := range service.dao.GetAllPlayer() {
-		vec := common.Vector{
-			X: v.GetMovementVector().GetX(),
-			Y: v.GetMovementVector().GetY(),
+
+		player, err := service.GetPlayer(v.Name)
+
+		if err == nil {
+			list = append(list, player)
 		}
-
-		x := common.Coordinate{
-			LightYears: v.GetX().GetLightYears(),
-			Meters:     v.GetX().GetMeters(),
-		}
-
-		y := common.Coordinate{
-			LightYears: v.GetY().GetLightYears(),
-			Meters:     v.GetY().GetMeters(),
-		}
-
-		object := remoteObject.RemoteObject{Name: v.GetName(), AssetFile: "assets/textures/spaceship.png", MovementVector: vec, X: x, Y: y, Rotation: v.GetRotation()}
-
-		list = append(list, &object)
 	}
 
 	return list
