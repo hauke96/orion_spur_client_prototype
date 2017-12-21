@@ -2,6 +2,7 @@ package main
 
 import (
 	"common"
+	commonRemoteObject "common/remoteObject"
 	"encoding/json"
 	"fmt"
 	"generated"
@@ -124,23 +125,10 @@ func getAllRemoteObjects(w http.ResponseWriter, r *http.Request) {
 
 	array := remoteObjectService.GetAll()
 
-	// TODO: make converter for this
 	dtos := make([]generated.RemoteObjectDto, len(array), len(array))
 
 	for i, v := range array {
-		movementVector := generated.NewVectorDto(v.MovementVector.X, v.MovementVector.Y)
-
-		x := generated.NewCoordinateDto(v.X.LightYears, v.X.Meters)
-		y := generated.NewCoordinateDto(v.Y.LightYears, v.Y.Meters)
-
-		dtos[i] = generated.RemoteObjectDto{
-			Name:           v.Name,
-			AssetFile:      v.AssetFile,
-			MovementVector: movementVector,
-			X:              x,
-			Y:              y,
-			Rotation:       v.Rotation,
-		}
+		dtos[i] = *commonRemoteObject.ToDto(*v)
 	}
 
 	objects := generated.NewRemoteObjectListDto(dtos)
