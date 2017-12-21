@@ -33,21 +33,7 @@ func (service *PlayerService) CreatePlayer(name string) error {
 		AssetFile:      "assets/textures/spaceship.png",
 	}
 
-	movementVector := generated.NewVectorDto(p.MovementVector.X, p.MovementVector.Y)
-
-	x := generated.NewCoordinateDto(p.X.LightYears, p.X.Meters)
-	y := generated.NewCoordinateDto(p.Y.LightYears, p.Y.Meters)
-
-	dto := generated.RemoteObjectDto{
-		Name:           p.Name,
-		AssetFile:      p.AssetFile,
-		MovementVector: movementVector,
-		X:              x,
-		Y:              y,
-		Rotation:       p.Rotation,
-	}
-
-	err := service.dao.CreatePlayer(&dto)
+	err := service.dao.CreatePlayer(p)
 
 	if err == nil {
 		return service.sendPlayer(p, common.PLAYER_CREATED)
@@ -61,28 +47,11 @@ func (service *PlayerService) GetPlayer(name string) (*remoteObject.RemoteObject
 
 	player, err := service.dao.GetPlayer(name)
 
-	vec := common.Vector{
-		X: player.GetMovementVector().GetX(),
-		Y: player.GetMovementVector().GetY(),
-	}
-
-	x := common.Coordinate{
-		LightYears: player.GetX().GetLightYears(),
-		Meters:     player.GetX().GetMeters(),
-	}
-
-	y := common.Coordinate{
-		LightYears: player.GetY().GetLightYears(),
-		Meters:     player.GetY().GetMeters(),
-	}
-
-	object := remoteObject.RemoteObject{Name: player.GetName(), AssetFile: "assets/textures/spaceship.png", MovementVector: vec, X: x, Y: y, Rotation: player.GetRotation()}
-
 	if err != nil {
 		return nil, err
 	}
 
-	return &object, nil
+	return player, nil
 }
 
 func (service *PlayerService) GetAllPlayer() []*remoteObject.RemoteObject {
@@ -102,7 +71,7 @@ func (service *PlayerService) GetAllPlayer() []*remoteObject.RemoteObject {
 	return list
 }
 
-func (service *PlayerService) SetPlayerPosition(name string, x generated.CoordinateDto, y generated.CoordinateDto, movementVector generated.VectorDto, rotation float32) error {
+func (service *PlayerService) SetPlayerPosition(name string, x common.Coordinate, y common.Coordinate, movementVector common.Vector, rotation float32) error {
 	logger.Info("Called SetPlayerPosition with name '" + name + "'")
 
 	p, err := service.GetPlayer(name)

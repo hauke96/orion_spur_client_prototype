@@ -1,6 +1,7 @@
 package main
 
 import (
+	"common"
 	"encoding/json"
 	"fmt"
 	"generated"
@@ -95,7 +96,12 @@ func updatePlayerHandler(w http.ResponseWriter, r *http.Request) {
 
 	logger.Info(fmt.Sprintf("%v", player.MovementVector))
 
-	err := playerService.SetPlayerPosition(player.GetName(), player.GetX(), player.GetY(), player.GetMovementVector(), player.GetRotation())
+	x := common.Coordinate{LightYears: player.GetX().LightYears, Meters: player.GetX().Meters}
+	y := common.Coordinate{LightYears: player.GetY().LightYears, Meters: player.GetY().Meters}
+
+	movementVector := common.Vector{X: player.GetMovementVector().GetX(), Y: player.GetMovementVector().GetY()}
+
+	err := playerService.SetPlayerPosition(player.GetName(), x, y, movementVector, player.GetRotation())
 
 	if err != nil {
 		logger.Error(err.Error())
@@ -119,9 +125,9 @@ func getAllRemoteObjects(w http.ResponseWriter, r *http.Request) {
 	array := remoteObjectService.GetAll()
 
 	// TODO: make converter for this
-	dtos := make([]generated.RemoteObjectDto, len(*array), len(*array))
+	dtos := make([]generated.RemoteObjectDto, len(array), len(array))
 
-	for i, v := range *array {
+	for i, v := range array {
 		movementVector := generated.NewVectorDto(v.MovementVector.X, v.MovementVector.Y)
 
 		x := generated.NewCoordinateDto(v.X.LightYears, v.X.Meters)
