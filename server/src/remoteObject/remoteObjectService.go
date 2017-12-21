@@ -1,6 +1,7 @@
 package remoteObject
 
 import (
+	"common/remoteObject"
 	"logger"
 )
 
@@ -12,7 +13,7 @@ func (service *RemoteObjectService) Init(dao *LocalRemoteObjectDao) {
 	service.dao = dao
 }
 
-func (service *RemoteObjectService) GetAll() *[]RemoteObject {
+func (service *RemoteObjectService) GetAll() *[]remoteObject.RemoteObject {
 	logger.Info("Called GetAll")
 
 	return service.dao.GetAll()
