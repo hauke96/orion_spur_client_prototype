@@ -16,8 +16,8 @@ func (dao *LocalPlayerDao) Init() {
 	dao.players = make(map[string]*remoteObject.RemoteObject)
 }
 
-func (dao *LocalPlayerDao) CreatePlayer(player *remoteObject.RemoteObject) error {
-	_, err := dao.GetPlayer(player.Name)
+func (dao *LocalPlayerDao) Add(player *remoteObject.RemoteObject) error {
+	_, err := dao.Get(player.Name)
 
 	if err != nil {
 		dao.players[player.Name] = player
@@ -28,7 +28,7 @@ func (dao *LocalPlayerDao) CreatePlayer(player *remoteObject.RemoteObject) error
 	return errors.New("Player " + player.Name + " already exists")
 }
 
-func (dao *LocalPlayerDao) GetPlayer(name string) (*remoteObject.RemoteObject, error) {
+func (dao *LocalPlayerDao) Get(name string) (*remoteObject.RemoteObject, error) {
 	player := dao.players[name]
 
 	var err error
@@ -40,7 +40,7 @@ func (dao *LocalPlayerDao) GetPlayer(name string) (*remoteObject.RemoteObject, e
 	return player, err
 }
 
-func (dao *LocalPlayerDao) GetAllPlayer() []*remoteObject.RemoteObject {
+func (dao *LocalPlayerDao) GetAll() []*remoteObject.RemoteObject {
 	result := make([]*remoteObject.RemoteObject, len(dao.players))
 
 	i := 0
@@ -54,8 +54,8 @@ func (dao *LocalPlayerDao) GetAllPlayer() []*remoteObject.RemoteObject {
 	return result
 }
 
-func (dao *LocalPlayerDao) SetPlayerPosition(name string, newXPosition common.Coordinate, newYPosition common.Coordinate, newMovementVector common.Vector, rotation float32) error {
-	player, err := dao.GetPlayer(name)
+func (dao *LocalPlayerDao) UpdatePosition(name string, newXPosition common.Coordinate, newYPosition common.Coordinate, newMovementVector common.Vector, rotation float32) error {
+	player, err := dao.Get(name)
 
 	if err != nil {
 		return err
@@ -68,7 +68,7 @@ func (dao *LocalPlayerDao) SetPlayerPosition(name string, newXPosition common.Co
 	player.Rotation = rotation
 	player.MovementVector = newMovementVector
 
-	p2, _ := dao.GetPlayer(name)
+	p2, _ := dao.Get(name)
 	logger.Debug(fmt.Sprintf("%v", p2))
 
 	return nil

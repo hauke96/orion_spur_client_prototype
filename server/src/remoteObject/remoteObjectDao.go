@@ -14,5 +14,5 @@ func (dao *LocalRemoteObjectDao) Init(playerDao *player.LocalPlayerDao) {
 }
 
 func (dao *LocalRemoteObjectDao) GetAll() []*remoteObject.RemoteObject {
-	return dao.playerDao.GetAllPlayer()
+	return dao.playerDao.GetAll()
 }

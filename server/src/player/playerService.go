@@ -32,7 +32,7 @@ func (service *PlayerService) CreatePlayer(name string) error {
 		AssetFile:      "assets/textures/spaceship.png",
 	}
 
-	err := service.dao.CreatePlayer(p)
+	err := service.dao.Add(p)
 
 	if err == nil {
 		return service.sendPlayer(p, common.PLAYER_CREATED)
@@ -44,7 +44,7 @@ func (service *PlayerService) CreatePlayer(name string) error {
 func (service *PlayerService) GetPlayer(name string) (*remoteObject.RemoteObject, error) {
 	logger.Info("Called GetPlayer with name '" + name + "'")
 
-	player, err := service.dao.GetPlayer(name)
+	player, err := service.dao.Get(name)
 
 	if err != nil {
 		return nil, err
@@ -58,7 +58,7 @@ func (service *PlayerService) GetAllPlayer() []*remoteObject.RemoteObject {
 
 	list := []*remoteObject.RemoteObject{}
 
-	for _, v := range service.dao.GetAllPlayer() {
+	for _, v := range service.dao.GetAll() {
 
 		player, err := service.GetPlayer(v.Name)
 
@@ -79,7 +79,7 @@ func (service *PlayerService) SetPlayerPosition(name string, x common.Coordinate
 		return err
 	}
 
-	err = service.dao.SetPlayerPosition(name, x, y, movementVector, rotation)
+	err = service.dao.UpdatePosition(name, x, y, movementVector, rotation)
 
 	if err == nil {
 		return service.sendPlayer(p, common.PLAYER_MOVED)
