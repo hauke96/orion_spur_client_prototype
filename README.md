@@ -8,7 +8,7 @@ Written in Java using the following frameworks:
 
 # Orion Spur Server
 ## Setup
-For convenience, add the project directory of the server into `GOPATH`:
+For convenience, add the project directory of the server into `GOPATH`. Just add this to your `~/.bashrc`:
 
 ```
 export GOPATH=$GOPATH:/.../orion_spur_prototype/server

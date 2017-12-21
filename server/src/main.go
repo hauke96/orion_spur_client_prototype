@@ -36,12 +36,6 @@ func main() {
 	playerService = &player.PlayerService{}
 	playerService.Init(messagingService, playerDao)
 
-	//	playerService.CreatePlayer("1")
-	//	playerService.CreatePlayer("2")
-
-	//	p1, _ := playerService.GetPlayer("1")
-	//	playerService.SetPlayerPosition("1", generated.CoordinateDto{LightYears: 0, Meters: 650}, p1.GetY())
-
 	remoteObjectDao := &remoteObject.LocalRemoteObjectDao{}
 	remoteObjectDao.Init(playerDao)
 

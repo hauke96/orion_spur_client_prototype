@@ -20,6 +20,7 @@ func (dao *LocalPlayerDao) CreatePlayer(player *generated.RemoteObjectDto) error
 
 	if err != nil {
 		dao.players[player.Name] = player
+
 		return nil
 	}
 
