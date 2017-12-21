@@ -77,7 +77,7 @@ func getPlayerHandler(w http.ResponseWriter, r *http.Request) {
 	pathVariables := mux.Vars(r)
 	playerName := pathVariables["playerName"]
 
-	position, err := playerService.GetPlayer(playerName)
+	position, err := playerService.Get(playerName)
 
 	if err == nil {
 		encoder := json.NewEncoder(w)
@@ -102,7 +102,7 @@ func updatePlayerHandler(w http.ResponseWriter, r *http.Request) {
 
 	movementVector := common.Vector{X: player.GetMovementVector().GetX(), Y: player.GetMovementVector().GetY()}
 
-	err := playerService.SetPlayerPosition(player.GetName(), x, y, movementVector, player.GetRotation())
+	err := playerService.UpdatePosition(player.GetName(), x, y, movementVector, player.GetRotation())
 
 	if err != nil {
 		logger.Error(err.Error())
@@ -114,7 +114,7 @@ func updatePlayerHandler(w http.ResponseWriter, r *http.Request) {
 func getAllPlayerHandler(w http.ResponseWriter, r *http.Request) {
 	logger.Info("Called getAll for player")
 
-	players := playerService.GetAllPlayer()
+	players := playerService.GetAll()
 
 	encoder := json.NewEncoder(w)
 	encoder.Encode(players)

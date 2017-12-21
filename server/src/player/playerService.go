@@ -41,7 +41,7 @@ func (service *PlayerService) CreatePlayer(name string) error {
 	return err
 }
 
-func (service *PlayerService) GetPlayer(name string) (*remoteObject.RemoteObject, error) {
+func (service *PlayerService) Get(name string) (*remoteObject.RemoteObject, error) {
 	logger.Info("Called GetPlayer with name '" + name + "'")
 
 	player, err := service.dao.Get(name)
@@ -53,14 +53,14 @@ func (service *PlayerService) GetPlayer(name string) (*remoteObject.RemoteObject
 	return player, nil
 }
 
-func (service *PlayerService) GetAllPlayer() []*remoteObject.RemoteObject {
+func (service *PlayerService) GetAll() []*remoteObject.RemoteObject {
 	logger.Info("Called GetAllPlayer")
 
 	list := []*remoteObject.RemoteObject{}
 
 	for _, v := range service.dao.GetAll() {
 
-		player, err := service.GetPlayer(v.Name)
+		player, err := service.Get(v.Name)
 
 		if err == nil {
 			list = append(list, player)
@@ -70,10 +70,10 @@ func (service *PlayerService) GetAllPlayer() []*remoteObject.RemoteObject {
 	return list
 }
 
-func (service *PlayerService) SetPlayerPosition(name string, x common.Coordinate, y common.Coordinate, movementVector common.Vector, rotation float32) error {
+func (service *PlayerService) UpdatePosition(name string, x common.Coordinate, y common.Coordinate, movementVector common.Vector, rotation float32) error {
 	logger.Info("Called SetPlayerPosition with name '" + name + "'")
 
-	p, err := service.GetPlayer(name)
+	p, err := service.Get(name)
 
 	if err != nil {
 		return err
