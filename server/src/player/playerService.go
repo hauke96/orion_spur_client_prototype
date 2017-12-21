@@ -23,17 +23,31 @@ func (service *PlayerService) Init(messagingService *goms4go.GomsClient, playerD
 func (service *PlayerService) CreatePlayer(name string) error {
 	logger.Info("Called CreatePlayer with name '" + name + "'")
 
-	p := &generated.RemoteObjectDto{
+	p := &remoteObject.RemoteObject{
 		//0, -23013, 600, -6467355351055975L
-		X:              generated.NewCoordinateDto(0, 600),
-		Y:              generated.NewCoordinateDto(-23013, -6467355351055975),
+		X:              common.Coordinate{LightYears: 0, Meters: 600},
+		Y:              common.Coordinate{LightYears: -23013, Meters: -6467355351055975},
 		Name:           name,
 		Rotation:       0,
-		MovementVector: generated.NewVectorDto(0, 0),
+		MovementVector: common.Vector{X: 0, Y: 0},
 		AssetFile:      "assets/textures/spaceship.png",
 	}
 
-	err := service.dao.CreatePlayer(p)
+	movementVector := generated.NewVectorDto(p.MovementVector.X, p.MovementVector.Y)
+
+	x := generated.NewCoordinateDto(p.X.LightYears, p.X.Meters)
+	y := generated.NewCoordinateDto(p.Y.LightYears, p.Y.Meters)
+
+	dto := generated.RemoteObjectDto{
+		Name:           p.Name,
+		AssetFile:      p.AssetFile,
+		MovementVector: movementVector,
+		X:              x,
+		Y:              y,
+		Rotation:       p.Rotation,
+	}
+
+	err := service.dao.CreatePlayer(&dto)
 
 	if err == nil {
 		return service.sendPlayer(p, common.PLAYER_CREATED)
@@ -91,7 +105,7 @@ func (service *PlayerService) GetAllPlayer() []*remoteObject.RemoteObject {
 func (service *PlayerService) SetPlayerPosition(name string, x generated.CoordinateDto, y generated.CoordinateDto, movementVector generated.VectorDto, rotation float32) error {
 	logger.Info("Called SetPlayerPosition with name '" + name + "'")
 
-	p, err := service.dao.GetPlayer(name)
+	p, err := service.GetPlayer(name)
 
 	if err != nil {
 		return err
@@ -106,8 +120,22 @@ func (service *PlayerService) SetPlayerPosition(name string, x generated.Coordin
 	return err
 }
 
-func (service *PlayerService) sendPlayer(player *generated.RemoteObjectDto, topic string) error {
-	data, err := json.Marshal(*player)
+func (service *PlayerService) sendPlayer(player *remoteObject.RemoteObject, topic string) error {
+	movementVector := generated.NewVectorDto(player.MovementVector.X, player.MovementVector.Y)
+
+	x := generated.NewCoordinateDto(player.X.LightYears, player.X.Meters)
+	y := generated.NewCoordinateDto(player.Y.LightYears, player.Y.Meters)
+
+	dto := generated.RemoteObjectDto{
+		Name:           player.Name,
+		AssetFile:      player.AssetFile,
+		MovementVector: movementVector,
+		X:              x,
+		Y:              y,
+		Rotation:       player.Rotation,
+	}
+
+	data, err := json.Marshal(dto)
 
 	if err != nil {
 		return errors.New("Could not send message: Error while converting player into JSON: " + err.Error())
