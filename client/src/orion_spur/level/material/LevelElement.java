@@ -72,12 +72,6 @@ public class LevelElement
 		_movementVector.setLength(length);
 	}
 	
-	@Deprecated
-	public void setRotation(float newRotation)
-	{
-		_rotation = newRotation;
-	}
-	
 	public void rotateBy(float amount)
 	{
 		_rotation += amount;
