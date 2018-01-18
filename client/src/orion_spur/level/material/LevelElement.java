@@ -10,16 +10,13 @@ public class LevelElement
 {
 	private String		_id;
 	private Vector2		_position;
-	private float		_acceleration;	// m/s²
-	private float		_maxSpeed;		// m/s
-	private float		_rotationSpeed;	// degree per second
 	private float		_rotation;
 	private LayerType	_layer;
 	private LevelType	_type;
 	private String		_assetPath;
 	private Vector2		_movementVector;
 	
-	public LevelElement(String id, Vector2 position, float acceleration, float maxSpeed, Vector2 movementVector, float rotation, float rotationSpeed, LayerType layer, LevelType type, String assetPath)
+	public LevelElement(String id, Vector2 position, Vector2 movementVector, float rotation, LayerType layer, LevelType type, String assetPath)
 	{
 		Contract.NotNull(id);
 		Contract.NotNull(position);
@@ -28,11 +25,8 @@ public class LevelElement
 		
 		_id = id;
 		_position = position;
-		_acceleration = acceleration;
-		_maxSpeed = maxSpeed;
 		_movementVector = movementVector;
 		_rotation = rotation;
-		_rotationSpeed = rotationSpeed;
 		_layer = layer;
 		_type = type;
 		_assetPath = assetPath;
@@ -63,21 +57,6 @@ public class LevelElement
 		return _assetPath;
 	}
 	
-	public float getAcceleration()
-	{
-		return _acceleration;
-	}
-	
-	public float getMaxSpeed()
-	{
-		return _maxSpeed;
-	}
-	
-	public float getRotationSpeed()
-	{
-		return _rotationSpeed;
-	}
-	
 	public float getRotation()
 	{
 		return _rotation;
@@ -86,6 +65,11 @@ public class LevelElement
 	public Vector2 getMovementVector()
 	{
 		return new Vector2(_movementVector.x, _movementVector.y);
+	}
+	
+	public void setMovementVectorLength(float length)
+	{
+		_movementVector.setLength(length);
 	}
 	
 	@Deprecated
@@ -116,16 +100,6 @@ public class LevelElement
 		Contract.NotNull(newMovementVector);
 		
 		_movementVector = newMovementVector;
-	}
-	
-	public void accelerateShipBy(Vector2 movementAdjustion)
-	{
-		_movementVector = _movementVector.add(movementAdjustion);
-		
-		if (_movementVector.len() > _maxSpeed)
-		{
-			_movementVector.setLength(_maxSpeed);
-		}
 	}
 	
 	// TODO equals, hashcode

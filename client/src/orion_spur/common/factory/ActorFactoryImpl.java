@@ -12,6 +12,7 @@ import orion_spur.player.service.IPlayerService;
 import orion_spur.player.view.PlayerView;
 import orion_spur.remoteObjects.Service.IRemoteObjectService;
 import orion_spur.remoteObjects.View.RemotePlayerView;
+import orion_spur.ships.material.SpaceShip;
 
 public class ActorFactoryImpl implements IActorFactory
 {
@@ -48,7 +49,7 @@ public class ActorFactoryImpl implements IActorFactory
 				setPosition(levelElement, result);
 				break;
 			case PLAYER:
-				result = new PlayerView(_playerService, _unitConverter, levelElement, _coordinateConverter.universeToWorld(_playerService.getPosition()));
+				result = new PlayerView(_playerService, _unitConverter, (SpaceShip) levelElement, _coordinateConverter.universeToWorld(_playerService.getPosition()));
 				break;
 			case REMOTE_OBJECT:
 				result = new RemotePlayerView(levelElement);

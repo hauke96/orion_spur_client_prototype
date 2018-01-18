@@ -8,14 +8,14 @@ import juard.contract.Contract;
 import juard.log.Logger;
 import orion_spur.common.converter.IUnitConverter;
 import orion_spur.common.view.ImageActor;
-import orion_spur.level.material.LevelElement;
 import orion_spur.player.service.IPlayerService;
+import orion_spur.ships.material.SpaceShip;
 
 public class PlayerView extends ImageActor
 {
 	private IPlayerService _playerService;
 	
-	public PlayerView(IPlayerService playerService, IUnitConverter unitConverter, LevelElement levelElement, Vector2 positionInLevel)
+	public PlayerView(IPlayerService playerService, IUnitConverter unitConverter, SpaceShip levelElement, Vector2 positionInLevel)
 	{
 		super(levelElement);
 		
@@ -78,7 +78,6 @@ public class PlayerView extends ImageActor
 		movementAdjustion.rotate(getLevelElement().getRotation());
 		
 		getLevelElement().accelerateShipBy(movementAdjustion);
-		getLevelElement().setMovementVector(getLevelElement().getMovementVector());
 		
 		positionOfView.add(getLevelElement().getMovementVector().x * delta / getScaleX(), getLevelElement().getMovementVector().y * delta / getScaleY());
 		
@@ -123,5 +122,11 @@ public class PlayerView extends ImageActor
 	public float getSpeed()
 	{
 		return getLevelElement().getMovementVector().len();
+	}
+	
+	@Override
+	protected SpaceShip getLevelElement()
+	{
+		return (SpaceShip) super.getLevelElement();
 	}
 }

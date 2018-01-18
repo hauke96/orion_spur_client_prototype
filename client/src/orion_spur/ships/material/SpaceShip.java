@@ -3,29 +3,27 @@ package orion_spur.ships.material;
 import com.badlogic.gdx.math.Vector2;
 
 import juard.contract.Contract;
+import orion_spur.common.service.LayerActor.LayerType;
+import orion_spur.level.domainvalue.LevelType;
+import orion_spur.level.material.LevelElement;
 
-public class SpaceShip
+public class SpaceShip extends LevelElement
 {
 	private float	_acceleration;	// m/s²
 	private float	_maxSpeed;		// m/s
 	private float	_rotationSpeed;	// degree per second
-	private float	_rotationDegree;// degree the player is rotated
 	
-	private Vector2	_movementVector;
-	private String	_assetFile;
-	
-	public SpaceShip(float accleration, float maxSpeed, float rotationSpeed, float rotationDegree, String assetFile)
+	public SpaceShip(String id, Vector2 position, Vector2 movementVector, float rotation, LayerType layer, LevelType type, String assetPath, float accleration, float maxSpeed, float rotationSpeed)
 	{
+		super(id, position, movementVector, rotation, layer, type, assetPath);
+		
 		Contract.Satisfy(accleration >= 0);
 		Contract.Satisfy(maxSpeed >= 0);
 		Contract.Satisfy(rotationSpeed >= 0);
-		Contract.NotNullOrEmpty(assetFile);
 		
 		_acceleration = accleration;
 		_maxSpeed = maxSpeed;
 		_rotationSpeed = rotationSpeed;
-		_rotationDegree = rotationDegree;
-		_assetFile = assetFile;
 	}
 	
 	public float getAcceleration()
@@ -43,33 +41,14 @@ public class SpaceShip
 		return _rotationSpeed;
 	}
 	
-	public float getRotationDegree()
-	{
-		return _rotationDegree;
-	}
-	
 	public void accelerateShipBy(Vector2 movementAdjustion)
 	{
-		_movementVector = _movementVector.add(movementAdjustion);
+		setMovementVector(getMovementVector().add(movementAdjustion));
 		
-		if (_movementVector.len() > _maxSpeed)
+		if (getMovementVector().len() > _maxSpeed)
 		{
-			_movementVector.setLength(_maxSpeed);
+			// getMovementVector().setLength(_maxSpeed);
+			setMovementVectorLength(_maxSpeed);
 		}
-	}
-	
-	public String getAssetFile()
-	{
-		return _assetFile;
-	}
-	
-	public void rotateBy(float amount)
-	{
-		_rotationDegree += amount;
-	}
-	
-	public void rotateTo(float newDegree)
-	{
-		_rotationDegree = newDegree;
 	}
 }
