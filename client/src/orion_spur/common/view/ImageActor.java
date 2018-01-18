@@ -14,9 +14,13 @@ public class ImageActor extends Actor
 {
 	protected Sprite _sprite;
 	
+	private LevelElement _levelElement;
+	
 	public ImageActor(LevelElement levelElement)
 	{
 		Contract.NotNull(levelElement);
+		
+		_levelElement = levelElement;
 		
 		Texture texture = new Texture(Gdx.files.internal(levelElement.getAssetPath()));
 		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
@@ -54,5 +58,11 @@ public class ImageActor extends Actor
 		_sprite.setPosition(x, y);
 		
 		super.setPosition(x, y);
+	}
+	
+	protected LevelElement getLevelElement()
+	{
+		Contract.NotNull(_levelElement);
+		return _levelElement;
 	}
 }

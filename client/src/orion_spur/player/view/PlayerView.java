@@ -21,8 +21,6 @@ public class PlayerView extends ImageActor
 	
 	private SpaceShip _ship;
 	
-	private LevelElement _levelElement;
-	
 	public PlayerView(IPlayerService playerService, IUnitConverter unitConverter, ICoordinateConverter coordinateConverter, LevelElement levelElement, Vector2 positionInLevel, SpaceShip ship)
 	{
 		super(levelElement);
@@ -36,7 +34,6 @@ public class PlayerView extends ImageActor
 		_playerService = playerService;
 		_coordinateConverter = coordinateConverter;
 		_ship = ship;
-		_levelElement = levelElement;
 		
 		setWidth(20);
 		setHeight(20);
@@ -91,7 +88,7 @@ public class PlayerView extends ImageActor
 		movementAdjustion.rotate(_ship.getRotationDegree());
 		
 		_ship.accelerateShipBy(movementAdjustion);
-		_levelElement.setMovementVector(_ship.getMovementVector());
+		getLevelElement().setMovementVector(_ship.getMovementVector());
 		
 		positionOfView.add(_ship.getMovementVector().x * delta / getScaleX(), _ship.getMovementVector().y * delta / getScaleY());
 		
@@ -108,14 +105,14 @@ public class PlayerView extends ImageActor
 	{
 		Vector2 offset = new Vector2(x - getX(), y - getY());
 		
-		_levelElement.setPosition(new Vector2(getCenterPosition()));
-		_levelElement.setRotation(_ship.getRotationDegree());
+		getLevelElement().setPosition(new Vector2(getCenterPosition()));
+		getLevelElement().setRotation(_ship.getRotationDegree());
 		
 		super.setPosition(x, y);
 		
 		try
 		{
-			_playerService.setPosition(_levelElement);
+			_playerService.setPosition(getLevelElement());
 		}
 		catch (Exception e)
 		{
