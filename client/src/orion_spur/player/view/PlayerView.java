@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 
 import juard.contract.Contract;
 import juard.log.Logger;
-import orion_spur.common.converter.ICoordinateConverter;
 import orion_spur.common.converter.IUnitConverter;
 import orion_spur.common.view.ImageActor;
 import orion_spur.level.material.LevelElement;
@@ -17,22 +16,18 @@ public class PlayerView extends ImageActor
 {
 	private IPlayerService _playerService;
 	
-	private ICoordinateConverter _coordinateConverter;
-	
 	private SpaceShip _ship;
 	
-	public PlayerView(IPlayerService playerService, IUnitConverter unitConverter, ICoordinateConverter coordinateConverter, LevelElement levelElement, Vector2 positionInLevel, SpaceShip ship)
+	public PlayerView(IPlayerService playerService, IUnitConverter unitConverter, LevelElement levelElement, Vector2 positionInLevel, SpaceShip ship)
 	{
 		super(levelElement);
 		
 		Contract.NotNull(playerService);
 		Contract.NotNull(unitConverter);
-		Contract.NotNull(coordinateConverter);
 		Contract.NotNull(positionInLevel);
 		Contract.NotNull(ship);
 		
 		_playerService = playerService;
-		_coordinateConverter = coordinateConverter;
 		_ship = ship;
 		
 		setWidth(20);
