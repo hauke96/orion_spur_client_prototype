@@ -46,7 +46,7 @@ public class ActorFactoryImpl implements IActorFactory
 		switch (levelElement.getType())
 		{
 			case IMAGE:
-				result = new ImageActor(levelElement.getAssetPath());
+				result = new ImageActor(levelElement);
 				setPosition(levelElement, result);
 				break;
 			case PLAYER:

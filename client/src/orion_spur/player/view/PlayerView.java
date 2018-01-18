@@ -25,7 +25,7 @@ public class PlayerView extends ImageActor
 	
 	public PlayerView(IPlayerService playerService, IUnitConverter unitConverter, ICoordinateConverter coordinateConverter, LevelElement levelElement, Vector2 positionInLevel, SpaceShip ship)
 	{
-		super(ship.getAssetFile());
+		super(levelElement);
 		
 		Contract.NotNull(playerService);
 		Contract.NotNull(unitConverter);

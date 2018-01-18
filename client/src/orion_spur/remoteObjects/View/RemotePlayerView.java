@@ -18,7 +18,8 @@ public class RemotePlayerView extends ImageActor
 	
 	public RemotePlayerView(IRemoteObjectService remoteObjectService, ICoordinateConverter coordinateConverter, LevelElement levelElement, SpaceShip ship)
 	{
-		super(ship.getAssetFile());
+		super(levelElement);
+		
 		Contract.NotNull(remoteObjectService);
 		Contract.NotNull(coordinateConverter);
 		Contract.NotNull(levelElement);
