@@ -95,7 +95,7 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 		// TODO refactor this to first get the player and then create the main game
 		// screen
 		_playerLevelElement =
-		        new LevelElement(playerService.getPlayer().getId(), universeToWorld(levelService.getPosition("")), new Vector2(), 0, LayerType.LAYER_PLAYER, LevelType.PLAYER, "assets/textures/spaceship.png");
+		        new LevelElement(playerService.getPlayer().getId(), universeToWorld(levelService.getPosition("")), convertFromWorld(3), convertFromWorld(100), new Vector2(), 0, 250, LayerType.LAYER_PLAYER, LevelType.PLAYER, "assets/textures/spaceship.png");
 		_player = (PlayerView) _level.addToLayer(_playerLevelElement);
 		
 		_level.loadLevelElements();
@@ -104,7 +104,7 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 		{
 			Logger.debug("Add remote object '" + remoteObject.getId() + "'");
 			LevelElement levelElement =
-			        new LevelElement(remoteObject.getId(), universeToWorld(remoteObject.getPosition()), remoteObject.getMovementVector(), remoteObject.getRotation(), LayerType.LAYER_REMOTE_OBJECTS, LevelType.REMOTE_OBJECT, remoteObject.getAssetFile());
+			        new LevelElement(remoteObject.getId(), universeToWorld(remoteObject.getPosition()), convertFromWorld(3), convertFromWorld(100), remoteObject.getMovementVector(), remoteObject.getRotation(), 250, LayerType.LAYER_REMOTE_OBJECTS, LevelType.REMOTE_OBJECT, remoteObject.getAssetFile());
 			_level.addToLayer(levelElement);
 		}
 		

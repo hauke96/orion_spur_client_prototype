@@ -10,25 +10,20 @@ import orion_spur.common.converter.IUnitConverter;
 import orion_spur.common.view.ImageActor;
 import orion_spur.level.material.LevelElement;
 import orion_spur.player.service.IPlayerService;
-import orion_spur.ships.material.SpaceShip;
 
 public class PlayerView extends ImageActor
 {
 	private IPlayerService _playerService;
 	
-	private SpaceShip _ship;
-	
-	public PlayerView(IPlayerService playerService, IUnitConverter unitConverter, LevelElement levelElement, Vector2 positionInLevel, SpaceShip ship)
+	public PlayerView(IPlayerService playerService, IUnitConverter unitConverter, LevelElement levelElement, Vector2 positionInLevel)
 	{
 		super(levelElement);
 		
 		Contract.NotNull(playerService);
 		Contract.NotNull(unitConverter);
 		Contract.NotNull(positionInLevel);
-		Contract.NotNull(ship);
 		
 		_playerService = playerService;
-		_ship = ship;
 		
 		setWidth(20);
 		setHeight(20);
@@ -37,7 +32,7 @@ public class PlayerView extends ImageActor
 		
 		_sprite.setBounds(getX(), getY(), getWidth(), getHeight());
 		_sprite.setOrigin(getWidth() / 2, getHeight() / 2);
-		_sprite.rotate(ship.getRotationDegree());
+		_sprite.rotate(levelElement.getRotation());
 		
 		super.setPosition(getX(), getY());
 		
@@ -54,45 +49,45 @@ public class PlayerView extends ImageActor
 		
 		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D))
 		{
-			movementAdjustion = movementAdjustion.add(_ship.getAcceleration() * delta, 0);
+			movementAdjustion = movementAdjustion.add(getLevelElement().getAcceleration() * delta, 0);
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A))
 		{
-			movementAdjustion = movementAdjustion.add(-_ship.getAcceleration() * delta, 0);
+			movementAdjustion = movementAdjustion.add(-getLevelElement().getAcceleration() * delta, 0);
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W))
 		{
-			movementAdjustion = movementAdjustion.add(0, _ship.getAcceleration() * delta);
+			movementAdjustion = movementAdjustion.add(0, getLevelElement().getAcceleration() * delta);
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S))
 		{
-			movementAdjustion = movementAdjustion.add(0, -_ship.getAcceleration() * delta);
+			movementAdjustion = movementAdjustion.add(0, -getLevelElement().getAcceleration() * delta);
 		}
 		
 		if (Gdx.input.isKeyPressed(Input.Keys.Q))
 		{
-			_ship.rotateBy(_ship.getRotationSpeed() * delta);
+			getLevelElement().rotateBy(getLevelElement().getRotationSpeed() * delta);
 			rotationChanged = true;
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.E))
 		{
-			_ship.rotateBy(-_ship.getRotationSpeed() * delta);
+			getLevelElement().rotateBy(-getLevelElement().getRotationSpeed() * delta);
 			rotationChanged = true;
 		}
 		
-		movementAdjustion.rotate(_ship.getRotationDegree());
+		movementAdjustion.rotate(getLevelElement().getRotation());
 		
-		_ship.accelerateShipBy(movementAdjustion);
-		getLevelElement().setMovementVector(_ship.getMovementVector());
+		getLevelElement().accelerateShipBy(movementAdjustion);
+		getLevelElement().setMovementVector(getLevelElement().getMovementVector());
 		
-		positionOfView.add(_ship.getMovementVector().x * delta / getScaleX(), _ship.getMovementVector().y * delta / getScaleY());
+		positionOfView.add(getLevelElement().getMovementVector().x * delta / getScaleX(), getLevelElement().getMovementVector().y * delta / getScaleY());
 		
 		if (positionOfView.x != getX() || positionOfView.y != getY() || rotationChanged)
 		{
 			setPosition(positionOfView.x, positionOfView.y);
 		}
 		
-		_sprite.setRotation(_ship.getRotationDegree());
+		_sprite.setRotation(getLevelElement().getRotation());
 	}
 	
 	@Override
@@ -101,7 +96,6 @@ public class PlayerView extends ImageActor
 		Vector2 offset = new Vector2(x - getX(), y - getY());
 		
 		getLevelElement().setPosition(new Vector2(getCenterPosition()));
-		getLevelElement().setRotation(_ship.getRotationDegree());
 		
 		super.setPosition(x, y);
 		
@@ -118,7 +112,7 @@ public class PlayerView extends ImageActor
 	@Override
 	public float getRotation()
 	{
-		return _ship.getRotationDegree();
+		return getLevelElement().getRotation();
 	}
 	
 	public Vector2 getCenterPosition()
@@ -128,6 +122,6 @@ public class PlayerView extends ImageActor
 	
 	public float getSpeed()
 	{
-		return _ship.getMovementVector().len();
+		return getLevelElement().getMovementVector().len();
 	}
 }

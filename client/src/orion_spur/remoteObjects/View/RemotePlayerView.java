@@ -21,7 +21,7 @@ public class RemotePlayerView extends ImageActor
 		_sprite.setOrigin(getWidth() / 2, getHeight() / 2);
 		_sprite.rotate(levelElement.getRotation());
 		
-		super.setPosition(getX(), getY());
+		setPosition(getX(), getY());
 		
 		Contract.Satisfy(_sprite != null);
 		Contract.Satisfy(_sprite.getTexture() != null);

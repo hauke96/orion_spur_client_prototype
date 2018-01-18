@@ -26,10 +26,6 @@ public class SpaceShip
 		_rotationSpeed = rotationSpeed;
 		_rotationDegree = rotationDegree;
 		_assetFile = assetFile;
-		
-		_movementVector = new Vector2();
-		
-		Contract.NotNull(_movementVector);
 	}
 	
 	public float getAcceleration()
@@ -50,11 +46,6 @@ public class SpaceShip
 	public float getRotationDegree()
 	{
 		return _rotationDegree;
-	}
-	
-	public Vector2 getMovementVector()
-	{
-		return _movementVector;
 	}
 	
 	public void accelerateShipBy(Vector2 movementAdjustion)

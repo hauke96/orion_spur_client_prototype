@@ -19,11 +19,11 @@ public class LevelDummyService implements ILevelService
 		
 		// center: -6467355351055975L
 		
-		result.add(new LevelElement("1", new Vector2(0, 0), new Vector2(), 0, LayerType.LAYER_BACKGROUND, LevelType.IMAGE, "assets/textures/milkyway.jpg"));
-		result.add(new LevelElement("2", new Vector2(590, 260), new Vector2(), 20, LayerType.LAYER_1_BEHIND, LevelType.IMAGE, "assets/textures/asteroid-0.png"));
-		result.add(new LevelElement("3", new Vector2(600, 240), new Vector2(), 60, LayerType.LAYER_0_BEHIND, LevelType.IMAGE, "assets/textures/asteroid-0.png"));
-		result.add(new LevelElement("4", new Vector2(610, 285), new Vector2(), 110, LayerType.LAYER_0_BEFORE, LevelType.IMAGE, "assets/textures/asteroid-0.png"));
-		result.add(new LevelElement("5", new Vector2(560, 235), new Vector2(), 230, LayerType.LAYER_1_BEFORE, LevelType.IMAGE, "assets/textures/asteroid-0.png"));
+		result.add(new LevelElement("1", new Vector2(0, 0), 0, 0, new Vector2(), 0, 0, LayerType.LAYER_BACKGROUND, LevelType.IMAGE, "assets/textures/milkyway.jpg"));
+		result.add(new LevelElement("2", new Vector2(590, 260), 0, 0, new Vector2(), 20, 0, LayerType.LAYER_1_BEHIND, LevelType.IMAGE, "assets/textures/asteroid-0.png"));
+		result.add(new LevelElement("3", new Vector2(600, 240), 0, 0, new Vector2(), 60, 0, LayerType.LAYER_0_BEHIND, LevelType.IMAGE, "assets/textures/asteroid-0.png"));
+		result.add(new LevelElement("4", new Vector2(610, 285), 0, 0, new Vector2(), 110, 0, LayerType.LAYER_0_BEFORE, LevelType.IMAGE, "assets/textures/asteroid-0.png"));
+		result.add(new LevelElement("5", new Vector2(560, 235), 0, 0, new Vector2(), 230, 0, LayerType.LAYER_1_BEFORE, LevelType.IMAGE, "assets/textures/asteroid-0.png"));
 		
 		return result;
 	}

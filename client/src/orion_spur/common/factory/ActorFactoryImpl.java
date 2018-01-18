@@ -12,7 +12,6 @@ import orion_spur.player.service.IPlayerService;
 import orion_spur.player.view.PlayerView;
 import orion_spur.remoteObjects.Service.IRemoteObjectService;
 import orion_spur.remoteObjects.View.RemotePlayerView;
-import orion_spur.ships.material.SpaceShip;
 
 public class ActorFactoryImpl implements IActorFactory
 {
@@ -41,7 +40,6 @@ public class ActorFactoryImpl implements IActorFactory
 	public Actor convert(LevelElement levelElement) throws Exception
 	{
 		Actor result = null;
-		SpaceShip ship;
 		
 		switch (levelElement.getType())
 		{
@@ -50,8 +48,7 @@ public class ActorFactoryImpl implements IActorFactory
 				setPosition(levelElement, result);
 				break;
 			case PLAYER:
-				ship = new SpaceShip(_unitConverter.convertFromWorld(3), _unitConverter.convertFromWorld(100), 250, levelElement.getRotation(), levelElement.getAssetPath());
-				result = new PlayerView(_playerService, _unitConverter, levelElement, _coordinateConverter.universeToWorld(_playerService.getPosition()), ship);
+				result = new PlayerView(_playerService, _unitConverter, levelElement, _coordinateConverter.universeToWorld(_playerService.getPosition()));
 				break;
 			case REMOTE_OBJECT:
 				result = new RemotePlayerView(levelElement);
