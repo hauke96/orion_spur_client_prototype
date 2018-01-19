@@ -25,6 +25,7 @@ import orion_spur.level.domainvalue.LevelType;
 import orion_spur.level.material.LevelElement;
 import orion_spur.level.service.ILevelService;
 import orion_spur.level.view.LevelActor;
+import orion_spur.player.service.ILoginService;
 import orion_spur.player.service.IPlayerService;
 import orion_spur.player.view.PlayerView;
 import orion_spur.remoteObjects.Service.IRemoteObjectService;
@@ -47,7 +48,7 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 	private PlayerView		_player;
 	private ScreenViewport	_viewport;
 	
-	public MainGameScreen(ILevelService levelService, int width, int height, float worldUnitsPerPixel) throws RuntimeException, Exception
+	public MainGameScreen(ILevelService levelService, ILoginService loginService, int width, int height, float worldUnitsPerPixel) throws RuntimeException, Exception
 	{
 		Locator.register(IUnitConverter.class, () -> this);
 		Locator.register(ICoordinateConverter.class, () -> this);
@@ -71,6 +72,8 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 				{
 					try
 					{
+						loginService.Login(playerService.getPlayer().getId());
+						
 						initializeLevel(levelService, worldUnitsPerPixel, playerService, remoteObjectService);
 						
 						_currentStage = new Stage(_viewport);
@@ -89,6 +92,22 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 		});
 		
 		playerService.createPlayer();
+		
+		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				try
+				{
+					loginService.Logout(playerService.getPlayer().getId());
+				}
+				catch (IOException | HttpException e)
+				{
+					Logger.error("Could not logout player", e);
+				}
+			}
+		}));
 	}
 	
 	private void initializeLevel(ILevelService levelService, float worldUnitsPerPixel, IPlayerService playerService, IRemoteObjectService remoteObjectService) throws Exception, MalformedURLException, IOException, HttpException

@@ -14,7 +14,9 @@ import orion_spur.common.factory.ActorFactoryImpl;
 import orion_spur.common.factory.IActorFactory;
 import orion_spur.level.service.ILevelService;
 import orion_spur.level.service.LevelDummyService;
+import orion_spur.player.service.ILoginService;
 import orion_spur.player.service.IPlayerService;
+import orion_spur.player.service.PlayerLoginServiceProxy;
 import orion_spur.player.service.PlayerServiceDummy;
 import orion_spur.player.service.PlayerServiceProxy;
 import orion_spur.remoteObjects.Service.IRemoteObjectService;
@@ -64,6 +66,7 @@ public class Main
 			});
 			Locator.register(IPlayerService.class, () -> new PlayerServiceProxy(Locator.get(GoMessagingService.class), Locator.get(ICoordinateConverter.class)));
 			Locator.register(IRemoteObjectService.class, () -> new RemoteObjectServiceProxy(Locator.get(GoMessagingService.class)));
+			Locator.register(ILoginService.class, () -> new PlayerLoginServiceProxy());
 		}
 		
 		Locator.register(ILevelService.class, () -> new LevelDummyService());
