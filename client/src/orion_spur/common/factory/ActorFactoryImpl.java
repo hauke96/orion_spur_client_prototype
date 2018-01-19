@@ -52,7 +52,7 @@ public class ActorFactoryImpl implements IActorFactory
 				result = new PlayerView(_playerService, _unitConverter, (SpaceShip) levelElement, _coordinateConverter.universeToWorld(_playerService.getPosition()));
 				break;
 			case REMOTE_OBJECT:
-				result = new RemotePlayerView(levelElement);
+				result = new RemotePlayerView(levelElement, _coordinateConverter, _remoteObjectService);
 				break;
 			default:
 				result = new Actor();

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"background"
 	"common"
 	commonRemoteObject "common/remoteObject"
 	"encoding/json"
@@ -47,6 +48,8 @@ func main() {
 	remoteObjectService.Init(remoteObjectDao)
 
 	loginService = &login.LoginService{}
+
+	go background.Run(playerService, loginService)
 
 	router := mux.NewRouter()
 

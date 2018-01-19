@@ -3,14 +3,26 @@ package orion_spur.remoteObjects.View;
 import com.badlogic.gdx.math.Vector2;
 
 import juard.contract.Contract;
+import orion_spur.common.converter.ICoordinateConverter;
 import orion_spur.common.view.ImageActor;
 import orion_spur.level.material.LevelElement;
+import orion_spur.remoteObjects.Service.IRemoteObjectService;
+import orion_spur.remoteObjects.material.RemoteObject;
 
 public class RemotePlayerView extends ImageActor
 {
-	public RemotePlayerView(LevelElement levelElement)
+	private IRemoteObjectService	_remoteObjectService;
+	private ICoordinateConverter	_coordinateConverter;
+	
+	public RemotePlayerView(LevelElement levelElement, ICoordinateConverter coordinateConverter, IRemoteObjectService service)
 	{
 		super(levelElement);
+		
+		Contract.NotNull(coordinateConverter);
+		Contract.NotNull(service);
+		
+		_coordinateConverter = coordinateConverter;
+		_remoteObjectService = service;
 		
 		setWidth(20);
 		setHeight(20);
@@ -23,8 +35,21 @@ public class RemotePlayerView extends ImageActor
 		
 		setPosition(getX(), getY());
 		
+		service.RemoteObjectChanged.add(this::OnRemoteObjectChanged);
+		
 		Contract.Satisfy(_sprite != null);
 		Contract.Satisfy(_sprite.getTexture() != null);
+	}
+	
+	private void OnRemoteObjectChanged(RemoteObject object)
+	{
+		if (object.getId().equals(getLevelElement().getId()))
+		{
+			Vector2 position = _coordinateConverter.universeToWorld(object.getPosition());
+			
+			setPosition(position.x, position.y);
+			getLevelElement().setPosition(position);
+		}
 	}
 	
 	@Override

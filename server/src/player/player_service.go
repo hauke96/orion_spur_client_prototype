@@ -82,7 +82,7 @@ func (service *PlayerService) UpdatePosition(name string, x common.Coordinate, y
 	err = service.dao.UpdatePosition(name, x, y, movementVector, rotation)
 
 	if err == nil {
-		return service.sendPlayer(p, common.PLAYER_MOVED)
+		return service.sendPlayer(p, common.REMOTE_OBJECT_MOVED)
 	}
 
 	return err
