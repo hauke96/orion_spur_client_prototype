@@ -14,7 +14,7 @@ import orion_spur.screen.mainmenu.MainMenuScreen;
 
 public class OrionSpur extends Game implements ApplicationListener
 {
-	private static final float WORLD_UNITS_PER_PIXEL = 0.2f;
+	private static final float WORLD_UNITS_PER_PIXEL = 20f;
 	
 	private int	_width;
 	private int	_height;

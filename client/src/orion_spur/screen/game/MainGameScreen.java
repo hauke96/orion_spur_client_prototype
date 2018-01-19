@@ -126,7 +126,7 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 		// TODO refactor this to first get the player and then create the main game
 		// screen
 		_playerLevelElement =
-		        new SpaceShip(playerService.getPlayer().getId(), universeToWorld(levelService.getPosition("")), new Vector2(), 0, LayerType.LAYER_PLAYER, LevelType.PLAYER, "assets/textures/spaceship.png", convertFromWorld(3), convertFromWorld(100), 250);
+		        new SpaceShip(playerService.getPlayer().getId(), universeToWorld(levelService.getPosition("")), new Vector2(), 0, LayerType.LAYER_PLAYER, LevelType.PLAYER, "assets/textures/spaceship.png", convertFromWorld(30000), 100, 250);
 		_player = (PlayerView) _level.addToLayer(_playerLevelElement);
 		
 		_level.loadLevelElements();
@@ -145,7 +145,7 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 	
 	private void createRemoteObjectView(RemoteObject remoteObject)
 	{
-		Logger.debug("Add remote object '" + remoteObject.getId() + "'");
+		Logger.debug("Add remote object '" + remoteObject.getId() + "'\n" + remoteObject.getPosition() + " at world-coords: " + universeToWorld(remoteObject.getPosition()));
 		LevelElement levelElement =
 		        new LevelElement(remoteObject.getId(), universeToWorld(remoteObject.getPosition()), remoteObject.getMovementVector(), remoteObject.getRotation(), LayerType.LAYER_REMOTE_OBJECTS, LevelType.REMOTE_OBJECT, remoteObject.getAssetFile());
 		_level.addToLayer(levelElement);
@@ -155,7 +155,6 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 	{
 		Vector2 playerPosition = _player.getCenterPosition();
 		float playerSpeed = _player.getSpeed();
-		
 		_camera.position.set(playerPosition, 0);
 		
 		// Set rotation
@@ -252,7 +251,7 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 			        "Position too far away from level (max 1 Ly). Distance is: " + positionInLevel.toString());
 		}
 		
-		return new Vector2(positionInLevel.getX().getMeter(), positionInLevel.getY().getMeter());
+		return new Vector2(positionInLevel.getX().getCentimeter(), positionInLevel.getY().getCentimeter());
 	}
 	
 	@Override
@@ -273,7 +272,7 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 	
 	private void printPlayerData(Vector2 playerPosition, float playerSpeed)
 	{
-		String speedString = String.format("%08.2f", playerSpeed);
-		System.out.printf("%s km/h     at world pos: %-25s    at universe pos: %s\n", speedString, playerPosition, worldToUniverse(playerPosition));
+		String speedString = String.format("%08.2f", playerSpeed / 100);
+		System.out.printf("%s m/s     at world pos: %-25s    at universe pos: %s\n", speedString, playerPosition, worldToUniverse(playerPosition));
 	}
 }

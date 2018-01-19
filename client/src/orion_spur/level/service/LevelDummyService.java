@@ -17,13 +17,13 @@ public class LevelDummyService implements ILevelService
 	{
 		List<LevelElement> result = new ArrayList<LevelElement>();
 		
-		// center: -6467355351055975L
+		// center: -646735535105597500L
 		
 		result.add(new LevelElement("1", new Vector2(0, 0), new Vector2(), 0, LayerType.LAYER_BACKGROUND, LevelType.IMAGE, "assets/textures/milkyway.jpg"));
-		result.add(new LevelElement("2", new Vector2(590, 260), new Vector2(), 20, LayerType.LAYER_1_BEHIND, LevelType.IMAGE, "assets/textures/asteroid-0.png"));
-		result.add(new LevelElement("3", new Vector2(600, 240), new Vector2(), 60, LayerType.LAYER_0_BEHIND, LevelType.IMAGE, "assets/textures/asteroid-0.png"));
-		result.add(new LevelElement("4", new Vector2(610, 285), new Vector2(), 110, LayerType.LAYER_0_BEFORE, LevelType.IMAGE, "assets/textures/asteroid-0.png"));
-		result.add(new LevelElement("5", new Vector2(560, 235), new Vector2(), 230, LayerType.LAYER_1_BEFORE, LevelType.IMAGE, "assets/textures/asteroid-0.png"));
+		result.add(new LevelElement("2", new Vector2(59000, 26000), new Vector2(), 20, LayerType.LAYER_1_BEHIND, LevelType.IMAGE, "assets/textures/asteroid-0.png"));
+		result.add(new LevelElement("3", new Vector2(60000, 24000), new Vector2(), 60, LayerType.LAYER_0_BEHIND, LevelType.IMAGE, "assets/textures/asteroid-0.png"));
+		result.add(new LevelElement("4", new Vector2(61000, 28500), new Vector2(), 110, LayerType.LAYER_0_BEFORE, LevelType.IMAGE, "assets/textures/asteroid-0.png"));
+		result.add(new LevelElement("5", new Vector2(56000, 23500), new Vector2(), 230, LayerType.LAYER_1_BEFORE, LevelType.IMAGE, "assets/textures/asteroid-0.png"));
 		
 		return result;
 	}
@@ -31,13 +31,13 @@ public class LevelDummyService implements ILevelService
 	@Override
 	public Position getPosition(String name)
 	{
-		return Position.create(0, -23014, 0, 2993375121524565L);
+		return Position.create(0, -23014, 0, 299337512152456500L);
 	}
 	
 	@Override
 	public Vector2 getSizeInMeters(String name)
 	{
-		return new Vector2(1200, 520);
+		return new Vector2(120000, 52000);
 	}
 	
 	@Override

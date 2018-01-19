@@ -14,7 +14,7 @@ import orion_spur.remoteObjects.material.RemoteObject;
 public class PlayerServiceDummy implements IPlayerService
 {
 	// TODO replace by a vector (world position)
-	private Position _playerPosition = Position.create(0, -23013, 600, -6467355351055975L);
+	private Position _playerPosition = Position.create(0, -23013, 600, -646735535105597500L);
 	
 	private ICoordinateConverter _coordinateConverter;
 	

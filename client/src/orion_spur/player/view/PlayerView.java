@@ -25,8 +25,8 @@ public class PlayerView extends ImageActor
 		
 		_playerService = playerService;
 		
-		setWidth(20);
-		setHeight(20);
+		setWidth(2000);
+		setHeight(2000);
 		setX(positionInLevel.x - getWidth() / 2);
 		setY(positionInLevel.y - getHeight() / 2);
 		

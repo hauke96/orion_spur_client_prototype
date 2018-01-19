@@ -31,28 +31,28 @@ import juard.contract.Contract;
  * 
  * @formatter:on
  * 
- * The coordinate format is (Ly:m,Ly:m) so e.g. the position of the sun may be set to (0:0,-23142:-8401128659651750400).
+ * The coordinate format is (Ly:cm,Ly:cm) so e.g. the position of the sun may be set to (0:0,-23142:-8401128659651750400).
  */
 public class Coordinate
 {
-	private static final long LIGHTYEAR_IN_METERS = 9460730472580800L;
+	private static final long LIGHTYEAR_IN_CENTIMETERS = 946073047258080000L;
 	
 	@SerializedName ("LightYears")
 	private final long	_lightYear;
 	@SerializedName ("Meters")
-	private final long	_meter;
+	private final long	_centimeter;
 	
-	private Coordinate(long lightYear, long meter)
+	private Coordinate(long lightYear, long centimeter)
 	{
 		_lightYear = lightYear;
-		_meter = meter;
+		_centimeter = centimeter;
 	}
 	
-	public static Coordinate create(long lightYear, long meter)
+	public static Coordinate create(long lightYear, long centimeter)
 	{
-		Contract.Satisfy(meter / LIGHTYEAR_IN_METERS == 0);
+		Contract.Satisfy(centimeter / LIGHTYEAR_IN_CENTIMETERS == 0);
 		
-		return new Coordinate(lightYear, meter);
+		return new Coordinate(lightYear, centimeter);
 	}
 	
 	public long getLightYear()
@@ -60,9 +60,9 @@ public class Coordinate
 		return _lightYear;
 	}
 	
-	public long getMeter()
+	public long getCentimeter()
 	{
-		return _meter;
+		return _centimeter;
 	}
 	
 	@Override
@@ -75,17 +75,17 @@ public class Coordinate
 		
 		Coordinate other = (Coordinate) obj;
 		
-		return _lightYear == other._lightYear && _meter == other._meter;
+		return _lightYear == other._lightYear && _centimeter == other._centimeter;
 	}
 	
 	@Override
 	public int hashCode()
 	{
-		return (int) (_lightYear + _meter);
+		return (int) (_lightYear + _centimeter);
 	}
 	
 	public Coordinate copy()
 	{
-		return create(_lightYear, _meter);
+		return create(_lightYear, _centimeter);
 	}
 }

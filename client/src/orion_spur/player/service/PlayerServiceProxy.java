@@ -163,7 +163,7 @@ public class PlayerServiceProxy implements IPlayerService
 	
 	private CoordinateDto toCoordinateDto(Coordinate coordinate)
 	{
-		return new CoordinateDto(coordinate.getLightYear(), coordinate.getMeter());
+		return new CoordinateDto(coordinate.getLightYear(), coordinate.getCentimeter());
 	}
 	
 	private VectorDto toVectorDto(Vector2 vector)
@@ -183,13 +183,13 @@ public class PlayerServiceProxy implements IPlayerService
 		params.append(newUniversePosition.getX().getLightYear());
 		
 		params.append("&xMeter=");
-		params.append(newUniversePosition.getX().getMeter());
+		params.append(newUniversePosition.getX().getCentimeter());
 		
 		params.append("&yLightYear=");
 		params.append(newUniversePosition.getY().getLightYear());
 		
 		params.append("&yMeter=");
-		params.append(newUniversePosition.getY().getMeter());
+		params.append(newUniversePosition.getY().getCentimeter());
 		
 		params.append("&rotation=");
 		params.append(rotation);

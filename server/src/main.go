@@ -27,6 +27,7 @@ const gomsServerAddress string = "localhost"
 const gomsServerPort string = "55545"
 
 func main() {
+	logger.DebugMode = true
 	logger.Info("Create Services")
 
 	messagingService, err := goms4go.Connect(gomsServerAddress, gomsServerPort)

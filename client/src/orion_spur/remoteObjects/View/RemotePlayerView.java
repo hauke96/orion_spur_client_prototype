@@ -24,8 +24,8 @@ public class RemotePlayerView extends ImageActor
 		_coordinateConverter = coordinateConverter;
 		_remoteObjectService = service;
 		
-		setWidth(20);
-		setHeight(20);
+		setWidth(2000);
+		setHeight(2000);
 		setX(levelElement.getPosition().x - getWidth() / 2);
 		setY(levelElement.getPosition().y - getHeight() / 2);
 		
