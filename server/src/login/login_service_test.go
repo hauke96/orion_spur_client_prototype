@@ -127,7 +127,7 @@ func TestIsLoggedIn(t *testing.T) {
 		t.Log("c failed")
 	}
 
-	if !s.IsLoggedIn("") {
+	if s.IsLoggedIn("") {
 		t.Log("empty failed")
 	}
 }
