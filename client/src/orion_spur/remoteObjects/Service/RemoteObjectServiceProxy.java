@@ -24,12 +24,14 @@ import orion_spur.common.exception.HttpException;
 import orion_spur.common.generated.RemoteObjectDto;
 import orion_spur.common.generated.RemoteObjectListDto;
 import orion_spur.remoteObjects.material.RemoteObject;
+import orion_spur.remoteObjects.material.RemoteObjectDtoConverter;
 
 public class RemoteObjectServiceProxy implements IRemoteObjectService
 {
-	private static final String	OBJECT_MOVED		= "object.moved";
-	private String				_serviceUrlString	= "http://localhost:8080/objects";
-	private Gson				_gson;
+	private static final String			OBJECT_MOVED		= "object.moved";
+	private String						_serviceUrlString	= "http://localhost:8080/objects";
+	private Gson						_gson;
+	private RemoteObjectDtoConverter	_dtoConverter;
 	
 	public RemoteObjectServiceProxy(GoMessagingService messagingService)
 	{
@@ -45,11 +47,16 @@ public class RemoteObjectServiceProxy implements IRemoteObjectService
 		}
 		
 		_gson = new Gson();
+		_dtoConverter = new RemoteObjectDtoConverter();
 	}
 	
 	private void gomsOnObjectMoved(String data)
 	{
-		// TODO react to moved objects and fire event
+		RemoteObjectDto dto = _gson.fromJson(data, RemoteObjectDto.class);
+		
+		RemoteObject remoteObject = _dtoConverter.convert(dto);
+		
+		RemoteObjectChanged.fireEvent(remoteObject);
 	}
 	
 	@Override
