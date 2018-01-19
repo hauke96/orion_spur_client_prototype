@@ -103,10 +103,13 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 		
 		for (RemoteObject remoteObject : remoteObjectService.getAllObjectsForLevel(""))
 		{
-			Logger.debug("Add remote object '" + remoteObject.getId() + "'");
-			LevelElement levelElement =
-			        new LevelElement(remoteObject.getId(), universeToWorld(remoteObject.getPosition()), remoteObject.getMovementVector(), remoteObject.getRotation(), LayerType.LAYER_REMOTE_OBJECTS, LevelType.REMOTE_OBJECT, remoteObject.getAssetFile());
-			_level.addToLayer(levelElement);
+			if (!remoteObject.getId().equals(_playerLevelElement.getId()))
+			{
+				Logger.debug("Add remote object '" + remoteObject.getId() + "'");
+				LevelElement levelElement =
+				        new LevelElement(remoteObject.getId(), universeToWorld(remoteObject.getPosition()), remoteObject.getMovementVector(), remoteObject.getRotation(), LayerType.LAYER_REMOTE_OBJECTS, LevelType.REMOTE_OBJECT, remoteObject.getAssetFile());
+				_level.addToLayer(levelElement);
+			}
 		}
 		
 		// _player.PositionChanged.add(position -> onPlayerPositionChanged(position));
