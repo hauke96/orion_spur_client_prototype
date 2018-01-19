@@ -47,7 +47,8 @@ public class RemotePlayerView extends ImageActor
 		{
 			Vector2 position = _coordinateConverter.universeToWorld(object.getPosition());
 			
-			setPosition(position.x, position.y);
+			setX(position.x - getWidth() / 2);
+			setY(position.y - getHeight() / 2);
 			getLevelElement().setPosition(position);
 		}
 	}
