@@ -54,6 +54,7 @@ func main() {
 	router.HandleFunc("/player/{playerName}", getPlayerHandler).Methods(http.MethodGet)
 	router.HandleFunc("/player/{playerName}", updatePlayerHandler).Methods(http.MethodPut)
 	router.HandleFunc("/login/{playerName}", loginPlayer).Methods(http.MethodPost)
+	router.HandleFunc("/login/{playerName}", logoutPlayer).Methods(http.MethodDelete)
 	router.HandleFunc("/objects", getAllRemoteObjects).Methods(http.MethodGet)
 
 	logger.Info("Registered handler functions. Start serving...")
@@ -132,6 +133,21 @@ func loginPlayer(w http.ResponseWriter, r *http.Request) {
 	playerName := pathVariables["playerName"]
 
 	err := loginService.Login(playerName)
+
+	if err != nil {
+		logger.Error(err.Error())
+		w.WriteHeader(409)
+		fmt.Fprintf(w, err.Error())
+	}
+}
+
+func logoutPlayer(w http.ResponseWriter, r *http.Request) {
+	logger.Info("Called logoutPlayer")
+
+	pathVariables := mux.Vars(r)
+	playerName := pathVariables["playerName"]
+
+	err := loginService.Logout(playerName)
 
 	if err != nil {
 		logger.Error(err.Error())
