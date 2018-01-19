@@ -34,6 +34,12 @@ func (service *LoginService) Logout(id string) error {
 	return nil
 }
 
+func (service *LoginService) IsLoggedIn(id string) bool {
+	_, err := service.find(id)
+
+	return err == nil
+}
+
 func (service *LoginService) find(id string) (int, error) {
 	for i := range service.loggedInPlayer {
 		if service.loggedInPlayer[i] == id {

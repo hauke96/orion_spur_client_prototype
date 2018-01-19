@@ -108,3 +108,26 @@ func TestFind(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestIsLoggedIn(t *testing.T) {
+	s := create()
+
+	s.Login("a")
+	s.Login("b")
+
+	if !s.IsLoggedIn("a") {
+		t.Log("a failed")
+	}
+
+	if !s.IsLoggedIn("b") {
+		t.Log("b failed")
+	}
+
+	if s.IsLoggedIn("c") {
+		t.Log("c failed")
+	}
+
+	if !s.IsLoggedIn("") {
+		t.Log("empty failed")
+	}
+}
