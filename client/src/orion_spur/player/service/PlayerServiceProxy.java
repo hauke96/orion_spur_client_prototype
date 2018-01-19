@@ -78,6 +78,8 @@ public class PlayerServiceProxy implements IPlayerService
 		}
 	}
 	
+	// TODO Use converter for this
+	@Deprecated
 	private RemoteObject convertToPlayer(RemoteObjectDto player)
 	{
 		VectorDto vectorDto = player.getMovementVector();
