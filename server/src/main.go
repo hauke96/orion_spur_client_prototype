@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"generated"
 	"logger"
+	"login"
 	"net/http"
 	"os"
 	"player"
@@ -19,6 +20,7 @@ import (
 
 var playerService *player.PlayerService
 var remoteObjectService *remoteObject.RemoteObjectService
+var loginService *login.LoginService
 
 const gomsServerAddress string = "localhost"
 const gomsServerPort string = "55545"
@@ -44,11 +46,14 @@ func main() {
 	remoteObjectService = &remoteObject.RemoteObjectService{}
 	remoteObjectService.Init(remoteObjectDao)
 
+	loginService = &login.LoginService{}
+
 	router := mux.NewRouter()
 
 	router.HandleFunc("/player/{playerName}", createPlayerHandler).Methods(http.MethodPost)
 	router.HandleFunc("/player/{playerName}", getPlayerHandler).Methods(http.MethodGet)
 	router.HandleFunc("/player/{playerName}", updatePlayerHandler).Methods(http.MethodPut)
+	router.HandleFunc("/login/{playerName}", loginPlayer).Methods(http.MethodPost)
 	router.HandleFunc("/objects", getAllRemoteObjects).Methods(http.MethodGet)
 
 	logger.Info("Registered handler functions. Start serving...")
@@ -106,8 +111,8 @@ func updatePlayerHandler(w http.ResponseWriter, r *http.Request) {
 
 	if err != nil {
 		logger.Error(err.Error())
-		fmt.Fprintf(w, err.Error())
 		w.WriteHeader(409)
+		fmt.Fprintf(w, err.Error())
 	}
 }
 
@@ -118,6 +123,21 @@ func getAllPlayerHandler(w http.ResponseWriter, r *http.Request) {
 
 	encoder := json.NewEncoder(w)
 	encoder.Encode(players)
+}
+
+func loginPlayer(w http.ResponseWriter, r *http.Request) {
+	logger.Info("Called loginPlayer")
+
+	pathVariables := mux.Vars(r)
+	playerName := pathVariables["playerName"]
+
+	err := loginService.Login(playerName)
+
+	if err != nil {
+		logger.Error(err.Error())
+		w.WriteHeader(409)
+		fmt.Fprintf(w, err.Error())
+	}
 }
 
 func getAllRemoteObjects(w http.ResponseWriter, r *http.Request) {
