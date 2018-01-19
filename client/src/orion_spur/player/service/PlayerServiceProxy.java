@@ -61,21 +61,22 @@ public class PlayerServiceProxy implements IPlayerService
 	
 	private void gomsOnPlayerCreated(String data)
 	{
-		RemoteObjectDto player = _gson.fromJson(data, RemoteObjectDto.class);
+		RemoteObjectDto playerDto = _gson.fromJson(data, RemoteObjectDto.class);
 		
-		if (!player.getName().equals(PLAYER_NAME))
+		RemoteObject player = convertToPlayer(playerDto);
+		
+		if (!player.getId().equals(PLAYER_NAME))
 		{
 			System.out.println(data);
 		}
 		// Getting message of own player
 		else
 		{
-			_player = convertToPlayer(player);
-			
+			_player = player;
 			_lastSetPosition = _coordinateConverter.universeToWorld(_player.getPosition());
-			
-			PlayerCreated.fireEvent();
 		}
+		
+		PlayerCreated.fireEvent(player);
 	}
 	
 	// TODO Use converter for this

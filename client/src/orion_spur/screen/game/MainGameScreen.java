@@ -63,29 +63,38 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 		
 		_level = new LevelActor(levelService, Locator.get(IActorFactory.class), Locator.get(ICoordinateConverter.class), playerService);
 		
-		playerService.PlayerCreated.add(() ->
+		playerService.PlayerCreated.add(remoteObject ->
 		{
 			Gdx.app.postRunnable(new Runnable()
 			{
 				@Override
 				public void run()
 				{
-					try
+					RemoteObject player = playerService.getPlayer();
+					
+					if (remoteObject.getId().equals(player.getId()))
 					{
-						loginService.Login(playerService.getPlayer().getId());
-						
-						initializeLevel(levelService, worldUnitsPerPixel, playerService, remoteObjectService);
-						
-						_currentStage = new Stage(_viewport);
-						_currentStage.addActor(_level);
-						
-						onPlayerPositionChanged(new Vector2(0, 0));
-						
-						MainScreenInitialized.fireEvent();
+						try
+						{
+							loginService.Login(player.getId());
+							
+							initializeLevel(levelService, worldUnitsPerPixel, playerService, remoteObjectService);
+							
+							_currentStage = new Stage(_viewport);
+							_currentStage.addActor(_level);
+							
+							onPlayerPositionChanged(new Vector2(0, 0));
+							
+							MainScreenInitialized.fireEvent();
+						}
+						catch (Exception e)
+						{
+							Logger.fatal(e.getMessage());
+						}
 					}
-					catch (Exception e)
+					else
 					{
-						Logger.fatal(e.getMessage());
+						createRemoteObjectView(remoteObject);
 					}
 				}
 			});
@@ -95,6 +104,7 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 		
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable()
 		{
+			
 			@Override
 			public void run()
 			{
@@ -107,6 +117,7 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 					Logger.error("Could not logout player", e);
 				}
 			}
+			
 		}));
 	}
 	
@@ -124,15 +135,20 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 		{
 			if (!remoteObject.getId().equals(_playerLevelElement.getId()))
 			{
-				Logger.debug("Add remote object '" + remoteObject.getId() + "'");
-				LevelElement levelElement =
-				        new LevelElement(remoteObject.getId(), universeToWorld(remoteObject.getPosition()), remoteObject.getMovementVector(), remoteObject.getRotation(), LayerType.LAYER_REMOTE_OBJECTS, LevelType.REMOTE_OBJECT, remoteObject.getAssetFile());
-				_level.addToLayer(levelElement);
+				createRemoteObjectView(remoteObject);
 			}
 		}
 		
 		// _player.PositionChanged.add(position -> onPlayerPositionChanged(position));
 		playerService.PositionChanged.add(offset -> onPlayerPositionChanged(offset));
+	}
+	
+	private void createRemoteObjectView(RemoteObject remoteObject)
+	{
+		Logger.debug("Add remote object '" + remoteObject.getId() + "'");
+		LevelElement levelElement =
+		        new LevelElement(remoteObject.getId(), universeToWorld(remoteObject.getPosition()), remoteObject.getMovementVector(), remoteObject.getRotation(), LayerType.LAYER_REMOTE_OBJECTS, LevelType.REMOTE_OBJECT, remoteObject.getAssetFile());
+		_level.addToLayer(levelElement);
 	}
 	
 	private void onPlayerPositionChanged(Vector2 offset)

@@ -5,7 +5,6 @@ import java.io.IOException;
 import com.badlogic.gdx.math.Vector2;
 
 import juard.event.DataEvent;
-import juard.event.Event;
 import orion_spur.common.domainvalue.Position;
 import orion_spur.common.exception.HttpException;
 import orion_spur.level.material.LevelElement;
@@ -13,8 +12,8 @@ import orion_spur.remoteObjects.material.RemoteObject;
 
 public interface IPlayerService
 {
-	public Event				PlayerCreated	= new Event();
-	public DataEvent<Vector2>	PositionChanged	= new DataEvent<Vector2>();
+	public DataEvent<RemoteObject>	PlayerCreated	= new DataEvent<RemoteObject>();
+	public DataEvent<Vector2>		PositionChanged	= new DataEvent<Vector2>();
 	
 	void createPlayer() throws Exception;
 	
