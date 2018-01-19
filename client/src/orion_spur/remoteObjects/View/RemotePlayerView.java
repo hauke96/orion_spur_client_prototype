@@ -49,6 +49,11 @@ public class RemotePlayerView extends ImageActor
 			
 			setX(position.x - getWidth() / 2);
 			setY(position.y - getHeight() / 2);
+			
+			setRotation(object.getRotation());
+			
+			getLevelElement().setMovementVector(object.getMovementVector());
+			
 			getLevelElement().setPosition(position);
 		}
 	}
