@@ -75,18 +75,18 @@ public class PlayerView extends ImageActor
 			rotationChanged = true;
 		}
 		
-		if (movementAdjustion.x != 0 || movementAdjustion.y != 0 || rotationChanged)
+		movementAdjustion.rotate(getLevelElement().getRotation());
+		
+		getLevelElement().accelerateShipBy(movementAdjustion);
+		
+		positionOfView.add(getLevelElement().getMovementVector().x * delta / getScaleX(), getLevelElement().getMovementVector().y * delta / getScaleY());
+		
+		if (positionOfView.x != getX() || positionOfView.y != getY() || rotationChanged)
 		{
-			movementAdjustion.rotate(getLevelElement().getRotation());
-			
-			getLevelElement().accelerateShipBy(movementAdjustion);
-			
-			positionOfView.add(getLevelElement().getMovementVector().x * delta / getScaleX(), getLevelElement().getMovementVector().y * delta / getScaleY());
-			
 			setPosition(positionOfView.x, positionOfView.y);
-			
-			_sprite.setRotation(getLevelElement().getRotation());
 		}
+		
+		_sprite.setRotation(getLevelElement().getRotation());
 	}
 	
 	@Override
