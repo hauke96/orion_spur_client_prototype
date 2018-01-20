@@ -58,13 +58,8 @@ public class ImageActor extends Actor
 		
 		_sprite.setPosition(getX(), getY());
 		
-		System.out.println("added: " + levelElement.getAssetPath()
-		        + " - at sprite-pos ("
-		        + _sprite.getX()
-		        + ", "
-		        + _sprite.getY()
-		        + ") - at element pos "
-		        + levelElement.getPosition());
+		Contract.Satisfy(_sprite != null);
+		Contract.Satisfy(_sprite.getTexture() != null);
 	}
 	
 	@Override

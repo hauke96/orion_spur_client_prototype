@@ -24,9 +24,6 @@ public class PlayerView extends ImageActor
 		Contract.NotNull(positionInLevel);
 		
 		_playerService = playerService;
-		
-		Contract.Satisfy(_sprite != null);
-		Contract.Satisfy(_sprite.getTexture() != null);
 	}
 	
 	@Override

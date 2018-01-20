@@ -25,9 +25,6 @@ public class RemotePlayerView extends ImageActor
 		_remoteObjectService = service;
 		
 		service.RemoteObjectChanged.add(this::OnRemoteObjectChanged);
-		
-		Contract.Satisfy(_sprite != null);
-		Contract.Satisfy(_sprite.getTexture() != null);
 	}
 	
 	private void OnRemoteObjectChanged(RemoteObject object)
