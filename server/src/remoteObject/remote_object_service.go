@@ -14,7 +14,7 @@ func (service *RemoteObjectService) Init(dao *LocalRemoteObjectDao) {
 }
 
 func (service *RemoteObjectService) GetAll() []*remoteObject.RemoteObject {
-	logger.Info("Called GetAll")
+	logger.Debug("Called GetAll")
 
 	return service.dao.GetAll()
 }

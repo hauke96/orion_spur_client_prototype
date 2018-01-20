@@ -20,10 +20,10 @@ func (service *PlayerService) Init(messagingService *goms4go.GomsClient, playerD
 }
 
 func (service *PlayerService) CreatePlayer(name string) error {
-	logger.Info("Called CreatePlayer with name '" + name + "'")
+	logger.Debug("Called CreatePlayer with name '" + name + "'")
 
 	p := &remoteObject.RemoteObject{
-		//0, -23013, 600, -6467355351055975L
+		//0, -23013, 0, -646735535105623500
 		X:              common.Coordinate{LightYears: 0, Meters: 0},
 		Y:              common.Coordinate{LightYears: -23013, Meters: -646735535105623500},
 		Name:           name,
@@ -42,7 +42,7 @@ func (service *PlayerService) CreatePlayer(name string) error {
 }
 
 func (service *PlayerService) Get(name string) (*remoteObject.RemoteObject, error) {
-	logger.Info("Called GetPlayer with name '" + name + "'")
+	logger.Debug("Called GetPlayer with name '" + name + "'")
 
 	player, err := service.dao.Get(name)
 
@@ -54,7 +54,7 @@ func (service *PlayerService) Get(name string) (*remoteObject.RemoteObject, erro
 }
 
 func (service *PlayerService) GetAll() []*remoteObject.RemoteObject {
-	logger.Info("Called GetAllPlayer")
+	logger.Debug("Called GetAllPlayer")
 
 	list := []*remoteObject.RemoteObject{}
 
@@ -71,7 +71,7 @@ func (service *PlayerService) GetAll() []*remoteObject.RemoteObject {
 }
 
 func (service *PlayerService) UpdatePosition(name string, x common.Coordinate, y common.Coordinate, movementVector common.Vector, rotation float32) error {
-	logger.Info("Called SetPlayerPosition with name '" + name + "'")
+	logger.Debug("Called SetPlayerPosition with name '" + name + "'")
 
 	p, err := service.Get(name)
 

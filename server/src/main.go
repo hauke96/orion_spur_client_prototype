@@ -33,6 +33,7 @@ func main() {
 	messagingService, err := goms4go.Connect(gomsServerAddress, gomsServerPort)
 	if err != nil {
 		logger.Error("Could not connect to goms-server unter " + gomsServerAddress + ":" + gomsServerPort + ".")
+		logger.Error("Error is: " + err.Error())
 		os.Exit(1)
 	}
 

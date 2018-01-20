@@ -2,6 +2,7 @@ package login
 
 import (
 	"errors"
+	"logger"
 )
 
 type LoginService struct {
@@ -9,6 +10,8 @@ type LoginService struct {
 }
 
 func (service *LoginService) Login(id string) error {
+	logger.Debug("Called Login with id " + id)
+
 	_, err := service.find(id)
 
 	// find works -> user is already logged in
@@ -22,6 +25,8 @@ func (service *LoginService) Login(id string) error {
 }
 
 func (service *LoginService) Logout(id string) error {
+	logger.Debug("Called Logout with id " + id)
+
 	i, err := service.find(id)
 
 	// find didn't works -> user is not logged in
@@ -35,6 +40,8 @@ func (service *LoginService) Logout(id string) error {
 }
 
 func (service *LoginService) IsLoggedIn(id string) bool {
+	logger.Debug("Called IsLoggedIn with id " + id)
+
 	_, err := service.find(id)
 
 	return err == nil
