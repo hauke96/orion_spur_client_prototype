@@ -106,7 +106,7 @@ func updatePlayerHandler(w http.ResponseWriter, r *http.Request) {
 	player := &generated.RemoteObjectDto{}
 	json.NewDecoder(r.Body).Decode(player)
 
-	logger.Info(fmt.Sprintf("%v", player.MovementVector))
+	logger.Debug(fmt.Sprintf("%v", player.MovementVector))
 
 	x := common.Coordinate{LightYears: player.GetX().LightYears, Meters: player.GetX().Meters}
 	y := common.Coordinate{LightYears: player.GetY().LightYears, Meters: player.GetY().Meters}
