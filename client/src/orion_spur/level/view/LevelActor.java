@@ -3,29 +3,23 @@ package orion_spur.level.view;
 import com.badlogic.gdx.math.Vector2;
 
 import juard.contract.Contract;
-import orion_spur.common.converter.ICoordinateConverter;
 import orion_spur.common.domainvalue.Position;
 import orion_spur.common.factory.IActorFactory;
 import orion_spur.common.service.LayerActor;
 import orion_spur.level.service.ILevelService;
-import orion_spur.player.service.IPlayerService;
 
 public class LevelActor extends LayerActor
 {
-	private Position				_position;
-	private ILevelService			_levelService;
-	private Vector2					_size;
-	private IPlayerService			_playService;
-	private ICoordinateConverter	_coordinateConverter;
+	private Position		_position;
+	private ILevelService	_levelService;
+	private Vector2			_size;
 	
-	public LevelActor(ILevelService levelService, IActorFactory actorFactory, ICoordinateConverter coordinateConverter, IPlayerService playService)
+	public LevelActor(ILevelService levelService, IActorFactory actorFactory)
 	{
-		super(actorFactory, coordinateConverter);
+		super(actorFactory);
 		Contract.NotNull(levelService);
 		
 		_levelService = levelService;
-		_coordinateConverter = coordinateConverter;
-		_playService = playService;
 		
 		// TODO add real level name when implemented
 		_position = _levelService.getPosition("");

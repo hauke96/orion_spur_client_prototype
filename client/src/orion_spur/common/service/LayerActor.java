@@ -10,7 +10,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import juard.contract.Contract;
 import juard.log.Logger;
-import orion_spur.common.converter.ICoordinateConverter;
 import orion_spur.common.factory.IActorFactory;
 import orion_spur.level.material.LevelElement;
 
@@ -25,16 +24,12 @@ public class LayerActor extends Actor
 	private Map<LayerType, HashMap<String, Actor>>	_layers;
 	private Map<LayerType, Float>					_layerToScale;
 	private IActorFactory							_actorFactory;
-	private ICoordinateConverter					_coordinateConverter;
-	private Vector2									_lastKnownPlayerPosition;
 	
-	public LayerActor(IActorFactory actorFactory, ICoordinateConverter coordinateConverter)
+	public LayerActor(IActorFactory actorFactory)
 	{
 		Contract.NotNull(actorFactory);
-		Contract.NotNull(coordinateConverter);
 		
 		_actorFactory = actorFactory;
-		_coordinateConverter = coordinateConverter;
 		
 		_layers = new HashMap<LayerActor.LayerType, HashMap<String, Actor>>();
 		

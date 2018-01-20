@@ -61,7 +61,7 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 		_viewport = new ScreenViewport(_camera);
 		_viewport.setUnitsPerPixel(worldUnitsPerPixel);
 		
-		_level = new LevelActor(levelService, Locator.get(IActorFactory.class), Locator.get(ICoordinateConverter.class), playerService);
+		_level = new LevelActor(levelService, Locator.get(IActorFactory.class));
 		
 		playerService.PlayerCreated.add(remoteObject ->
 		{
