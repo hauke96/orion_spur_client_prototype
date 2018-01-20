@@ -1,7 +1,5 @@
 package orion_spur.common.generated;
 
-import java.util.List;
-
 public class VectorDto 
 {
 	private float X;
