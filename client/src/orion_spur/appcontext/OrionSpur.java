@@ -14,7 +14,7 @@ import orion_spur.screen.mainmenu.MainMenuScreen;
 
 public class OrionSpur extends Game implements ApplicationListener
 {
-	private static final float WORLD_UNITS_PER_PIXEL = 20f;
+	private static final float WORLD_UNITS_PER_PIXEL = 6f;
 	
 	private int	_width;
 	private int	_height;
@@ -33,7 +33,8 @@ public class OrionSpur extends Game implements ApplicationListener
 		{
 			try
 			{
-				MainGameScreen newScreen = new MainGameScreen(Locator.get(ILevelService.class), Locator.get(ILoginService.class), _width, _height, WORLD_UNITS_PER_PIXEL);
+				MainGameScreen newScreen =
+				        new MainGameScreen(Locator.get(ILevelService.class), Locator.get(ILoginService.class), _width, _height, WORLD_UNITS_PER_PIXEL);
 				// TODO show a loading screen here
 				newScreen.MainScreenInitialized.add(() -> setScreen(newScreen));
 			}

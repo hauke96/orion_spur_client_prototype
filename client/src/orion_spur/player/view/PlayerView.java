@@ -17,24 +17,13 @@ public class PlayerView extends ImageActor
 	
 	public PlayerView(IPlayerService playerService, IUnitConverter unitConverter, SpaceShip levelElement, Vector2 positionInLevel)
 	{
-		super(levelElement);
+		super(levelElement, 600, 600);
 		
 		Contract.NotNull(playerService);
 		Contract.NotNull(unitConverter);
 		Contract.NotNull(positionInLevel);
 		
 		_playerService = playerService;
-		
-		setWidth(2000);
-		setHeight(2000);
-		setX(positionInLevel.x - getWidth() / 2);
-		setY(positionInLevel.y - getHeight() / 2);
-		
-		_sprite.setBounds(getX(), getY(), getWidth(), getHeight());
-		_sprite.setOrigin(getWidth() / 2, getHeight() / 2);
-		_sprite.rotate(levelElement.getRotation());
-		
-		super.setPosition(getX(), getY());
 		
 		Contract.Satisfy(_sprite != null);
 		Contract.Satisfy(_sprite.getTexture() != null);
@@ -79,7 +68,8 @@ public class PlayerView extends ImageActor
 		
 		getLevelElement().accelerateShipBy(movementAdjustion);
 		
-		positionOfView.add(getLevelElement().getMovementVector().x * delta / getScaleX(), getLevelElement().getMovementVector().y * delta / getScaleY());
+		positionOfView.add(getLevelElement().getMovementVector().x * delta
+		        / getScaleX(), getLevelElement().getMovementVector().y * delta / getScaleY());
 		
 		if (positionOfView.x != getX() || positionOfView.y != getY() || rotationChanged)
 		{

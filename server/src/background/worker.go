@@ -8,8 +8,8 @@ import (
 )
 
 func Run(playerService *player.PlayerService, loginService *login.LoginService) {
-	x := common.Coordinate{LightYears: 0, Meters: 60000}
-	y := common.Coordinate{LightYears: -23013, Meters: -646735535105597500}
+	x := common.Coordinate{LightYears: 0, Meters: 0}
+	y := common.Coordinate{LightYears: -23013, Meters: -646735535105623500}
 	// TODO use channels to exit this worker
 	for true {
 		time.Sleep(time.Second * 3)

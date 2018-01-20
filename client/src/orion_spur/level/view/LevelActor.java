@@ -37,14 +37,6 @@ public class LevelActor extends LayerActor
 	public void loadLevelElements() throws RuntimeException, Exception
 	{
 		_levelService.getLevel("").forEach((levelElement) -> addToLayer(levelElement));
-		
-		// TODO add real level name when implemented
-		Vector2 levelWorldPosition = _coordinateConverter.universeToWorld(_levelService.getCenterPosition(""));
-		Vector2 playerWorldPosition = _coordinateConverter.universeToWorld(_playService.getPosition());
-		
-		Vector2 offset = playerWorldPosition.sub(levelWorldPosition);
-		
-		onPlayerPositionChanged(offset);
 	}
 	
 	public Position getPosition()

@@ -24,8 +24,8 @@ func (service *PlayerService) CreatePlayer(name string) error {
 
 	p := &remoteObject.RemoteObject{
 		//0, -23013, 600, -6467355351055975L
-		X:              common.Coordinate{LightYears: 0, Meters: 60000},
-		Y:              common.Coordinate{LightYears: -23013, Meters: -646735535105597500},
+		X:              common.Coordinate{LightYears: 0, Meters: 0},
+		Y:              common.Coordinate{LightYears: -23013, Meters: -646735535105623500},
 		Name:           name,
 		Rotation:       0,
 		MovementVector: common.Vector{X: 0, Y: 0},

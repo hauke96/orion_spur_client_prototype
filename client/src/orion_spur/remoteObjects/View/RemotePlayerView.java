@@ -16,24 +16,13 @@ public class RemotePlayerView extends ImageActor
 	
 	public RemotePlayerView(LevelElement levelElement, ICoordinateConverter coordinateConverter, IRemoteObjectService service)
 	{
-		super(levelElement);
+		super(levelElement, 600, 600);
 		
 		Contract.NotNull(coordinateConverter);
 		Contract.NotNull(service);
 		
 		_coordinateConverter = coordinateConverter;
 		_remoteObjectService = service;
-		
-		setWidth(2000);
-		setHeight(2000);
-		setX(levelElement.getPosition().x - getWidth() / 2);
-		setY(levelElement.getPosition().y - getHeight() / 2);
-		
-		_sprite.setBounds(getX(), getY(), getWidth(), getHeight());
-		_sprite.setOrigin(getWidth() / 2, getHeight() / 2);
-		_sprite.rotate(levelElement.getRotation());
-		
-		setPosition(getX(), getY());
 		
 		service.RemoteObjectChanged.add(this::OnRemoteObjectChanged);
 		

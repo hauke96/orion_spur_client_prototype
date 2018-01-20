@@ -89,6 +89,7 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 						}
 						catch (Exception e)
 						{
+							e.printStackTrace();
 							Logger.fatal(e.getMessage());
 						}
 					}
@@ -126,7 +127,7 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 		// TODO refactor this to first get the player and then create the main game
 		// screen
 		_playerLevelElement =
-		        new SpaceShip(playerService.getPlayer().getId(), universeToWorld(levelService.getPosition("")), new Vector2(), 0, LayerType.LAYER_PLAYER, LevelType.PLAYER, "assets/textures/spaceship.png", convertFromWorld(30000), 100, 250);
+		        new SpaceShip(playerService.getPlayer().getId(), universeToWorld(levelService.getPosition("")), new Vector2(), 0, LayerType.LAYER_PLAYER, LevelType.PLAYER, "assets/textures/spaceship.png", 1000, 10000, 250);
 		_player = (PlayerView) _level.addToLayer(_playerLevelElement);
 		
 		_level.loadLevelElements();
@@ -145,7 +146,6 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 	
 	private void createRemoteObjectView(RemoteObject remoteObject)
 	{
-		Logger.debug("Add remote object '" + remoteObject.getId() + "'\n" + remoteObject.getPosition() + " at world-coords: " + universeToWorld(remoteObject.getPosition()));
 		LevelElement levelElement =
 		        new LevelElement(remoteObject.getId(), universeToWorld(remoteObject.getPosition()), remoteObject.getMovementVector(), remoteObject.getRotation(), LayerType.LAYER_REMOTE_OBJECTS, LevelType.REMOTE_OBJECT, remoteObject.getAssetFile());
 		_level.addToLayer(levelElement);

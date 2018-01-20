@@ -56,7 +56,7 @@ public class ActorFactoryImpl implements IActorFactory
 				break;
 			default:
 				result = new Actor();
-				setPosition(levelElement, result);
+				// setPosition(levelElement, result);
 				break;
 		}
 		
