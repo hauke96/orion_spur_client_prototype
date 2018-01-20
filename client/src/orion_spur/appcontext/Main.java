@@ -70,6 +70,6 @@ public class Main
 		}
 		
 		Locator.register(ILevelService.class, () -> new LevelDummyService());
-		Locator.register(IActorFactory.class, () -> new ActorFactoryImpl(Locator.get(IPlayerService.class), Locator.get(IRemoteObjectService.class), Locator.get(ILevelService.class), Locator.get(IUnitConverter.class), Locator.get(ICoordinateConverter.class)));
+		Locator.register(IActorFactory.class, () -> new ActorFactoryImpl(Locator.get(IPlayerService.class), Locator.get(IUnitConverter.class), Locator.get(ICoordinateConverter.class)));
 	}
 }

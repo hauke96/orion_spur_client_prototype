@@ -11,20 +11,17 @@ import orion_spur.remoteObjects.material.RemoteObject;
 
 public class RemotePlayerView extends ImageActor
 {
-	private IRemoteObjectService	_remoteObjectService;
-	private ICoordinateConverter	_coordinateConverter;
+	private ICoordinateConverter _coordinateConverter;
 	
-	public RemotePlayerView(LevelElement levelElement, ICoordinateConverter coordinateConverter, IRemoteObjectService service)
+	public RemotePlayerView(LevelElement levelElement, ICoordinateConverter coordinateConverter)
 	{
 		super(levelElement, 600, 600);
 		
 		Contract.NotNull(coordinateConverter);
-		Contract.NotNull(service);
 		
 		_coordinateConverter = coordinateConverter;
-		_remoteObjectService = service;
 		
-		service.RemoteObjectChanged.add(this::OnRemoteObjectChanged);
+		IRemoteObjectService.RemoteObjectChanged.add(this::OnRemoteObjectChanged);
 	}
 	
 	private void OnRemoteObjectChanged(RemoteObject object)
