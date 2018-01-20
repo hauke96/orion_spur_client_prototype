@@ -79,8 +79,6 @@ public class PlayerView extends ImageActor
 	@Override
 	public void setPosition(float x, float y)
 	{
-		Vector2 offset = new Vector2(x - getX(), y - getY());
-		
 		getLevelElement().setPosition(new Vector2(getCenterPosition()));
 		
 		super.setPosition(x, y);

@@ -63,7 +63,7 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 		
 		_level = new LevelActor(levelService, Locator.get(IActorFactory.class));
 		
-		playerService.PlayerCreated.add(remoteObject ->
+		IPlayerService.PlayerCreated.add(remoteObject ->
 		{
 			Gdx.app.postRunnable(new Runnable()
 			{
@@ -141,7 +141,7 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 		}
 		
 		// _player.PositionChanged.add(position -> onPlayerPositionChanged(position));
-		playerService.PositionChanged.add(offset -> onPlayerPositionChanged(offset));
+		IPlayerService.PositionChanged.add(offset -> onPlayerPositionChanged(offset));
 	}
 	
 	private void createRemoteObjectView(RemoteObject remoteObject)

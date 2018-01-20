@@ -41,7 +41,7 @@ public interface ICoordinateConverter
 	 * @param position
 	 *            The universe-position.
 	 * @return The position in the level in meters.
-	 * @throws Exception
+	 * @throws RuntimeException
 	 *             Will be thrown when the position to check is too far away from
 	 *             the actual level position.
 	 */
