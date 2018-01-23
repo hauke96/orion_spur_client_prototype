@@ -51,4 +51,29 @@ public class SpaceShip extends LevelElement
 			setMovementVectorLength(_maxSpeed);
 		}
 	}
+	
+	@Override
+	public int hashCode()
+	{
+		return (int) (super.hashCode()
+		        * getAcceleration()
+		        * getMaxSpeed()
+		        * getRotationSpeed());
+	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this.getClass().equals(obj.getClass()))
+		{
+			return false;
+		}
+		
+		SpaceShip other = (SpaceShip) obj;
+		
+		return super.equals(other)
+		        && this.getAcceleration() == other.getAcceleration()
+		        && this.getMaxSpeed() == other.getMaxSpeed()
+		        && this.getRotationSpeed() == other.getRotationSpeed();
+	}
 }
