@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import juard.contract.Contract;
@@ -96,7 +97,7 @@ public class ImageActor extends Actor
 	public void setPosition(float x, float y)
 	{
 		_sprite.setPosition(x, y);
-		
+		getLevelElement().setPosition(new Vector2(x + getWidth() / 2, y + getHeight() / 2));
 		super.setPosition(x, y);
 	}
 	

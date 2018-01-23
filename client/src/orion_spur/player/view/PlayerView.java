@@ -31,7 +31,6 @@ public class PlayerView extends ImageActor
 	{
 		Vector2 positionOfView = new Vector2(getX(), getY());
 		Vector2 movementAdjustion = new Vector2();
-		boolean rotationChanged = false;
 		
 		if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D))
 		{
@@ -52,13 +51,11 @@ public class PlayerView extends ImageActor
 		
 		if (Gdx.input.isKeyPressed(Input.Keys.Q))
 		{
-			getLevelElement().rotateBy(getLevelElement().getRotationSpeed() * delta);
-			rotationChanged = true;
+			rotateBy(getLevelElement().getRotationSpeed() * delta);
 		}
 		if (Gdx.input.isKeyPressed(Input.Keys.E))
 		{
-			getLevelElement().rotateBy(-getLevelElement().getRotationSpeed() * delta);
-			rotationChanged = true;
+			rotateBy(-getLevelElement().getRotationSpeed() * delta);
 		}
 		
 		movementAdjustion.rotate(getLevelElement().getRotation());
@@ -68,19 +65,12 @@ public class PlayerView extends ImageActor
 		positionOfView.add(getLevelElement().getMovementVector().x * delta
 		        / getScaleX(), getLevelElement().getMovementVector().y * delta / getScaleY());
 		
-		if (positionOfView.x != getX() || positionOfView.y != getY() || rotationChanged)
-		{
-			setPosition(positionOfView.x, positionOfView.y);
-		}
-		
-		_sprite.setRotation(getLevelElement().getRotation());
+		setPosition(positionOfView.x, positionOfView.y);
 	}
 	
 	@Override
 	public void setPosition(float x, float y)
 	{
-		getLevelElement().setPosition(new Vector2(getCenterPosition()));
-		
 		super.setPosition(x, y);
 		
 		try
