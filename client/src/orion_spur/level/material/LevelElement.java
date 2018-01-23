@@ -67,6 +67,11 @@ public class LevelElement
 		return new Vector2(_movementVector);
 	}
 	
+	public float getSpeed()
+	{
+		return getMovementVector().len();
+	}
+	
 	public void setMovementVectorLength(float length)
 	{
 		_movementVector.setLength(length);

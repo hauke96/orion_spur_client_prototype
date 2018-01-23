@@ -93,20 +93,9 @@ public class PlayerView extends ImageActor
 		}
 	}
 	
-	@Override
-	public float getRotation()
-	{
-		return getLevelElement().getRotation();
-	}
-	
 	public Vector2 getCenterPosition()
 	{
 		return new Vector2(getX() + getWidth() / 2, getY() + getHeight() / 2);
-	}
-	
-	public float getSpeed()
-	{
-		return getLevelElement().getMovementVector().len();
 	}
 	
 	@Override
