@@ -83,7 +83,7 @@ public class PlayerView extends ImageActor
 		}
 	}
 	
-	public Vector2 getCenterPosition()
+	public Vector2 getCenterWorldPosition()
 	{
 		return new Vector2(getX() + getWidth() / 2, getY() + getHeight() / 2);
 	}

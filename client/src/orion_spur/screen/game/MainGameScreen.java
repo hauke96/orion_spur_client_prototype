@@ -153,7 +153,7 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 	
 	private void onPlayerPositionChanged(Vector2 offset)
 	{
-		Vector2 playerPosition = _player.getCenterPosition();
+		Vector2 playerPosition = _player.getCenterWorldPosition();
 		float playerSpeed = _playerLevelElement.getSpeed();
 		_camera.position.set(playerPosition, 0);
 		
