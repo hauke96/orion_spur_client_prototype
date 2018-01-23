@@ -39,7 +39,7 @@ public class LevelElement
 	
 	public Vector2 getPosition()
 	{
-		return _position;
+		return new Vector2(_position);
 	}
 	
 	public LayerType getLayer()
@@ -64,7 +64,7 @@ public class LevelElement
 	
 	public Vector2 getMovementVector()
 	{
-		return new Vector2(_movementVector.x, _movementVector.y);
+		return new Vector2(_movementVector);
 	}
 	
 	public void setMovementVectorLength(float length)
@@ -97,4 +97,34 @@ public class LevelElement
 	}
 	
 	// TODO equals, hashcode
+	@Override
+	public int hashCode()
+	{
+		return (int) (getId().hashCode()
+		        * getPosition().hashCode()
+		        * getRotation()
+		        * getLayer().hashCode()
+		        * getType().hashCode()
+		        * getAssetPath().hashCode()
+		        * getMovementVector().hashCode());
+	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (!this.getClass().equals(obj.getClass()))
+		{
+			return false;
+		}
+		
+		LevelElement other = (LevelElement) obj;
+		
+		return this.getId().equals(other.getId())
+		        && this.getPosition().equals(other.getPosition())
+		        && this.getRotation() == other.getRotation()
+		        && this.getLayer().equals(other.getLayer())
+		        && this.getType().equals(other.getType())
+		        && this.getAssetPath().equals(other.getAssetPath())
+		        && this.getMovementVector().equals(other.getMovementVector());
+	}
 }
