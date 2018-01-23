@@ -161,11 +161,13 @@ public class PlayerServiceProxy implements IPlayerService
 		}
 	}
 	
+	// TODO create dto-converter for this
 	private CoordinateDto toCoordinateDto(Coordinate coordinate)
 	{
 		return new CoordinateDto(coordinate.getLightYear(), coordinate.getCentimeter());
 	}
 	
+	// TODO create dto-converter for this
 	private VectorDto toVectorDto(Vector2 vector)
 	{
 		return new VectorDto(vector.x, vector.y);
