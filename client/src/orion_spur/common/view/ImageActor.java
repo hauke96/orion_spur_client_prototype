@@ -100,6 +100,31 @@ public class ImageActor extends Actor
 		super.setPosition(x, y);
 	}
 	
+	@Override
+	public void setRotation(float degrees)
+	{
+		_sprite.rotate(degrees - _sprite.getRotation());
+		getLevelElement().rotateTo(degrees);
+		super.setRotation(degrees);
+	}
+	
+	@Override
+	public void rotateBy(float amountInDegrees)
+	{
+		setRotation(amountInDegrees + getRotation());
+	}
+	
+	@Override
+	public float getRotation()
+	{
+		float rotation = super.getRotation();
+		
+		Contract.Satisfy(rotation == _sprite.getRotation());
+		Contract.Satisfy(rotation == getLevelElement().getRotation());
+		
+		return rotation;
+	}
+	
 	protected LevelElement getLevelElement()
 	{
 		Contract.NotNull(_levelElement);
