@@ -14,6 +14,8 @@ import orion_spur.common.factory.ActorFactoryImpl;
 import orion_spur.common.factory.IActorFactory;
 import orion_spur.level.service.ILevelService;
 import orion_spur.level.service.LevelDummyService;
+import orion_spur.particles.service.IParticleService;
+import orion_spur.particles.service.ParticleServiceImpl;
 import orion_spur.player.service.ILoginService;
 import orion_spur.player.service.IPlayerService;
 import orion_spur.player.service.PlayerLoginServiceProxy;
@@ -47,7 +49,8 @@ public class Main
 	{
 		if (USE_DUMMY_SERVICES)
 		{
-			Locator.register(IPlayerService.class, () -> new PlayerServiceDummy(Locator.get(ICoordinateConverter.class)));
+			Locator.register(IPlayerService.class,
+			    () -> new PlayerServiceDummy(Locator.get(ICoordinateConverter.class)));
 			// TODO create dummy service for remote objects
 		}
 		else
@@ -64,12 +67,22 @@ public class Main
 					throw new ResolutionFailedException(GoMessagingService.class);
 				}
 			});
-			Locator.register(IPlayerService.class, () -> new PlayerServiceProxy(Locator.get(GoMessagingService.class), Locator.get(ICoordinateConverter.class)));
-			Locator.register(IRemoteObjectService.class, () -> new RemoteObjectServiceProxy(Locator.get(GoMessagingService.class)));
+			Locator.register(IPlayerService.class,
+			    () -> new PlayerServiceProxy(
+			        Locator.get(GoMessagingService.class),
+			        Locator.get(ICoordinateConverter.class)));
+			Locator.register(IRemoteObjectService.class,
+			    () -> new RemoteObjectServiceProxy(
+			        Locator.get(GoMessagingService.class)));
 			Locator.register(ILoginService.class, () -> new PlayerLoginServiceProxy());
 		}
 		
 		Locator.register(ILevelService.class, () -> new LevelDummyService());
-		Locator.register(IActorFactory.class, () -> new ActorFactoryImpl(Locator.get(IPlayerService.class), Locator.get(IUnitConverter.class), Locator.get(ICoordinateConverter.class)));
+		Locator.register(IParticleService.class, () -> new ParticleServiceImpl());
+		Locator.register(IActorFactory.class,
+		    () -> new ActorFactoryImpl(
+		        Locator.get(IPlayerService.class),
+		        Locator.get(IUnitConverter.class),
+		        Locator.get(ICoordinateConverter.class)));
 	}
 }
