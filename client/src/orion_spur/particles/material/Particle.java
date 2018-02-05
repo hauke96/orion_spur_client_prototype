@@ -1,6 +1,6 @@
 package orion_spur.particles.material;
 
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 import orion_spur.common.service.LayerActor.LayerType;
@@ -14,5 +14,5 @@ public abstract class Particle extends LevelElement
 		super(id, position, movementVector, rotation, layer, type, assetPath);
 	}
 	
-	public abstract Texture getTexture();
+	public abstract TextureRegion getTexture();
 }
