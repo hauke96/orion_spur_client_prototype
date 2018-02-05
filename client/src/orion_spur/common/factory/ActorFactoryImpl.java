@@ -7,10 +7,10 @@ import orion_spur.common.converter.ICoordinateConverter;
 import orion_spur.common.converter.IUnitConverter;
 import orion_spur.common.view.ImageActor;
 import orion_spur.level.material.LevelElement;
+import orion_spur.player.material.SpaceShip;
 import orion_spur.player.service.IPlayerService;
 import orion_spur.player.view.PlayerView;
 import orion_spur.remoteObjects.View.RemotePlayerView;
-import orion_spur.ships.material.SpaceShip;
 
 public class ActorFactoryImpl implements IActorFactory
 {

@@ -25,12 +25,12 @@ import orion_spur.level.domainvalue.LevelType;
 import orion_spur.level.material.LevelElement;
 import orion_spur.level.service.ILevelService;
 import orion_spur.level.view.LevelActor;
+import orion_spur.player.material.SpaceShip;
 import orion_spur.player.service.ILoginService;
 import orion_spur.player.service.IPlayerService;
 import orion_spur.player.view.PlayerView;
 import orion_spur.remoteObjects.Service.IRemoteObjectService;
 import orion_spur.remoteObjects.material.RemoteObject;
-import orion_spur.ships.material.SpaceShip;
 
 // TODO Extract Coordinate and unit converter
 public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConverter

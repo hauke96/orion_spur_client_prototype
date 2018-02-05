@@ -1,4 +1,4 @@
-package orion_spur.ships.material;
+package orion_spur.player.material;
 
 import com.badlogic.gdx.math.Vector2;
 

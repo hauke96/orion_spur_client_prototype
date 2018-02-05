@@ -8,8 +8,8 @@ import juard.contract.Contract;
 import juard.log.Logger;
 import orion_spur.common.converter.IUnitConverter;
 import orion_spur.common.view.ImageActor;
+import orion_spur.player.material.SpaceShip;
 import orion_spur.player.service.IPlayerService;
-import orion_spur.ships.material.SpaceShip;
 
 public class PlayerView extends ImageActor
 {
