@@ -41,7 +41,10 @@ public class ActorFactoryImpl implements IActorFactory
 				setPosition(levelElement, result);
 				break;
 			case PLAYER:
-				result = new PlayerView(_playerService, _unitConverter, (SpaceShip) levelElement, _coordinateConverter.universeToWorld(_playerService.getPosition()));
+				result = new PlayerView(_playerService,
+				    _unitConverter,
+				    (SpaceShip) levelElement,
+				    _coordinateConverter.universeToWorld(_playerService.getPosition()));
 				break;
 			case REMOTE_OBJECT:
 				result = new RemotePlayerView(levelElement, _coordinateConverter);

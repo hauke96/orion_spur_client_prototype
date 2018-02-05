@@ -35,7 +35,8 @@ public class PlayerServiceDummy implements IPlayerService
 		
 		_playerPosition = _coordinateConverter.worldToUniverse(newPosition);
 		
-		PositionChanged.fireEvent(new Vector2(newPositionWorldVector.x - playerPositionWorldVector.x, newPositionWorldVector.y - playerPositionWorldVector.y));
+		PositionChanged.fireEvent(new Vector2(newPositionWorldVector.x - playerPositionWorldVector.x,
+		    newPositionWorldVector.y - playerPositionWorldVector.y));
 	}
 	
 	@Override

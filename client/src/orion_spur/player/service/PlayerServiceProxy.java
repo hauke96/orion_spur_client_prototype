@@ -87,10 +87,14 @@ public class PlayerServiceProxy implements IPlayerService
 		Vector2 movementVector = new Vector2(vectorDto.getX(), vectorDto.getY());
 		
 		Position position =
-		        Position.create(player.getX().getLightYears(), player.getY().getLightYears(), player.getX().getMeters(), player.getY().getMeters());
+		        Position.create(player.getX().getLightYears(),
+		            player.getY().getLightYears(),
+		            player.getX().getMeters(),
+		            player.getY().getMeters());
 		
 		RemoteObject player2 =
-		        new RemoteObject(player.getName(), movementVector, player.getAssetFile(), position, player.getRotation());
+		        new RemoteObject(player
+		            .getName(), movementVector, player.getAssetFile(), position, player.getRotation());
 		
 		return player2;
 	}
@@ -139,7 +143,12 @@ public class PlayerServiceProxy implements IPlayerService
 		connection.setDoOutput(true);
 		
 		RemoteObjectDto dto =
-		        new RemoteObjectDto(PLAYER_NAME, player.getAssetPath(), toVectorDto(player.getMovementVector()), toCoordinateDto(_coordinateConverter.worldToUniverse(player.getPosition()).getX()), toCoordinateDto(_coordinateConverter.worldToUniverse(player.getPosition()).getY()), player.getRotation());
+		        new RemoteObjectDto(PLAYER_NAME,
+		            player.getAssetPath(),
+		            toVectorDto(player.getMovementVector()),
+		            toCoordinateDto(_coordinateConverter.worldToUniverse(player.getPosition()).getX()),
+		            toCoordinateDto(_coordinateConverter.worldToUniverse(player.getPosition()).getY()),
+		            player.getRotation());
 		
 		String data = _gson.toJson(dto);
 		
@@ -148,8 +157,9 @@ public class PlayerServiceProxy implements IPlayerService
 		if (connection.getResponseCode() == HttpStatus.SC_OK)
 		{
 			// TODO add real level name when implemented
-			Vector2 offset = new Vector2(player.getPosition().x - _lastSetPosition.x, player.getPosition().y
-			        - _lastSetPosition.y);
+			Vector2 offset = new Vector2(player.getPosition().x - _lastSetPosition.x,
+			    player.getPosition().y
+			            - _lastSetPosition.y);
 			
 			_lastSetPosition = player.getPosition();
 			

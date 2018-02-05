@@ -97,7 +97,10 @@ public class RemoteObjectServiceProxy implements IRemoteObjectService
 			
 			String assetFile = dto.getAssetFile();
 			
-			Position position = Position.create(dto.getX().getLightYears(), dto.getY().getLightYears(), dto.getX().getMeters(), dto.getY().getMeters());
+			Position position = Position.create(dto.getX().getLightYears(),
+			    dto.getY().getLightYears(),
+			    dto.getX().getMeters(),
+			    dto.getY().getMeters());
 			
 			float rotation = dto.getRotation();
 			

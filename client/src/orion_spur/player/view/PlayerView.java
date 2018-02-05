@@ -63,7 +63,8 @@ public class PlayerView extends ImageActor
 		getLevelElement().accelerateShipBy(movementAdjustion);
 		
 		positionOfView.add(getLevelElement().getMovementVector().x * delta
-		        / getScaleX(), getLevelElement().getMovementVector().y * delta / getScaleY());
+		        / getScaleX(),
+		    getLevelElement().getMovementVector().y * delta / getScaleY());
 		
 		setPosition(positionOfView.x, positionOfView.y);
 	}

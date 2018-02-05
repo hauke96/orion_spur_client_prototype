@@ -115,7 +115,11 @@ public class Position
 	@Override
 	public String toString()
 	{
-		return MessageFormat.format("({0}:{1}, {2}:{3})", getX().getLightYear(), getX().getCentimeter(), getY().getLightYear(), getY().getCentimeter());
+		return MessageFormat.format("({0}:{1}, {2}:{3})",
+		    getX().getLightYear(),
+		    getX().getCentimeter(),
+		    getY().getLightYear(),
+		    getY().getCentimeter());
 	}
 	
 	@Override

@@ -15,7 +15,13 @@ public class BulletParticle extends Particle
 	
 	protected BulletParticle(String id, Vector2 position, Vector2 movementVector, float rotation)
 	{
-		super(id, position, movementVector, rotation, LayerType.LAYER_ANIMATION, LevelType.IMAGE, "assets/textures/bullet.png");
+		super(id,
+		    position,
+		    movementVector,
+		    rotation,
+		    LayerType.LAYER_ANIMATION,
+		    LevelType.IMAGE,
+		    "assets/textures/bullet.png");
 		
 		if (_texture == null)
 		{

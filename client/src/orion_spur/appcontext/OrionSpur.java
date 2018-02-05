@@ -34,7 +34,11 @@ public class OrionSpur extends Game implements ApplicationListener
 			try
 			{
 				MainGameScreen newScreen =
-				        new MainGameScreen(Locator.get(ILevelService.class), Locator.get(ILoginService.class), _width, _height, WORLD_UNITS_PER_PIXEL);
+				        new MainGameScreen(Locator.get(ILevelService.class),
+				            Locator.get(ILoginService.class),
+				            _width,
+				            _height,
+				            WORLD_UNITS_PER_PIXEL);
 				// TODO show a loading screen here
 				newScreen.MainScreenInitialized.add(() -> setScreen(newScreen));
 			}
