@@ -13,9 +13,9 @@ public class BulletParticle extends Particle
 {
 	private static TextureRegion _texture;
 	
-	protected BulletParticle(String id, Vector2 position, Vector2 movementVector, float rotation)
+	protected BulletParticle(Vector2 position, Vector2 movementVector, float rotation)
 	{
-		super(id,
+		super("BulletParticle" + System.nanoTime(),
 		    position,
 		    movementVector,
 		    rotation,
