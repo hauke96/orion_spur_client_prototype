@@ -15,6 +15,8 @@ import orion_spur.player.service.IPlayerService;
 
 public class PlayerView extends ImageActor
 {
+	private long _lastShotTime;
+	
 	private IPlayerService		_playerService;
 	private IParticleService	_particleService;
 	
@@ -53,14 +55,18 @@ public class PlayerView extends ImageActor
 		{
 			movementAdjustion = movementAdjustion.add(0, -getLevelElement().getAcceleration() * delta);
 		}
-		if (Gdx.input.isKeyPressed(Input.Keys.SPACE))
+		// TODO add number as a shot rate to space ship
+		if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && _lastShotTime + 150 <= System.currentTimeMillis())
 		{
 			Vector2 vector = new Vector2(0, 1);
 			vector = vector.rotate(getLevelElement().getRotation());
 			vector = vector.setLength(10000);
+			vector = vector.add(getLevelElement().getMovementVector());
 			
 			_particleService.add(new BulletParticle(getLevelElement().getPosition(),
-			    vector));
+			    vector,
+			    getLevelElement().getRotation()));
+			_lastShotTime = System.currentTimeMillis();
 		}
 		
 		if (Gdx.input.isKeyPressed(Input.Keys.Q))

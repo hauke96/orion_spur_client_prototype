@@ -35,7 +35,7 @@ public class ParticleView extends Actor
 			    height,
 			    6,
 			    6,
-			    particle.getRotation() + 90,
+			    particle.getRotation(),
 			    true);
 		}
 	}

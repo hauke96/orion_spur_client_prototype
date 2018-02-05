@@ -13,12 +13,12 @@ public class BulletParticle extends Particle
 {
 	private static TextureRegion _texture;
 	
-	public BulletParticle(Vector2 position, Vector2 movementVector)
+	public BulletParticle(Vector2 position, Vector2 movementVector, float rotation)
 	{
 		super("BulletParticle" + System.nanoTime(),
 		    position,
 		    movementVector,
-		    movementVector.angle(),
+		    rotation,
 		    LayerType.LAYER_ANIMATION,
 		    LevelType.IMAGE,
 		    "assets/textures/bullet.png");
