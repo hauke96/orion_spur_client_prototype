@@ -90,12 +90,21 @@ public class LayerActor extends Actor
 			actor.setScale(_layerToScale.get(levelElement.getLayer()));
 		}
 		
-		Map<String, Actor> layer = _layers.get(levelElement.getLayer());
-		
-		layer.put(levelElement.getId(), actor);
+		addToLayer(actor, levelElement.getLayer(), levelElement.getId());
 		
 		Contract.NotNull(actor);
 		return actor;
+	}
+	
+	public void addToLayer(Actor actor, LayerType layerType, String layerId)
+	{
+		Contract.NotNull(actor);
+		Contract.NotNull(layerType);
+		Contract.NotNullOrEmpty(layerId);
+		
+		Map<String, Actor> layer = _layers.get(layerType);
+		
+		layer.put(layerId, actor);
 	}
 	
 	public boolean hasPlayer()
