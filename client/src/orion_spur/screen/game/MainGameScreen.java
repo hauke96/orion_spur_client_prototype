@@ -25,6 +25,8 @@ import orion_spur.level.domainvalue.LevelType;
 import orion_spur.level.material.LevelElement;
 import orion_spur.level.service.ILevelService;
 import orion_spur.level.view.LevelActor;
+import orion_spur.particles.service.IParticleService;
+import orion_spur.particles.view.ParticleView;
 import orion_spur.player.material.SpaceShip;
 import orion_spur.player.service.ILoginService;
 import orion_spur.player.service.IPlayerService;
@@ -48,7 +50,7 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 	private PlayerView		_player;
 	private ScreenViewport	_viewport;
 	
-	public MainGameScreen(ILevelService levelService, ILoginService loginService, int width, int height, float worldUnitsPerPixel) throws RuntimeException, Exception
+	public MainGameScreen(ILevelService levelService, ILoginService loginService, IParticleService particleService, int width, int height, float worldUnitsPerPixel) throws RuntimeException, Exception
 	{
 		Locator.register(IUnitConverter.class, () -> this);
 		Locator.register(ICoordinateConverter.class, () -> this);
@@ -62,6 +64,8 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 		_viewport.setUnitsPerPixel(worldUnitsPerPixel);
 		
 		_level = new LevelActor(levelService, Locator.get(IActorFactory.class));
+		
+		_level.addToLayer(new ParticleView(particleService), LayerType.LAYER_ANIMATION, "particle view");
 		
 		IPlayerService.PlayerCreated.add(remoteObject ->
 		{
