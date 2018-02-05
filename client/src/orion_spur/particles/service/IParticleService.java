@@ -9,4 +9,6 @@ public interface IParticleService
 	public void add(Particle particle);
 	
 	public Collection<Particle> getAll();
+	
+	public void act(float delta);
 }
