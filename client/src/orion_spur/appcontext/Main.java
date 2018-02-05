@@ -40,6 +40,8 @@ public class Main
 		cfg.useGL30 = true;
 		cfg.width = WIDTH;
 		cfg.height = HEIGHT;
+		cfg.samples = 32;
+		cfg.useHDPI = true;
 		
 		OrionSpur orionSpur = new OrionSpur(WIDTH, HEIGHT);
 		new LwjglApplication(orionSpur, cfg);
@@ -83,6 +85,7 @@ public class Main
 		    () -> new ActorFactoryImpl(
 		        Locator.get(IPlayerService.class),
 		        Locator.get(IUnitConverter.class),
-		        Locator.get(ICoordinateConverter.class)));
+		        Locator.get(ICoordinateConverter.class),
+		        Locator.get(IParticleService.class)));
 	}
 }

@@ -8,22 +8,27 @@ import juard.contract.Contract;
 import juard.log.Logger;
 import orion_spur.common.converter.IUnitConverter;
 import orion_spur.common.view.ImageActor;
+import orion_spur.particles.material.BulletParticle;
+import orion_spur.particles.service.IParticleService;
 import orion_spur.player.material.SpaceShip;
 import orion_spur.player.service.IPlayerService;
 
 public class PlayerView extends ImageActor
 {
-	private IPlayerService _playerService;
+	private IPlayerService		_playerService;
+	private IParticleService	_particleService;
 	
-	public PlayerView(IPlayerService playerService, IUnitConverter unitConverter, SpaceShip levelElement, Vector2 positionInLevel)
+	public PlayerView(IPlayerService playerService, IUnitConverter unitConverter, IParticleService particleService, SpaceShip levelElement, Vector2 positionInLevel)
 	{
 		super(levelElement, 600, 600);
 		
 		Contract.NotNull(playerService);
 		Contract.NotNull(unitConverter);
+		Contract.NotNull(particleService);
 		Contract.NotNull(positionInLevel);
 		
 		_playerService = playerService;
+		_particleService = particleService;
 	}
 	
 	@Override
@@ -47,6 +52,15 @@ public class PlayerView extends ImageActor
 		if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S))
 		{
 			movementAdjustion = movementAdjustion.add(0, -getLevelElement().getAcceleration() * delta);
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.SPACE))
+		{
+			Vector2 vector = new Vector2(0, 1);
+			vector = vector.rotate(getLevelElement().getRotation());
+			vector = vector.setLength(10000);
+			
+			_particleService.add(new BulletParticle(getLevelElement().getPosition(),
+			    vector));
 		}
 		
 		if (Gdx.input.isKeyPressed(Input.Keys.Q))
