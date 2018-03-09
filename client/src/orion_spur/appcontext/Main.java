@@ -8,6 +8,7 @@ import de.hauke_stieler.goms.service.TcpConnectionService;
 import juard.injection.Locator;
 import juard.injection.ResolutionFailedException;
 import juard.log.Logger;
+import orion_spur.common.converter.CoordinateConverterImpl;
 import orion_spur.common.converter.ICoordinateConverter;
 import orion_spur.common.converter.IUnitConverter;
 import orion_spur.common.converter.UnitConverterImpl;
@@ -81,6 +82,7 @@ public class Main
 		}
 		
 		Locator.register(IUnitConverter.class, () -> new UnitConverterImpl());
+		Locator.register(ICoordinateConverter.class, () -> new CoordinateConverterImpl());
 		Locator.register(ILevelService.class, () -> new LevelDummyService());
 		Locator.register(IParticleService.class, () -> new ParticleServiceImpl());
 		Locator.register(IActorFactory.class,

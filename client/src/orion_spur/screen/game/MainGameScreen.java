@@ -11,13 +11,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
-import juard.contract.Contract;
 import juard.event.Event;
 import juard.injection.Locator;
 import juard.log.Logger;
 import orion_spur.common.converter.ICoordinateConverter;
 import orion_spur.common.converter.IUnitConverter;
-import orion_spur.common.domainvalue.Position;
 import orion_spur.common.exception.HttpException;
 import orion_spur.common.factory.IActorFactory;
 import orion_spur.common.service.LayerActor.LayerType;
@@ -35,7 +33,7 @@ import orion_spur.remoteObjects.Service.IRemoteObjectService;
 import orion_spur.remoteObjects.material.RemoteObject;
 
 // TODO Extract Coordinate and unit converter
-public class MainGameScreen implements Screen, ICoordinateConverter
+public class MainGameScreen implements Screen
 {
 	public Event MainScreenInitialized = new Event();
 	
@@ -50,14 +48,16 @@ public class MainGameScreen implements Screen, ICoordinateConverter
 	private PlayerView		_player;
 	private ScreenViewport	_viewport;
 	
-	public MainGameScreen(IUnitConverter unitConverter, ILevelService levelService, ILoginService loginService, IParticleService particleService, int width, int height, float worldUnitsPerPixel) throws RuntimeException, Exception
+	private ICoordinateConverter _coordinateConverter;
+	
+	public MainGameScreen(IUnitConverter unitConverter, ICoordinateConverter coordinateConverter, ILevelService levelService, ILoginService loginService, IParticleService particleService, int width, int height, float worldUnitsPerPixel) throws RuntimeException, Exception
 	{
-		Locator.register(ICoordinateConverter.class, () -> this);
-		
 		IPlayerService playerService = Locator.get(IPlayerService.class);
 		IRemoteObjectService remoteObjectService = Locator.get(IRemoteObjectService.class);
 		
 		unitConverter.initialize(worldUnitsPerPixel);
+		
+		_coordinateConverter = coordinateConverter;
 		
 		_camera = new OrthographicCamera(_width, _height);
 		
@@ -65,8 +65,11 @@ public class MainGameScreen implements Screen, ICoordinateConverter
 		_viewport.setUnitsPerPixel(worldUnitsPerPixel);
 		
 		_level = new LevelActor(levelService, Locator.get(IActorFactory.class));
+		_level.addToLayer(new ParticleView(particleService),
+		    LayerType.LAYER_ANIMATION,
+		    "particle view");
 		
-		_level.addToLayer(new ParticleView(particleService), LayerType.LAYER_ANIMATION, "particle view");
+		_coordinateConverter.initialize(_viewport, _level.getPosition());
 		
 		IPlayerService.PlayerCreated.add(remoteObject ->
 		{
@@ -132,7 +135,16 @@ public class MainGameScreen implements Screen, ICoordinateConverter
 		// TODO refactor this to first get the player and then create the main game
 		// screen
 		_playerLevelElement =
-		        new SpaceShip(playerService.getPlayer().getId(), universeToWorld(levelService.getPosition("")), new Vector2(), 0, LayerType.LAYER_PLAYER, LevelType.PLAYER, "assets/textures/spaceship.png", 1000, 10000, 250);
+		        new SpaceShip(playerService.getPlayer().getId(),
+		            _coordinateConverter.universeToWorld(levelService.getPosition("")),
+		            new Vector2(),
+		            0,
+		            LayerType.LAYER_PLAYER,
+		            LevelType.PLAYER,
+		            "assets/textures/spaceship.png",
+		            1000,
+		            10000,
+		            250);
 		_player = (PlayerView) _level.addToLayer(_playerLevelElement);
 		
 		_level.loadLevelElements();
@@ -152,7 +164,13 @@ public class MainGameScreen implements Screen, ICoordinateConverter
 	private void createRemoteObjectView(RemoteObject remoteObject)
 	{
 		LevelElement levelElement =
-		        new LevelElement(remoteObject.getId(), universeToWorld(remoteObject.getPosition()), remoteObject.getMovementVector(), remoteObject.getRotation(), LayerType.LAYER_REMOTE_OBJECTS, LevelType.REMOTE_OBJECT, remoteObject.getAssetFile());
+		        new LevelElement(remoteObject.getId(),
+		            _coordinateConverter.universeToWorld(remoteObject.getPosition()),
+		            remoteObject.getMovementVector(),
+		            remoteObject.getRotation(),
+		            LayerType.LAYER_REMOTE_OBJECTS,
+		            LevelType.REMOTE_OBJECT,
+		            remoteObject.getAssetFile());
 		_level.addToLayer(levelElement);
 	}
 	
@@ -213,55 +231,12 @@ public class MainGameScreen implements Screen, ICoordinateConverter
 		_currentStage.dispose();
 	}
 	
-	@Override
-	public Vector2 screenToWorld(Vector2 position)
-	{
-		Contract.NotNull(position);
-		Contract.NotNull(_viewport);
-		
-		return _viewport.unproject(position);
-	}
-	
-	@Override
-	public Position worldToUniverse(Vector2 position)
-	{
-		Contract.NotNull(position);
-		Contract.NotNull(_level);
-		
-		Position positionInWorld = Position.create(0, 0, (long) position.x, (long) position.y);
-		
-		return _level.getPosition().add(positionInWorld);
-	}
-	
-	@Override
-	public Vector2 worldToScreen(Vector2 position)
-	{
-		Contract.NotNull(position);
-		Contract.NotNull(_viewport);
-		
-		return _viewport.project(position);
-	}
-	
-	@Override
-	public Vector2 universeToWorld(Position position) throws RuntimeException
-	{
-		Contract.NotNull(position);
-		Contract.NotNull(_level);
-		
-		Position positionInLevel = position.subtract(_level.getPosition());
-		
-		if (positionInLevel.getX().getLightYear() != 0 || positionInLevel.getY().getLightYear() != 0)
-		{
-			throw new RuntimeException(
-			        "Position too far away from level (max 1 Ly). Distance is: " + positionInLevel.toString());
-		}
-		
-		return new Vector2(positionInLevel.getX().getCentimeter(), positionInLevel.getY().getCentimeter());
-	}
-	
 	private void printPlayerData(Vector2 playerPosition, float playerSpeed)
 	{
 		String speedString = String.format("%08.2f", playerSpeed / 100);
-		System.out.printf("%s m/s     at world pos: %-25s    at universe pos: %s\n", speedString, playerPosition, worldToUniverse(playerPosition));
+		System.out.printf("%s m/s     at world pos: %-25s    at universe pos: %s\n",
+		    speedString,
+		    playerPosition,
+		    _coordinateConverter.worldToUniverse(playerPosition));
 	}
 }

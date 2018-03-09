@@ -1,11 +1,27 @@
 package orion_spur.common.converter;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import orion_spur.common.domainvalue.Position;
 
 public interface ICoordinateConverter
 {
+	/**
+	 * Initializes the converter with the given viewport and level position.
+	 * 
+	 * @param viewport
+	 *            The current viewport of the level to project coordinates.
+	 * @param levelPosition
+	 *            The current level position in the universe to adjust coordinates.
+	 */
+	void initialize(Viewport viewport, Position levelPosition);
+	
+	/**
+	 * @return True when initialized by the {@link #initialize(Viewport, Position)} method.
+	 */
+	boolean isInitialized();
+	
 	/**
 	 * Converts a screen position (pixel) into the position in the level (meter).
 	 * 
