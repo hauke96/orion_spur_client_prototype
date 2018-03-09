@@ -10,6 +10,7 @@ import juard.injection.ResolutionFailedException;
 import juard.log.Logger;
 import orion_spur.common.converter.ICoordinateConverter;
 import orion_spur.common.converter.IUnitConverter;
+import orion_spur.common.converter.UnitConverterImpl;
 import orion_spur.common.factory.ActorFactoryImpl;
 import orion_spur.common.factory.IActorFactory;
 import orion_spur.level.service.ILevelService;
@@ -79,6 +80,7 @@ public class Main
 			Locator.register(ILoginService.class, () -> new PlayerLoginServiceProxy());
 		}
 		
+		Locator.register(IUnitConverter.class, () -> new UnitConverterImpl());
 		Locator.register(ILevelService.class, () -> new LevelDummyService());
 		Locator.register(IParticleService.class, () -> new ParticleServiceImpl());
 		Locator.register(IActorFactory.class,

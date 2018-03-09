@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL30;
 
 import juard.injection.Locator;
 import juard.log.Logger;
+import orion_spur.common.converter.IUnitConverter;
 import orion_spur.level.service.ILevelService;
 import orion_spur.particles.service.IParticleService;
 import orion_spur.player.service.ILoginService;
@@ -35,7 +36,8 @@ public class OrionSpur extends Game implements ApplicationListener
 			try
 			{
 				MainGameScreen newScreen =
-				        new MainGameScreen(Locator.get(ILevelService.class),
+				        new MainGameScreen(Locator.get(IUnitConverter.class),
+				            Locator.get(ILevelService.class),
 				            Locator.get(ILoginService.class),
 				            Locator.get(IParticleService.class),
 				            _width,

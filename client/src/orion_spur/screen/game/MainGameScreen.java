@@ -35,7 +35,7 @@ import orion_spur.remoteObjects.Service.IRemoteObjectService;
 import orion_spur.remoteObjects.material.RemoteObject;
 
 // TODO Extract Coordinate and unit converter
-public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConverter
+public class MainGameScreen implements Screen, ICoordinateConverter
 {
 	public Event MainScreenInitialized = new Event();
 	
@@ -50,13 +50,14 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 	private PlayerView		_player;
 	private ScreenViewport	_viewport;
 	
-	public MainGameScreen(ILevelService levelService, ILoginService loginService, IParticleService particleService, int width, int height, float worldUnitsPerPixel) throws RuntimeException, Exception
+	public MainGameScreen(IUnitConverter unitConverter, ILevelService levelService, ILoginService loginService, IParticleService particleService, int width, int height, float worldUnitsPerPixel) throws RuntimeException, Exception
 	{
-		Locator.register(IUnitConverter.class, () -> this);
 		Locator.register(ICoordinateConverter.class, () -> this);
 		
 		IPlayerService playerService = Locator.get(IPlayerService.class);
 		IRemoteObjectService remoteObjectService = Locator.get(IRemoteObjectService.class);
+		
+		unitConverter.initialize(worldUnitsPerPixel);
 		
 		_camera = new OrthographicCamera(_width, _height);
 		
@@ -131,16 +132,7 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 		// TODO refactor this to first get the player and then create the main game
 		// screen
 		_playerLevelElement =
-		        new SpaceShip(playerService.getPlayer().getId(),
-		            universeToWorld(levelService.getPosition("")),
-		            new Vector2(),
-		            0,
-		            LayerType.LAYER_PLAYER,
-		            LevelType.PLAYER,
-		            "assets/textures/spaceship.png",
-		            1000,
-		            10000,
-		            250);
+		        new SpaceShip(playerService.getPlayer().getId(), universeToWorld(levelService.getPosition("")), new Vector2(), 0, LayerType.LAYER_PLAYER, LevelType.PLAYER, "assets/textures/spaceship.png", 1000, 10000, 250);
 		_player = (PlayerView) _level.addToLayer(_playerLevelElement);
 		
 		_level.loadLevelElements();
@@ -160,13 +152,7 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 	private void createRemoteObjectView(RemoteObject remoteObject)
 	{
 		LevelElement levelElement =
-		        new LevelElement(remoteObject.getId(),
-		            universeToWorld(remoteObject.getPosition()),
-		            remoteObject.getMovementVector(),
-		            remoteObject.getRotation(),
-		            LayerType.LAYER_REMOTE_OBJECTS,
-		            LevelType.REMOTE_OBJECT,
-		            remoteObject.getAssetFile());
+		        new LevelElement(remoteObject.getId(), universeToWorld(remoteObject.getPosition()), remoteObject.getMovementVector(), remoteObject.getRotation(), LayerType.LAYER_REMOTE_OBJECTS, LevelType.REMOTE_OBJECT, remoteObject.getAssetFile());
 		_level.addToLayer(levelElement);
 	}
 	
@@ -267,34 +253,15 @@ public class MainGameScreen implements Screen, ICoordinateConverter, IUnitConver
 		if (positionInLevel.getX().getLightYear() != 0 || positionInLevel.getY().getLightYear() != 0)
 		{
 			throw new RuntimeException(
-			    "Position too far away from level (max 1 Ly). Distance is: " + positionInLevel.toString());
+			        "Position too far away from level (max 1 Ly). Distance is: " + positionInLevel.toString());
 		}
 		
 		return new Vector2(positionInLevel.getX().getCentimeter(), positionInLevel.getY().getCentimeter());
 	}
 	
-	@Override
-	public float convertToWorld(float value)
-	{
-		Contract.NotNull(_viewport);
-		
-		return value * _viewport.getUnitsPerPixel();
-	}
-	
-	@Override
-	public float convertFromWorld(float value)
-	{
-		Contract.NotNull(_viewport);
-		
-		return value / _viewport.getUnitsPerPixel();
-	}
-	
 	private void printPlayerData(Vector2 playerPosition, float playerSpeed)
 	{
 		String speedString = String.format("%08.2f", playerSpeed / 100);
-		System.out.printf("%s m/s     at world pos: %-25s    at universe pos: %s\n",
-		    speedString,
-		    playerPosition,
-		    worldToUniverse(playerPosition));
+		System.out.printf("%s m/s     at world pos: %-25s    at universe pos: %s\n", speedString, playerPosition, worldToUniverse(playerPosition));
 	}
 }
