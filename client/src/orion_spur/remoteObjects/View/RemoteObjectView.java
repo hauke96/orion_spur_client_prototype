@@ -9,11 +9,11 @@ import orion_spur.level.material.LevelElement;
 import orion_spur.remoteObjects.Service.IRemoteObjectService;
 import orion_spur.remoteObjects.material.RemoteObject;
 
-public class RemotePlayerView extends ImageActor
+public class RemoteObjectView extends ImageActor
 {
 	private ICoordinateConverter _coordinateConverter;
 	
-	public RemotePlayerView(LevelElement levelElement, ICoordinateConverter coordinateConverter)
+	public RemoteObjectView(LevelElement levelElement, ICoordinateConverter coordinateConverter)
 	{
 		super(levelElement, 600, 600);
 		
