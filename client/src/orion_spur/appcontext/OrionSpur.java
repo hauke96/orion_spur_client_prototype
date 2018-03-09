@@ -12,6 +12,8 @@ import orion_spur.common.converter.IUnitConverter;
 import orion_spur.level.service.ILevelService;
 import orion_spur.particles.service.IParticleService;
 import orion_spur.player.service.ILoginService;
+import orion_spur.player.service.IPlayerService;
+import orion_spur.remoteObjects.Service.IRemoteObjectService;
 import orion_spur.screen.game.MainGameScreen;
 import orion_spur.screen.mainmenu.MainMenuScreen;
 
@@ -42,6 +44,8 @@ public class OrionSpur extends Game implements ApplicationListener
 				            Locator.get(ILevelService.class),
 				            Locator.get(ILoginService.class),
 				            Locator.get(IParticleService.class),
+				            Locator.get(IPlayerService.class),
+				            Locator.get(IRemoteObjectService.class),
 				            _width,
 				            _height,
 				            WORLD_UNITS_PER_PIXEL);

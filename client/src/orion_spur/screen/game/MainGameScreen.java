@@ -50,11 +50,8 @@ public class MainGameScreen implements Screen
 	
 	private ICoordinateConverter _coordinateConverter;
 	
-	public MainGameScreen(IUnitConverter unitConverter, ICoordinateConverter coordinateConverter, ILevelService levelService, ILoginService loginService, IParticleService particleService, int width, int height, float worldUnitsPerPixel) throws RuntimeException, Exception
+	public MainGameScreen(IUnitConverter unitConverter, ICoordinateConverter coordinateConverter, ILevelService levelService, ILoginService loginService, IParticleService particleService, IPlayerService playerService, IRemoteObjectService remoteObjectService, int width, int height, float worldUnitsPerPixel) throws RuntimeException, Exception
 	{
-		IPlayerService playerService = Locator.get(IPlayerService.class);
-		IRemoteObjectService remoteObjectService = Locator.get(IRemoteObjectService.class);
-		
 		unitConverter.initialize(worldUnitsPerPixel);
 		
 		_coordinateConverter = coordinateConverter;

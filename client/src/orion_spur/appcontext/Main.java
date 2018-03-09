@@ -91,5 +91,10 @@ public class Main
 		        Locator.get(IUnitConverter.class),
 		        Locator.get(ICoordinateConverter.class),
 		        Locator.get(IParticleService.class)));
+		Locator.register(IPlayerService.class,
+		    () -> new PlayerServiceProxy(Locator.get(GoMessagingService.class),
+		        Locator.get(ICoordinateConverter.class)));
+		Locator.register(IRemoteObjectService.class,
+		    () -> new RemoteObjectServiceProxy(Locator.get(GoMessagingService.class)));
 	}
 }
