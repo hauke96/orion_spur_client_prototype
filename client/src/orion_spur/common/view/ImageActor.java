@@ -32,7 +32,8 @@ public class ImageActor extends Actor
 	public ImageActor(LevelElement levelElement, int width, int height)
 	{
 		Contract.NotNull(levelElement);
-		// TODO contracts
+		Contract.Satisfy(width >= 0);
+		Contract.Satisfy(height >= 0);
 		
 		_levelElement = levelElement;
 		

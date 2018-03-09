@@ -32,7 +32,6 @@ import orion_spur.player.view.PlayerView;
 import orion_spur.remoteObjects.Service.IRemoteObjectService;
 import orion_spur.remoteObjects.material.RemoteObject;
 
-// TODO Extract Coordinate and unit converter
 public class MainGameScreen implements Screen
 {
 	public Event MainScreenInitialized = new Event();

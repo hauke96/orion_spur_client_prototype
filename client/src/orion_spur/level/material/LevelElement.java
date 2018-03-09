@@ -101,7 +101,6 @@ public class LevelElement
 		_movementVector = newMovementVector;
 	}
 	
-	// TODO equals, hashcode
 	@Override
 	public int hashCode()
 	{
