@@ -85,6 +85,7 @@ public class RemoteObjectServiceProxy implements IRemoteObjectService
 		return convertToList(remoteObjects);
 	}
 	
+	// TODO use the converter for this
 	private List<RemoteObject> convertToList(RemoteObjectListDto remoteObjects)
 	{
 		Contract.NotNull(remoteObjects);
