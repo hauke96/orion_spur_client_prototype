@@ -53,12 +53,12 @@ public class ImageActor extends Actor
 		_sprite = new Sprite(texture);
 		_sprite.setBounds(getX(), getY(), getWidth(), getHeight());
 		_sprite.setOrigin(getWidth() / 2, getHeight() / 2);
-		_sprite.rotate(levelElement.getRotation());
+		_sprite.setPosition(getX(), getY());
+		
+		setRotation(levelElement.getRotation());
 		
 		setX(levelElement.getPosition().x - getWidth() / 2);
 		setY(levelElement.getPosition().y - getHeight() / 2);
-		
-		_sprite.setPosition(getX(), getY());
 		
 		Contract.Satisfy(_sprite != null);
 		Contract.Satisfy(_sprite.getTexture() != null);

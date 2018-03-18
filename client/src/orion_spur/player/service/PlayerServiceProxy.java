@@ -100,7 +100,7 @@ public class PlayerServiceProxy implements IPlayerService
 		return new SpaceShip(base.getName(),
 		    _coordinateConverter.universeToWorld(position),
 		    movementVector,
-		    0,
+		    player.getBase().getRotation(),
 		    LayerType.LAYER_PLAYER,
 		    LevelType.PLAYER,
 		    base.getAssetFile(),
