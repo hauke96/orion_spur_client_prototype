@@ -15,8 +15,7 @@ import orion_spur.common.factory.IActorFactory;
 import orion_spur.level.material.LevelElement;
 import orion_spur.level.service.ILevelService;
 
-// TODO rename
-public class LayerActor extends Actor
+public class LevelView extends Actor
 {
 	public enum LayerType
 	{
@@ -30,7 +29,7 @@ public class LayerActor extends Actor
 	private Position								_position;
 	private Vector2									_size;
 	
-	public LayerActor(ILevelService levelService, IActorFactory actorFactory)
+	public LevelView(ILevelService levelService, IActorFactory actorFactory)
 	{
 		Contract.NotNull(levelService);
 		Contract.NotNull(actorFactory);
@@ -42,7 +41,7 @@ public class LayerActor extends Actor
 		_position = _levelService.getPosition("");
 		_size = _levelService.getSizeInMeters("");
 		
-		_layers = new HashMap<LayerActor.LayerType, HashMap<String, Actor>>();
+		_layers = new HashMap<LevelView.LayerType, HashMap<String, Actor>>();
 		
 		_layers.put(LayerType.LAYER_BACKGROUND, new HashMap<>());
 		
@@ -56,7 +55,7 @@ public class LayerActor extends Actor
 		_layers.put(LayerType.LAYER_0_BEFORE, new HashMap<>());
 		_layers.put(LayerType.LAYER_1_BEFORE, new HashMap<>());
 		
-		_layerToScale = new HashMap<LayerActor.LayerType, Float>();
+		_layerToScale = new HashMap<LevelView.LayerType, Float>();
 		
 		_layerToScale.put(LayerType.LAYER_BACKGROUND, 0.995f);
 		

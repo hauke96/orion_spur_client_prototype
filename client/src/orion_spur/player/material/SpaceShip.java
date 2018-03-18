@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import juard.contract.Contract;
 import orion_spur.level.domainvalue.LevelType;
 import orion_spur.level.material.LevelElement;
-import orion_spur.level.view.LayerActor.LayerType;
+import orion_spur.level.view.LevelView.LayerType;
 
 public class SpaceShip extends LevelElement
 {

@@ -26,7 +26,7 @@ import orion_spur.common.generated.SpaceShipDto;
 import orion_spur.common.generated.VectorDto;
 import orion_spur.level.domainvalue.LevelType;
 import orion_spur.level.material.LevelElement;
-import orion_spur.level.view.LayerActor.LayerType;
+import orion_spur.level.view.LevelView.LayerType;
 import orion_spur.player.material.SpaceShip;
 
 public class PlayerServiceProxy implements IPlayerService

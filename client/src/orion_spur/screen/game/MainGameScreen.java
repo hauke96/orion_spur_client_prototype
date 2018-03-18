@@ -21,8 +21,8 @@ import orion_spur.common.factory.IActorFactory;
 import orion_spur.level.domainvalue.LevelType;
 import orion_spur.level.material.LevelElement;
 import orion_spur.level.service.ILevelService;
-import orion_spur.level.view.LayerActor;
-import orion_spur.level.view.LayerActor.LayerType;
+import orion_spur.level.view.LevelView;
+import orion_spur.level.view.LevelView.LayerType;
 import orion_spur.particles.service.IParticleService;
 import orion_spur.particles.view.ParticleView;
 import orion_spur.player.material.SpaceShip;
@@ -43,7 +43,7 @@ public class MainGameScreen implements Screen
 	private int	_height;
 	
 	private LevelElement	_playerLevelElement;
-	private LayerActor		_level;
+	private LevelView		_level;
 	private PlayerView		_player;
 	private ScreenViewport	_viewport;
 	
@@ -60,7 +60,7 @@ public class MainGameScreen implements Screen
 		_viewport = new ScreenViewport(_camera);
 		_viewport.setUnitsPerPixel(worldUnitsPerPixel);
 		
-		_level = new LayerActor(levelService, Locator.get(IActorFactory.class));
+		_level = new LevelView(levelService, Locator.get(IActorFactory.class));
 		_level.addToLayer(new ParticleView(particleService),
 		    LayerType.LAYER_ANIMATION,
 		    "particle view");
