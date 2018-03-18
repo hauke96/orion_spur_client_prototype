@@ -169,12 +169,7 @@ public class LevelView extends Actor
 	{
 		for (LayerType type : LayerType.values())
 		{
-			// The player already got its offset
-			if (type != LayerType.LAYER_PLAYER && type != LayerType.LAYER_ANIMATION
-			        && type != LayerType.LAYER_REMOTE_OBJECTS)
-			{
-				moveLayer(offset, type);
-			}
+			moveLayer(offset, type);
 		}
 	}
 	
@@ -182,9 +177,13 @@ public class LevelView extends Actor
 	{
 		float scale = _layerToScale.get(type);
 		
-		scale = (float) (scale * -1 + Math.floor((Math.signum(scale) + 1) / 2));
+		float offsetScale = (float) (scale * -1 + Math.floor((Math.signum(scale) + 1) / 2));
 		
-		move(_layers.get(type).values(), new Vector2(offset.x * scale, offset.y * scale));
+		// The position woouldn't change with an offsetScale of 0
+		if (offsetScale != 0)
+		{
+			move(_layers.get(type).values(), new Vector2(offset.x * offsetScale, offset.y * offsetScale));
+		}
 	}
 	
 	private void move(Collection<Actor> actors, Vector2 offset)
