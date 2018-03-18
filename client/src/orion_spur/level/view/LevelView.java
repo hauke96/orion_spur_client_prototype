@@ -1,8 +1,7 @@
 package orion_spur.level.view;
 
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
@@ -22,12 +21,11 @@ public class LevelView extends Actor
 		LAYER_BACKGROUND, LAYER_1_BEHIND, LAYER_0_BEHIND, LAYER_REMOTE_OBJECTS, LAYER_PLAYER, LAYER_ANIMATION, LAYER_0_BEFORE, LAYER_1_BEFORE
 	}
 	
-	private Map<LayerType, HashMap<String, Actor>>	_layers;
-	private Map<LayerType, Float>					_layerToScale;
-	private IActorFactory							_actorFactory;
-	private ILevelService							_levelService;
-	private Position								_position;
-	private Vector2									_size;
+	private Map<LayerType, Layer>	_layerToScale;
+	private IActorFactory			_actorFactory;
+	private ILevelService			_levelService;
+	private Position				_position;
+	private Vector2					_size;
 	
 	public LevelView(ILevelService levelService, IActorFactory actorFactory)
 	{
@@ -41,36 +39,20 @@ public class LevelView extends Actor
 		_position = _levelService.getPosition("");
 		_size = _levelService.getSizeInMeters("");
 		
-		_layers = new HashMap<LevelView.LayerType, HashMap<String, Actor>>();
+		_layerToScale = new TreeMap<LayerType, Layer>();
 		
-		_layers.put(LayerType.LAYER_BACKGROUND, new HashMap<>());
+		_layerToScale.put(LayerType.LAYER_BACKGROUND, new Layer(0.005f));
 		
-		_layers.put(LayerType.LAYER_1_BEHIND, new HashMap<>());
-		_layers.put(LayerType.LAYER_0_BEHIND, new HashMap<>());
+		_layerToScale.put(LayerType.LAYER_1_BEHIND, new Layer(0.4f));
+		_layerToScale.put(LayerType.LAYER_0_BEHIND, new Layer(0.75f));
 		
-		_layers.put(LayerType.LAYER_REMOTE_OBJECTS, new HashMap<>());
-		_layers.put(LayerType.LAYER_PLAYER, new HashMap<>());
-		_layers.put(LayerType.LAYER_ANIMATION, new HashMap<>());
+		_layerToScale.put(LayerType.LAYER_REMOTE_OBJECTS, new Layer(1f));
+		_layerToScale.put(LayerType.LAYER_PLAYER, new Layer(1f));
+		_layerToScale.put(LayerType.LAYER_ANIMATION, new Layer(1f));
 		
-		_layers.put(LayerType.LAYER_0_BEFORE, new HashMap<>());
-		_layers.put(LayerType.LAYER_1_BEFORE, new HashMap<>());
+		_layerToScale.put(LayerType.LAYER_0_BEFORE, new Layer(1.25f));
+		_layerToScale.put(LayerType.LAYER_1_BEFORE, new Layer(2f));
 		
-		_layerToScale = new HashMap<LevelView.LayerType, Float>();
-		
-		_layerToScale.put(LayerType.LAYER_BACKGROUND, 0.005f);
-		
-		_layerToScale.put(LayerType.LAYER_1_BEHIND, 0.4f);
-		_layerToScale.put(LayerType.LAYER_0_BEHIND, 0.75f);
-		
-		_layerToScale.put(LayerType.LAYER_REMOTE_OBJECTS, 1f);
-		_layerToScale.put(LayerType.LAYER_PLAYER, 1f);
-		_layerToScale.put(LayerType.LAYER_ANIMATION, 1f);
-		
-		_layerToScale.put(LayerType.LAYER_0_BEFORE, 1.25f);
-		_layerToScale.put(LayerType.LAYER_1_BEFORE, 2f);
-		
-		Contract.NotNull(_layers);
-		Contract.Satisfy(_layers.values().size() == LayerType.values().length);
 		Contract.NotNull(_layerToScale);
 		Contract.Satisfy(_layerToScale.values().size() == LayerType.values().length);
 	}
@@ -114,7 +96,7 @@ public class LevelView extends Actor
 		// moves slower
 		if (levelElement.getLayer() != LayerType.LAYER_BACKGROUND)
 		{
-			actor.setScale(_layerToScale.get(levelElement.getLayer()));
+			actor.setScale(_layerToScale.get(levelElement.getLayer()).getScale());
 		}
 		
 		addToLayer(actor, levelElement.getLayer(), levelElement.getId());
@@ -129,68 +111,38 @@ public class LevelView extends Actor
 		Contract.NotNull(layerType);
 		Contract.NotNullOrEmpty(layerId);
 		
-		Map<String, Actor> layer = _layers.get(layerType);
-		
-		layer.put(layerId, actor);
+		_layerToScale.get(layerType).add(actor);
 	}
 	
 	public boolean hasPlayer()
 	{
-		Map<String, Actor> layer = _layers.get(LayerType.LAYER_PLAYER);
-		
-		return layer != null && layer.size() != 0;
+		// TODO remove or implement this
+		return false;
 	}
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha)
 	{
-		for (LayerType type : LayerType.values())
+		for (Layer layer : _layerToScale.values())
 		{
-			for (Actor actor : _layers.get(type).values())
-			{
-				actor.draw(batch, parentAlpha);
-			}
+			layer.draw(batch, parentAlpha);
 		}
 	}
 	
 	@Override
 	public void act(float delta)
 	{
-		for (LayerType type : LayerType.values())
+		for (Layer layer : _layerToScale.values())
 		{
-			for (Actor actor : _layers.get(type).values())
-			{
-				actor.act(delta);
-			}
+			layer.act(delta);
 		}
 	}
 	
 	public void onPlayerPositionChanged(Vector2 offset)
 	{
-		for (LayerType type : LayerType.values())
+		for (Layer layer : _layerToScale.values())
 		{
-			moveLayer(offset, type);
-		}
-	}
-	
-	private void moveLayer(Vector2 offset, LayerType type)
-	{
-		float scale = _layerToScale.get(type);
-		
-		float offsetScale = (float) (scale * -1 + Math.floor((Math.signum(scale) + 1) / 2));
-		
-		// The position woouldn't change with an offsetScale of 0
-		if (offsetScale != 0)
-		{
-			move(_layers.get(type).values(), new Vector2(offset.x * offsetScale, offset.y * offsetScale));
-		}
-	}
-	
-	private void move(Collection<Actor> actors, Vector2 offset)
-	{
-		for (Actor actor : actors)
-		{
-			actor.moveBy(offset.x, offset.y);
+			layer.move(offset);
 		}
 	}
 }
