@@ -2,21 +2,21 @@ package orion_spur.common.generated;
 
 import java.util.List;
 
-public class RemoteObjectListDto
+public class RemoteObjectListDto 
 {
 	private List<RemoteObjectDto> RemoteObjectList;
-	
-	public RemoteObjectListDto()
-	{
-	}
-	
+
+	public RemoteObjectListDto(){}
+
 	public RemoteObjectListDto(List<RemoteObjectDto> RemoteObjectList)
 	{
 		this.RemoteObjectList = RemoteObjectList;
 	}
-	
+
 	public List<RemoteObjectDto> getRemoteObjectList()
 	{
 		return RemoteObjectList;
 	}
 }
+
+
