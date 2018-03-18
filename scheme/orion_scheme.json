@@ -98,6 +98,36 @@
 			]
 		},
 		{
+			"name":"SpaceShipDto",
+			"properties":
+			[
+				{
+					"name": "Base",
+					"type": "RemoteObjectDto",
+					"constant": true,
+					"collection": false
+				},
+				{
+					"name": "Acceleration",
+					"type": "float",
+					"constant": true,
+					"collection": false
+				},
+				{
+					"name": "MaxSpeed",
+					"type": "float",
+					"constant": true,
+					"collection": false
+				},
+				{
+					"name": "RotationSpeed",
+					"type": "float",
+					"constant": true,
+					"collection": false
+				}
+			]
+		},
+		{
 			"name":"VectorDto",
 			"properties":
 			[
