@@ -6,9 +6,9 @@ import java.util.List;
 import com.badlogic.gdx.math.Vector2;
 
 import orion_spur.common.domainvalue.Position;
-import orion_spur.common.service.LayerActor.LayerType;
 import orion_spur.level.domainvalue.LevelType;
 import orion_spur.level.material.LevelElement;
+import orion_spur.level.view.LayerActor.LayerType;
 
 public class LevelDummyService implements ILevelService
 {

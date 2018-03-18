@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 import juard.contract.Contract;
-import orion_spur.common.service.LayerActor.LayerType;
 import orion_spur.level.domainvalue.LevelType;
+import orion_spur.level.view.LayerActor.LayerType;
 
 public class BulletParticle extends Particle
 {

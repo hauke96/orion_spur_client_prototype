@@ -1,4 +1,4 @@
-package orion_spur.common.service;
+package orion_spur.level.view;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -10,8 +10,10 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import juard.contract.Contract;
 import juard.log.Logger;
+import orion_spur.common.domainvalue.Position;
 import orion_spur.common.factory.IActorFactory;
 import orion_spur.level.material.LevelElement;
+import orion_spur.level.service.ILevelService;
 
 // TODO rename
 public class LayerActor extends Actor
@@ -24,12 +26,21 @@ public class LayerActor extends Actor
 	private Map<LayerType, HashMap<String, Actor>>	_layers;
 	private Map<LayerType, Float>					_layerToScale;
 	private IActorFactory							_actorFactory;
+	private ILevelService							_levelService;
+	private Position								_position;
+	private Vector2									_size;
 	
-	public LayerActor(IActorFactory actorFactory)
+	public LayerActor(ILevelService levelService, IActorFactory actorFactory)
 	{
+		Contract.NotNull(levelService);
 		Contract.NotNull(actorFactory);
 		
+		_levelService = levelService;
 		_actorFactory = actorFactory;
+		
+		// TODO add real level name when implemented
+		_position = _levelService.getPosition("");
+		_size = _levelService.getSizeInMeters("");
 		
 		_layers = new HashMap<LayerActor.LayerType, HashMap<String, Actor>>();
 		
@@ -63,6 +74,23 @@ public class LayerActor extends Actor
 		Contract.Satisfy(_layers.values().size() == LayerType.values().length);
 		Contract.NotNull(_layerToScale);
 		Contract.Satisfy(_layerToScale.values().size() == LayerType.values().length);
+	}
+	
+	public void loadLevelElements() throws RuntimeException, Exception
+	{
+		_levelService.getLevel("").forEach((levelElement) -> addToLayer(levelElement));
+	}
+	
+	public Position getPosition()
+	{
+		Contract.NotNull(_position);
+		return _position;
+	}
+	
+	public Vector2 getSize()
+	{
+		Contract.NotNull(_size);
+		return _size;
 	}
 	
 	// TODO refactor this to also add level elements and an actor

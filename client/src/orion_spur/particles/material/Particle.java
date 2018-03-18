@@ -3,9 +3,9 @@ package orion_spur.particles.material;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
-import orion_spur.common.service.LayerActor.LayerType;
 import orion_spur.level.domainvalue.LevelType;
 import orion_spur.level.material.LevelElement;
+import orion_spur.level.view.LayerActor.LayerType;
 
 public abstract class Particle extends LevelElement
 {

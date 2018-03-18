@@ -8,9 +8,9 @@ import juard.contract.Contract;
 import orion_spur.common.converter.ICoordinateConverter;
 import orion_spur.common.domainvalue.Position;
 import orion_spur.common.exception.HttpException;
-import orion_spur.common.service.LayerActor.LayerType;
 import orion_spur.level.domainvalue.LevelType;
 import orion_spur.level.material.LevelElement;
+import orion_spur.level.view.LayerActor.LayerType;
 import orion_spur.player.material.SpaceShip;
 
 public class PlayerServiceDummy implements IPlayerService
