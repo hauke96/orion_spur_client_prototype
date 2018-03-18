@@ -67,16 +67,6 @@ public class ImageActor extends Actor
 	@Override
 	public void draw(Batch batch, float parentAlpha)
 	{
-		if (_levelElement.getAssetPath().contains("space") || _levelElement.getAssetPath().contains("asteroid"))
-		{
-			System.out.println(_levelElement.getAssetPath() + " -> "
-			        + _levelElement.getPosition()
-			        + " -- "
-			        + _sprite.getX()
-			        + ", "
-			        + _sprite.getY());
-		}
-		
 		_sprite.draw(batch);
 	}
 	

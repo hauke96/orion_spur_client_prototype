@@ -14,7 +14,7 @@ import (
 	"player"
 	"remoteObject"
 
-	"goms4go"
+	"github.com/go-messaging-service/goms4go"
 
 	"github.com/gorilla/mux"
 )
@@ -47,7 +47,7 @@ func main() {
 	remoteObjectDao.Init(playerDao)
 
 	remoteObjectService = &remoteObject.RemoteObjectService{}
-	remoteObjectService.Init(remoteObjectDao)
+	remoteObjectService.Init(remoteObjectDao, messagingService, playerService)
 
 	loginService = &login.LoginService{}
 
@@ -95,6 +95,7 @@ func getPlayerHandler(w http.ResponseWriter, r *http.Request) {
 
 		spaceShipDto := generated.NewSpaceShipDto(*remoteObjectDto, player.Acceleration, player.MaxSpeed, player.RotationSpeed)
 
+		w.Header().Add("content-type", "application/json")
 		encoder := json.NewEncoder(w)
 		encoder.Encode(spaceShipDto)
 	} else {

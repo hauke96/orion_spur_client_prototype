@@ -5,13 +5,15 @@ import (
 	"common/remoteObject"
 	"encoding/json"
 	"errors"
-	"goms4go"
 	"logger"
+
+	"github.com/go-messaging-service/goms4go"
 )
 
 type PlayerService struct {
-	dao              *LocalPlayerDao
-	messagingService *goms4go.GomsClient
+	PlayerMovedHandler []func(*SpaceShip)
+	dao                *LocalPlayerDao
+	messagingService   *goms4go.GomsClient
 }
 
 func (service *PlayerService) Init(messagingService *goms4go.GomsClient, playerDao *LocalPlayerDao) {
@@ -89,7 +91,11 @@ func (service *PlayerService) UpdatePosition(name string, x common.Coordinate, y
 	err = service.dao.UpdatePosition(name, x, y, movementVector, rotation)
 
 	if err == nil {
-		return service.sendRemoteObject(&p.RemoteObject, common.REMOTE_OBJECT_MOVED)
+		for _, v := range service.PlayerMovedHandler {
+			v(p)
+		}
+		//return service.sendRemoteObject(&p.RemoteObject, common.REMOTE_OBJECT_MOVED)
+		return nil
 	}
 
 	return err
@@ -97,20 +103,6 @@ func (service *PlayerService) UpdatePosition(name string, x common.Coordinate, y
 
 func (service *PlayerService) sendPlayer(player *SpaceShip, topic string) error {
 	dto := ToDto(*player)
-
-	data, err := json.Marshal(dto)
-
-	if err != nil {
-		return errors.New("Could not send message: Error while converting player into JSON: " + err.Error())
-	}
-
-	playerString := string(data)
-
-	return service.messagingService.Send(playerString, topic)
-}
-
-func (service *PlayerService) sendRemoteObject(object *remoteObject.RemoteObject, topic string) error {
-	dto := remoteObject.ToDto(*object)
 
 	data, err := json.Marshal(dto)
 
