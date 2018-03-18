@@ -57,7 +57,7 @@ public class LevelView extends Actor
 		
 		_layerToScale = new HashMap<LevelView.LayerType, Float>();
 		
-		_layerToScale.put(LayerType.LAYER_BACKGROUND, 0.995f);
+		_layerToScale.put(LayerType.LAYER_BACKGROUND, 0.005f);
 		
 		_layerToScale.put(LayerType.LAYER_1_BEHIND, 0.4f);
 		_layerToScale.put(LayerType.LAYER_0_BEHIND, 0.75f);
@@ -182,16 +182,7 @@ public class LevelView extends Actor
 	{
 		float scale = _layerToScale.get(type);
 		
-		if (type == LayerType.LAYER_0_BEFORE || type == LayerType.LAYER_1_BEFORE)
-		{
-			// Negate, because otherwise the image will move in the opposite direction.
-			scale *= -1;
-		}
-		else if (type == LayerType.LAYER_0_BEHIND || type == LayerType.LAYER_1_BEHIND)
-		{
-			// Negate, because otherwise the image will move in the opposite direction.
-			scale = 1 - scale;
-		}
+		scale = (float) (scale * -1 + Math.floor((Math.signum(scale) + 1) / 2));
 		
 		move(_layers.get(type).values(), new Vector2(offset.x * scale, offset.y * scale));
 	}
