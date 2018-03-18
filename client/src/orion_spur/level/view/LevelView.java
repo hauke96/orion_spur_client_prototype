@@ -41,6 +41,7 @@ public class LevelView extends Actor
 		
 		_layerToScale = new TreeMap<LayerType, Layer>();
 		
+		// TODO pass these from outside. Create e.g. a RemoteObjectLayer which adds all remote objects to it.
 		_layerToScale.put(LayerType.LAYER_BACKGROUND, new Layer(0.005f));
 		
 		_layerToScale.put(LayerType.LAYER_1_BEHIND, new Layer(0.4f));
