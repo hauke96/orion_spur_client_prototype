@@ -67,22 +67,22 @@ public class MainGameScreen implements Screen
 		
 		_coordinateConverter.initialize(_viewport, _level.getPosition());
 		
-		IPlayerService.PlayerCreated.add(remoteObject ->
+		IPlayerService.PlayerCreated.add(newPlayer ->
 		{
 			Gdx.app.postRunnable(new Runnable()
 			{
 				@Override
 				public void run()
 				{
-					RemoteObject player = playerService.getPlayer();
-					
-					if (remoteObject.getId().equals(player.getId()))
+					if (newPlayer.getId().equals(playerService.getPlayer().getId()))
 					{
 						try
 						{
-							loginService.Login(player.getId());
+							loginService.Login(newPlayer.getId());
 							
-							initializeLevel(levelService, worldUnitsPerPixel, playerService, remoteObjectService);
+							// TODO refactor this to first get the player and then create the main game
+							// screen
+							initializeLevel(levelService, worldUnitsPerPixel, newPlayer, remoteObjectService);
 							
 							_currentStage = new Stage(_viewport);
 							_currentStage.addActor(_level);
@@ -99,7 +99,7 @@ public class MainGameScreen implements Screen
 					}
 					else
 					{
-						createRemoteObjectView(remoteObject);
+						_level.addToLayer(newPlayer);
 					}
 				}
 			});
@@ -126,21 +126,10 @@ public class MainGameScreen implements Screen
 		}));
 	}
 	
-	private void initializeLevel(ILevelService levelService, float worldUnitsPerPixel, IPlayerService playerService, IRemoteObjectService remoteObjectService) throws Exception, MalformedURLException, IOException, HttpException
+	private void initializeLevel(ILevelService levelService, float worldUnitsPerPixel, SpaceShip player, IRemoteObjectService remoteObjectService) throws Exception, MalformedURLException, IOException, HttpException
 	{
-		// TODO refactor this to first get the player and then create the main game
-		// screen
-		_playerLevelElement =
-		        new SpaceShip(playerService.getPlayer().getId(),
-		            _coordinateConverter.universeToWorld(levelService.getPosition("")),
-		            new Vector2(),
-		            0,
-		            LayerType.LAYER_PLAYER,
-		            LevelType.PLAYER,
-		            "assets/textures/spaceship.png",
-		            1000,
-		            10000,
-		            250);
+		_playerLevelElement = player;
+		
 		_player = (PlayerView) _level.addToLayer(_playerLevelElement);
 		
 		_level.loadLevelElements();

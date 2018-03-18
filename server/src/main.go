@@ -88,11 +88,15 @@ func getPlayerHandler(w http.ResponseWriter, r *http.Request) {
 	pathVariables := mux.Vars(r)
 	playerName := pathVariables["playerName"]
 
-	position, err := playerService.Get(playerName)
+	player, err := playerService.Get(playerName)
 
 	if err == nil {
+		remoteObjectDto := commonRemoteObject.ToDto(player.RemoteObject)
+
+		spaceShipDto := generated.NewSpaceShipDto(*remoteObjectDto, player.Acceleration, player.MaxSpeed, player.RotationSpeed)
+
 		encoder := json.NewEncoder(w)
-		encoder.Encode(position)
+		encoder.Encode(spaceShipDto)
 	} else {
 		logger.Error(err.Error())
 		w.WriteHeader(404)

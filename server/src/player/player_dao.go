@@ -2,21 +2,20 @@ package player
 
 import (
 	"common"
-	"common/remoteObject"
 	"errors"
 	"fmt"
 	"logger"
 )
 
 type LocalPlayerDao struct {
-	players map[string]*remoteObject.RemoteObject
+	players map[string]*SpaceShip
 }
 
 func (dao *LocalPlayerDao) Init() {
-	dao.players = make(map[string]*remoteObject.RemoteObject)
+	dao.players = make(map[string]*SpaceShip)
 }
 
-func (dao *LocalPlayerDao) Add(player *remoteObject.RemoteObject) error {
+func (dao *LocalPlayerDao) Add(player *SpaceShip) error {
 	_, err := dao.Get(player.Name)
 
 	if err != nil {
@@ -28,7 +27,7 @@ func (dao *LocalPlayerDao) Add(player *remoteObject.RemoteObject) error {
 	return errors.New("Player " + player.Name + " already exists")
 }
 
-func (dao *LocalPlayerDao) Get(name string) (*remoteObject.RemoteObject, error) {
+func (dao *LocalPlayerDao) Get(name string) (*SpaceShip, error) {
 	player := dao.players[name]
 
 	var err error
@@ -40,8 +39,8 @@ func (dao *LocalPlayerDao) Get(name string) (*remoteObject.RemoteObject, error) 
 	return player, err
 }
 
-func (dao *LocalPlayerDao) GetAll() []*remoteObject.RemoteObject {
-	result := make([]*remoteObject.RemoteObject, len(dao.players))
+func (dao *LocalPlayerDao) GetAll() []*SpaceShip {
+	result := make([]*SpaceShip, len(dao.players))
 
 	i := 0
 	for _, v := range dao.players {

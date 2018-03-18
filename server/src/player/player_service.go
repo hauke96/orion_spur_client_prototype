@@ -22,7 +22,7 @@ func (service *PlayerService) Init(messagingService *goms4go.GomsClient, playerD
 func (service *PlayerService) CreatePlayer(name string) error {
 	logger.Debug("Called CreatePlayer with name '" + name + "'")
 
-	p := &remoteObject.RemoteObject{
+	base := remoteObject.RemoteObject{
 		//0, -23013, 0, -646735535105623500
 		X:              common.Coordinate{LightYears: 0, Meters: 0},
 		Y:              common.Coordinate{LightYears: -23013, Meters: -646735535105623500},
@@ -32,16 +32,23 @@ func (service *PlayerService) CreatePlayer(name string) error {
 		AssetFile:      "assets/textures/spaceship.png",
 	}
 
-	err := service.dao.Add(p)
+	ship := &SpaceShip{
+		RemoteObject:  base,
+		Acceleration:  1000,
+		MaxSpeed:      10000,
+		RotationSpeed: 250,
+	}
+
+	err := service.dao.Add(ship)
 
 	if err == nil {
-		return service.sendPlayer(p, common.PLAYER_CREATED)
+		return service.sendPlayer(ship, common.PLAYER_CREATED)
 	}
 
 	return err
 }
 
-func (service *PlayerService) Get(name string) (*remoteObject.RemoteObject, error) {
+func (service *PlayerService) Get(name string) (*SpaceShip, error) {
 	logger.Debug("Called GetPlayer with name '" + name + "'")
 
 	player, err := service.dao.Get(name)
@@ -53,10 +60,10 @@ func (service *PlayerService) Get(name string) (*remoteObject.RemoteObject, erro
 	return player, nil
 }
 
-func (service *PlayerService) GetAll() []*remoteObject.RemoteObject {
+func (service *PlayerService) GetAll() []*SpaceShip {
 	logger.Debug("Called GetAllPlayer")
 
-	list := []*remoteObject.RemoteObject{}
+	list := []*SpaceShip{}
 
 	for _, v := range service.dao.GetAll() {
 
@@ -82,14 +89,28 @@ func (service *PlayerService) UpdatePosition(name string, x common.Coordinate, y
 	err = service.dao.UpdatePosition(name, x, y, movementVector, rotation)
 
 	if err == nil {
-		return service.sendPlayer(p, common.REMOTE_OBJECT_MOVED)
+		return service.sendRemoteObject(&p.RemoteObject, common.REMOTE_OBJECT_MOVED)
 	}
 
 	return err
 }
 
-func (service *PlayerService) sendPlayer(player *remoteObject.RemoteObject, topic string) error {
-	dto := remoteObject.ToDto(*player)
+func (service *PlayerService) sendPlayer(player *SpaceShip, topic string) error {
+	dto := ToDto(*player)
+
+	data, err := json.Marshal(dto)
+
+	if err != nil {
+		return errors.New("Could not send message: Error while converting player into JSON: " + err.Error())
+	}
+
+	playerString := string(data)
+
+	return service.messagingService.Send(playerString, topic)
+}
+
+func (service *PlayerService) sendRemoteObject(object *remoteObject.RemoteObject, topic string) error {
+	dto := remoteObject.ToDto(*object)
 
 	data, err := json.Marshal(dto)
 

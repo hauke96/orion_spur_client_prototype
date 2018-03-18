@@ -14,5 +14,13 @@ func (dao *LocalRemoteObjectDao) Init(playerDao *player.LocalPlayerDao) {
 }
 
 func (dao *LocalRemoteObjectDao) GetAll() []*remoteObject.RemoteObject {
-	return dao.playerDao.GetAll()
+	result := []*remoteObject.RemoteObject{}
+
+	spaceShip := dao.playerDao.GetAll()
+
+	for _, v := range spaceShip {
+		result = append(result, &v.RemoteObject)
+	}
+
+	return result
 }

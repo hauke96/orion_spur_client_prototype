@@ -8,13 +8,15 @@ import juard.contract.Contract;
 import orion_spur.common.converter.ICoordinateConverter;
 import orion_spur.common.domainvalue.Position;
 import orion_spur.common.exception.HttpException;
+import orion_spur.common.service.LayerActor.LayerType;
+import orion_spur.level.domainvalue.LevelType;
 import orion_spur.level.material.LevelElement;
-import orion_spur.remoteObjects.material.RemoteObject;
+import orion_spur.player.material.SpaceShip;
 
 public class PlayerServiceDummy implements IPlayerService
 {
 	// TODO replace by a vector (world position)
-	private Position _playerPosition = Position.create(0, -23013, 600, -646735535105597500L);
+	private Vector2 _playerPosition = Vector2.Zero;// Position.create(0, -23013, 600, -646735535105597500L);
 	
 	private ICoordinateConverter _coordinateConverter;
 	
@@ -31,9 +33,9 @@ public class PlayerServiceDummy implements IPlayerService
 		Contract.NotNull(newPosition);
 		
 		Vector2 newPositionWorldVector = newPosition;
-		Vector2 playerPositionWorldVector = _coordinateConverter.universeToWorld(_playerPosition);
+		Vector2 playerPositionWorldVector = _playerPosition;
 		
-		_playerPosition = _coordinateConverter.worldToUniverse(newPosition);
+		_playerPosition = newPosition;
 		
 		PositionChanged.fireEvent(new Vector2(newPositionWorldVector.x - playerPositionWorldVector.x,
 		    newPositionWorldVector.y - playerPositionWorldVector.y));
@@ -42,14 +44,23 @@ public class PlayerServiceDummy implements IPlayerService
 	@Override
 	public Position getPosition()
 	{
-		return _playerPosition;
+		return _coordinateConverter.worldToUniverse(_playerPosition);
 	}
 	
 	@Override
-	public RemoteObject getPlayer()
+	public SpaceShip getPlayer()
 	{
 		// TODO reele Daten einfügen
-		return new RemoteObject("player", new Vector2(), "", _playerPosition, 0f);
+		return new SpaceShip("player",
+		    new Vector2(),
+		    _playerPosition,
+		    0f,
+		    LayerType.LAYER_PLAYER,
+		    LevelType.PLAYER,
+		    "assets/textures/spaceship.png",
+		    1000,
+		    10000,
+		    250);
 	}
 	
 	@Override

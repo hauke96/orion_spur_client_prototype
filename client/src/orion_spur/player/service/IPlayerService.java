@@ -8,12 +8,12 @@ import juard.event.DataEvent;
 import orion_spur.common.domainvalue.Position;
 import orion_spur.common.exception.HttpException;
 import orion_spur.level.material.LevelElement;
-import orion_spur.remoteObjects.material.RemoteObject;
+import orion_spur.player.material.SpaceShip;
 
 public interface IPlayerService
 {
-	public DataEvent<RemoteObject>	PlayerCreated	= new DataEvent<RemoteObject>();
-	public DataEvent<Vector2>		PositionChanged	= new DataEvent<Vector2>();
+	public DataEvent<SpaceShip>	PlayerCreated	= new DataEvent<SpaceShip>();
+	public DataEvent<Vector2>	PositionChanged	= new DataEvent<Vector2>();
 	
 	void createPlayer() throws Exception;
 	
@@ -23,7 +23,7 @@ public interface IPlayerService
 	
 	Position getPosition() throws Exception;
 	
-	RemoteObject getPlayer();
+	SpaceShip getPlayer();
 	
 	// TODO getCenteredPosition
 }

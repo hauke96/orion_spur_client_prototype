@@ -12,7 +12,6 @@ import com.badlogic.gdx.Net.HttpMethods;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.net.HttpStatus;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import de.hauke_stieler.goms.service.GoMessagingService;
 import juard.contract.Contract;
@@ -23,21 +22,25 @@ import orion_spur.common.domainvalue.Position;
 import orion_spur.common.exception.HttpException;
 import orion_spur.common.generated.CoordinateDto;
 import orion_spur.common.generated.RemoteObjectDto;
+import orion_spur.common.generated.SpaceShipDto;
 import orion_spur.common.generated.VectorDto;
+import orion_spur.common.service.LayerActor.LayerType;
+import orion_spur.level.domainvalue.LevelType;
 import orion_spur.level.material.LevelElement;
-import orion_spur.remoteObjects.material.RemoteObject;
+import orion_spur.player.material.SpaceShip;
 
 public class PlayerServiceProxy implements IPlayerService
 {
-	private static final String		PLAYER_NAME			= "" + System.nanoTime();
-	private static final String		PLAYER_CREATED		= "player.created";
-	private static final String		PLAYER_MOVED		= "player.moved";
+	private static final String	PLAYER_NAME		= "" + System.nanoTime();
+	private static final String	PLAYER_CREATED	= "player.created";
+	private static final String	PLAYER_MOVED	= "player.moved";
+	
 	private String					_serviceUrlString	= "http://localhost:8080/player/" + PLAYER_NAME;
 	private Gson					_gson;
 	private Vector2					_lastSetPosition;													// TODO remove
 	                                                                                                    // this variable
 	private ICoordinateConverter	_coordinateConverter;
-	private RemoteObject			_player;
+	private SpaceShip				_player;
 	
 	public PlayerServiceProxy(GoMessagingService messagingService, ICoordinateConverter coordinateConverter)
 	{
@@ -61,9 +64,9 @@ public class PlayerServiceProxy implements IPlayerService
 	
 	private void gomsOnPlayerCreated(String data)
 	{
-		RemoteObjectDto playerDto = _gson.fromJson(data, RemoteObjectDto.class);
+		SpaceShipDto playerDto = _gson.fromJson(data, SpaceShipDto.class);
 		
-		RemoteObject player = convertToPlayer(playerDto);
+		SpaceShip player = convertToPlayer(playerDto);
 		
 		if (!player.getId().equals(PLAYER_NAME))
 		{
@@ -73,7 +76,7 @@ public class PlayerServiceProxy implements IPlayerService
 		else
 		{
 			_player = player;
-			_lastSetPosition = _coordinateConverter.universeToWorld(_player.getPosition());
+			_lastSetPosition = _player.getPosition();
 		}
 		
 		PlayerCreated.fireEvent(player);
@@ -81,22 +84,29 @@ public class PlayerServiceProxy implements IPlayerService
 	
 	// TODO Use converter for this
 	@Deprecated
-	private RemoteObject convertToPlayer(RemoteObjectDto player)
+	private SpaceShip convertToPlayer(SpaceShipDto player)
 	{
-		VectorDto vectorDto = player.getMovementVector();
+		RemoteObjectDto base = player.getBase();
+		
+		VectorDto vectorDto = base.getMovementVector();
 		Vector2 movementVector = new Vector2(vectorDto.getX(), vectorDto.getY());
 		
 		Position position =
-		        Position.create(player.getX().getLightYears(),
-		            player.getY().getLightYears(),
-		            player.getX().getMeters(),
-		            player.getY().getMeters());
+		        Position.create(base.getX().getLightYears(),
+		            base.getY().getLightYears(),
+		            base.getX().getMeters(),
+		            base.getY().getMeters());
 		
-		RemoteObject player2 =
-		        new RemoteObject(player
-		            .getName(), movementVector, player.getAssetFile(), position, player.getRotation());
-		
-		return player2;
+		return new SpaceShip(base.getName(),
+		    _coordinateConverter.universeToWorld(position),
+		    movementVector,
+		    0,
+		    LayerType.LAYER_PLAYER,
+		    LevelType.PLAYER,
+		    base.getAssetFile(),
+		    player.getAcceleration(),
+		    player.getMaxSpeed(),
+		    player.getRotationSpeed());
 	}
 	
 	private void gomsOnPlayerMoved(String data)
@@ -241,9 +251,11 @@ public class PlayerServiceProxy implements IPlayerService
 			// read response lines into single string
 			String response = reader.lines().collect(Collectors.joining());
 			
-			Gson gson = new GsonBuilder().create();
-			Position position = gson.fromJson(response, Position.class);
+			SpaceShipDto playerDto = _gson.fromJson(response, SpaceShipDto.class);
 			
+			Position position = _coordinateConverter.worldToUniverse(convertToPlayer(playerDto).getPosition());
+			
+			Contract.NotNull(position);
 			return position;
 		}
 		else
@@ -257,7 +269,7 @@ public class PlayerServiceProxy implements IPlayerService
 	}
 	
 	@Override
-	public RemoteObject getPlayer()
+	public SpaceShip getPlayer()
 	{
 		Contract.NotNull(_player);
 		return _player;
