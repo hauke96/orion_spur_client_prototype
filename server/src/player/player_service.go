@@ -29,14 +29,14 @@ func (service *PlayerService) CreatePlayer(name string) error {
 		X:              common.Coordinate{LightYears: 0, Meters: 0},
 		Y:              common.Coordinate{LightYears: -23013, Meters: -646735535105623500},
 		Name:           name,
-		Rotation:       0,
-		MovementVector: common.Vector{X: 0, Y: 0},
+		Rotation:       70,
+		MovementVector: common.Vector{X: 510, Y: -30},
 		AssetFile:      "assets/textures/spaceship.png",
 	}
 
 	ship := &SpaceShip{
 		RemoteObject:  base,
-		Acceleration:  1000,
+		Acceleration:  1250,
 		MaxSpeed:      10000,
 		RotationSpeed: 250,
 	}
