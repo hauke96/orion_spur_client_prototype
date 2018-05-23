@@ -25,7 +25,6 @@ import orion_spur.level.view.LevelView;
 import orion_spur.level.view.LevelView.LayerType;
 import orion_spur.particles.service.IParticleService;
 import orion_spur.particles.view.ParticleView;
-import orion_spur.player.material.SpaceShip;
 import orion_spur.player.service.ILoginService;
 import orion_spur.player.service.IPlayerService;
 import orion_spur.player.view.PlayerView;
@@ -126,7 +125,7 @@ public class MainGameScreen implements Screen
 		}));
 	}
 	
-	private void initializeLevel(ILevelService levelService, float worldUnitsPerPixel, SpaceShip player, IRemoteObjectService remoteObjectService) throws Exception, MalformedURLException, IOException, HttpException
+	private void initializeLevel(ILevelService levelService, float worldUnitsPerPixel, LevelElement player, IRemoteObjectService remoteObjectService) throws Exception, MalformedURLException, IOException, HttpException
 	{
 		_playerLevelElement = player;
 		

@@ -12,8 +12,8 @@ import orion_spur.player.material.SpaceShip;
 
 public interface IPlayerService
 {
-	public DataEvent<SpaceShip>	PlayerCreated	= new DataEvent<SpaceShip>();
-	public DataEvent<Vector2>	PositionChanged	= new DataEvent<Vector2>();
+	public DataEvent<LevelElement>	PlayerCreated	= new DataEvent<LevelElement>();
+	public DataEvent<Vector2>		PositionChanged	= new DataEvent<Vector2>();
 	
 	void createPlayer() throws Exception;
 	

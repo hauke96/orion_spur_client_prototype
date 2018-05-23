@@ -66,16 +66,24 @@ public class PlayerServiceProxy implements IPlayerService
 	{
 		SpaceShipDto playerDto = _gson.fromJson(data, SpaceShipDto.class);
 		
-		SpaceShip player = convertToPlayer(playerDto);
+		LevelElement player = convertToPlayer(playerDto);
 		
 		if (!player.getId().equals(PLAYER_NAME))
 		{
+			player = new LevelElement(player.getId(),
+			    player.getPosition(),
+			    player.getMovementVector(),
+			    player.getRotation(),
+			    LayerType.LAYER_REMOTE_OBJECTS,
+			    LevelType.REMOTE_OBJECT,
+			    player.getAssetPath());
+			
 			System.out.println(data);
 		}
 		// Getting message of own player
 		else
 		{
-			_player = player;
+			_player = (SpaceShip) player;
 			_lastSetPosition = _player.getPosition();
 		}
 		
