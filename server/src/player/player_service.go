@@ -26,11 +26,12 @@ func (service *PlayerService) CreatePlayer(name string) error {
 
 	base := remoteObject.RemoteObject{
 		//0, -23013, 0, -646735535105623500
-		X:              common.Coordinate{LightYears: 0, Meters: 0},
-		Y:              common.Coordinate{LightYears: -23013, Meters: -646735535105623500},
-		Name:           name,
-		Rotation:       70,
-		MovementVector: common.Vector{X: 510, Y: -30},
+		X:        common.Coordinate{LightYears: 0, Meters: 0},
+		Y:        common.Coordinate{LightYears: -23013, Meters: -646735535105623500},
+		Name:     name,
+		Rotation: 70,
+		//MovementVector: common.Vector{X: 510, Y: -30},
+		MovementVector: common.Vector{X: 0, Y: 0},
 		AssetFile:      "assets/textures/spaceship.png",
 	}
 
