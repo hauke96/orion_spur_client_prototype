@@ -41,6 +41,8 @@ public class MainGameScreen implements Screen
 	private int	_width;
 	private int	_height;
 	
+	private long _lastPrintTime;
+	
 	private LevelElement	_playerLevelElement;
 	private LevelView		_level;
 	private PlayerView		_player;
@@ -217,10 +219,15 @@ public class MainGameScreen implements Screen
 	
 	private void printPlayerData(Vector2 playerPosition, float playerSpeed)
 	{
-		String speedString = String.format("%08.2f", playerSpeed / 100);
-		System.out.printf("%s m/s     at world pos: %-25s    at universe pos: %s\n",
-		    speedString,
-		    playerPosition,
-		    _coordinateConverter.worldToUniverse(playerPosition));
+		if (_lastPrintTime + 1000 < System.currentTimeMillis())
+		{
+			_lastPrintTime = System.currentTimeMillis();
+			
+			String speedString = String.format("%08.2f", playerSpeed / 100);
+			System.out.printf("%s m/s     at world pos: %-25s    at universe pos: %s\n",
+			    speedString,
+			    playerPosition,
+			    _coordinateConverter.worldToUniverse(playerPosition));
+		}
 	}
 }
