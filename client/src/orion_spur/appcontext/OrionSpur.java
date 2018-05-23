@@ -50,7 +50,11 @@ public class OrionSpur extends Game implements ApplicationListener
 				            _height,
 				            WORLD_UNITS_PER_PIXEL);
 				// TODO show a loading screen here
-				newScreen.MainScreenInitialized.add(() -> setScreen(newScreen));
+				newScreen.MainScreenInitialized.add(() ->
+				{
+					screen.dispose();
+					setScreen(newScreen);
+				});
 			}
 			catch (Exception e)
 			{

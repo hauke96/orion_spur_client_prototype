@@ -146,5 +146,7 @@ public class MainMenuScreen implements Screen
 	@Override
 	public void dispose()
 	{
+		_stage.dispose();
+		PlayButtonClicked.clean();
 	}
 }
