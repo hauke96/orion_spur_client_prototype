@@ -70,6 +70,7 @@ public class PlayerServiceProxy implements IPlayerService
 		
 		if (!player.getId().equals(PLAYER_NAME))
 		{
+			// TODO when a separate "OtherPlayerJoined" event exists, this should be the data of this event (#16)
 			player = new LevelElement(player.getId(),
 			    player.getPosition(),
 			    player.getMovementVector(),

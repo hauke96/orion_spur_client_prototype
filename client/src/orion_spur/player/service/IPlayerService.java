@@ -12,6 +12,7 @@ import orion_spur.player.material.SpaceShip;
 
 public interface IPlayerService
 {
+	// TODO separate events for own player creation and joined other players (#16)
 	public DataEvent<LevelElement>	PlayerCreated	= new DataEvent<LevelElement>();
 	public DataEvent<Vector2>		PositionChanged	= new DataEvent<Vector2>();
 	
