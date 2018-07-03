@@ -56,7 +56,7 @@ public class PlayerView extends ImageActor
 			movementAdjustion = movementAdjustion.add(0, -getLevelElement().getAcceleration() * delta);
 		}
 		// TODO add number as a shot rate to space ship
-		if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && _lastShotTime + 150 <= System.currentTimeMillis())
+		if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && _lastShotTime + 75 <= System.currentTimeMillis())
 		{
 			Vector2 vector = new Vector2(0, 1);
 			vector = vector.rotate(getLevelElement().getRotation());
