@@ -38,23 +38,42 @@ public class OrionSpur extends Game implements ApplicationListener
 		{
 			try
 			{
-				MainGameScreen newScreen =
-				        new MainGameScreen(Locator.get(IUnitConverter.class),
-				            Locator.get(ICoordinateConverter.class),
-				            Locator.get(ILevelService.class),
-				            Locator.get(ILoginService.class),
-				            Locator.get(IParticleService.class),
-				            Locator.get(IPlayerService.class),
-				            Locator.get(IRemoteObjectService.class),
-				            _width,
-				            _height,
-				            WORLD_UNITS_PER_PIXEL);
-				// TODO show a loading screen here
-				newScreen.MainScreenInitialized.add(() ->
+				IPlayerService playerService = Locator.get(IPlayerService.class);
+				
+				MainGameScreen newScreen = new MainGameScreen(Locator.get(IUnitConverter.class),
+				    Locator.get(ICoordinateConverter.class),
+				    Locator.get(ILevelService.class),
+				    Locator.get(ILoginService.class),
+				    Locator.get(IParticleService.class),
+				    playerService,
+				    Locator.get(IRemoteObjectService.class),
+				    _width,
+				    _height,
+				    WORLD_UNITS_PER_PIXEL);
+				
+				IPlayerService.PlayerCreated.add(newPlayer ->
 				{
-					screen.dispose();
-					setScreen(newScreen);
+					Gdx.app.postRunnable(new Runnable()
+					{
+						@Override
+						public void run()
+						{
+							try
+							{
+								newScreen.initialize(newPlayer);
+								
+								screen.dispose();
+								setScreen(newScreen);
+							}
+							catch (Exception e)
+							{
+								// TODO handle
+							}
+						}
+					});
 				});
+				
+				playerService.createPlayer();
 			}
 			catch (Exception e)
 			{

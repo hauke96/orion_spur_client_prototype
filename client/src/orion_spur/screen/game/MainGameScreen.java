@@ -3,7 +3,6 @@ package orion_spur.screen.game;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -50,11 +49,26 @@ public class MainGameScreen implements Screen
 	
 	private ICoordinateConverter _coordinateConverter;
 	
+	private IPlayerService	_playerService;
+	private ILevelService	_levelService;
+	
+	private IRemoteObjectService _remoteObjectService;
+	
+	private ILoginService _loginService;
+	
+	private final float WORLD_UNITS_PER_PIXEL;
+	
 	public MainGameScreen(IUnitConverter unitConverter, ICoordinateConverter coordinateConverter, ILevelService levelService, ILoginService loginService, IParticleService particleService, IPlayerService playerService, IRemoteObjectService remoteObjectService, int width, int height, float worldUnitsPerPixel) throws RuntimeException, Exception
 	{
 		unitConverter.initialize(worldUnitsPerPixel);
 		
 		_coordinateConverter = coordinateConverter;
+		_levelService = levelService;
+		_loginService = loginService;
+		_playerService = playerService;
+		_remoteObjectService = remoteObjectService;
+		
+		WORLD_UNITS_PER_PIXEL = worldUnitsPerPixel;
 		
 		_camera = new OrthographicCamera(_width, _height);
 		
@@ -67,46 +81,6 @@ public class MainGameScreen implements Screen
 		    "particle view");
 		
 		_coordinateConverter.initialize(_viewport, _level.getPosition());
-		
-		IPlayerService.PlayerCreated.add(newPlayer ->
-		{
-			Gdx.app.postRunnable(new Runnable()
-			{
-				@Override
-				public void run()
-				{
-					if (newPlayer.getId().equals(playerService.getPlayer().getId()))
-					{
-						try
-						{
-							loginService.Login(newPlayer.getId());
-							
-							// TODO refactor this to first get the player and then create the main game
-							// screen
-							initializeLevel(levelService, worldUnitsPerPixel, newPlayer, remoteObjectService);
-							
-							_currentStage = new Stage(_viewport);
-							_currentStage.addActor(_level);
-							
-							onPlayerPositionChanged(new Vector2(0, 0));
-							
-							MainScreenInitialized.fireEvent();
-						}
-						catch (Exception e)
-						{
-							e.printStackTrace();
-							Logger.fatal(e.getMessage());
-						}
-					}
-					else
-					{
-						_level.addToLayer(newPlayer);
-					}
-				}
-			});
-		});
-		
-		playerService.createPlayer();
 		
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable()
 		{
@@ -125,6 +99,41 @@ public class MainGameScreen implements Screen
 			}
 			
 		}));
+	}
+	
+	/**
+	 * Adds the player to the game.
+	 * 
+	 * @param newPlayer
+	 *            The player to add.
+	 */
+	public void initialize(LevelElement newPlayer)
+	{
+		if (newPlayer.getId().equals(_playerService.getPlayer().getId()))
+		{
+			try
+			{
+				_loginService.Login(newPlayer.getId());
+				
+				initializeLevel(_levelService, WORLD_UNITS_PER_PIXEL, newPlayer, _remoteObjectService);
+				
+				_currentStage = new Stage(_viewport);
+				_currentStage.addActor(_level);
+				
+				onPlayerPositionChanged(new Vector2(0, 0));
+				
+				MainScreenInitialized.fireEvent();
+			}
+			catch (Exception e)
+			{
+				e.printStackTrace();
+				Logger.fatal(e.getMessage());
+			}
+		}
+		else
+		{
+			_level.addToLayer(newPlayer);
+		}
 	}
 	
 	private void initializeLevel(ILevelService levelService, float worldUnitsPerPixel, LevelElement player, IRemoteObjectService remoteObjectService) throws Exception, MalformedURLException, IOException, HttpException
