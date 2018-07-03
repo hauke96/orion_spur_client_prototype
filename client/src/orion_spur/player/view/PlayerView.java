@@ -106,7 +106,7 @@ public class PlayerView extends ImageActor
 	
 	public Vector2 getCenterWorldPosition()
 	{
-		return new Vector2(getX() + getWidth() / 2, getY() + getHeight() / 2);
+		return new Vector2(getX(), getY());
 	}
 	
 	@Override

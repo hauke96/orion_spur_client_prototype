@@ -48,8 +48,6 @@ public class ImageActor extends Actor
 		setWidth(width);
 		setHeight(height);
 		
-		setBounds(0, 0, getWidth(), getHeight());
-		
 		_sprite = new Sprite(texture);
 		_sprite.setBounds(getX(), getY(), getWidth(), getHeight());
 		_sprite.setOrigin(getWidth() / 2, getHeight() / 2);
@@ -87,8 +85,8 @@ public class ImageActor extends Actor
 	@Override
 	public void setPosition(float x, float y)
 	{
-		_sprite.setPosition(x, y);
-		getLevelElement().setPosition(new Vector2(x + getWidth() / 2, y + getHeight() / 2));
+		_sprite.setPosition(x - getWidth() / 2, y - getHeight() / 2);
+		getLevelElement().setPosition(new Vector2(x, y));
 		super.setPosition(x, y);
 	}
 	
