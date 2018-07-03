@@ -25,6 +25,4 @@ public interface IPlayerService
 	Position getPosition() throws Exception;
 	
 	SpaceShip getPlayer();
-	
-	// TODO getCenteredPosition
 }
