@@ -1,6 +1,9 @@
 package orion_spur.common.view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -16,6 +19,10 @@ public class ImageActor extends Actor
 	protected Sprite _sprite;
 	
 	private LevelElement _levelElement;
+	
+	// Set this to "true" to enable the drawing of the center point of each image actor. This is useful for debugging
+	// purposes.
+	private final boolean DRAW_CENTER = false;
 	
 	public ImageActor(LevelElement levelElement)
 	{
@@ -66,6 +73,21 @@ public class ImageActor extends Actor
 	public void draw(Batch batch, float parentAlpha)
 	{
 		_sprite.draw(batch);
+		
+		if (DRAW_CENTER)
+		{
+			Pixmap pixmap = new Pixmap(11, 11, Format.RGB888);
+			pixmap.setColor(Color.RED);
+			pixmap.fillCircle(5, 5, 11);
+			Texture texture = new Texture(pixmap);
+			Sprite sprite = new Sprite(texture);
+			
+			sprite.setBounds(getX(), getY(), 11, 11);
+			sprite.setOrigin(getWidth() / 2, getHeight() / 2);
+			sprite.setPosition(getX(), getY());
+			
+			sprite.draw(batch);
+		}
 	}
 	
 	@Override
