@@ -23,18 +23,18 @@ public class ParticleView extends Actor
 	{
 		for (Particle particle : _particleService.getAll())
 		{
-			int width = particle.getTexture().getRegionWidth();
-			int height = particle.getTexture().getRegionHeight();
+			int width = particle.getTexture().getRegionWidth() * 6;
+			int height = particle.getTexture().getRegionHeight() * 6;
 			
 			batch.draw(particle.getTexture(),
-			    particle.getPosition().x,
-			    particle.getPosition().y,
+			    particle.getPosition().x - width / 2,
+			    particle.getPosition().y - height / 2,
 			    width / 2,
 			    height / 2,
 			    width,
 			    height,
-			    6,
-			    6,
+			    1,
+			    1,
 			    particle.getRotation(),
 			    true);
 		}
