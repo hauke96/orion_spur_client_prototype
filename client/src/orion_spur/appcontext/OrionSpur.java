@@ -36,49 +36,48 @@ public class OrionSpur extends Game implements ApplicationListener
 		MainMenuScreen screen = new MainMenuScreen();
 		screen.PlayButtonClicked.add(() ->
 		{
-			try
+			Gdx.app.postRunnable(() ->
 			{
-				IPlayerService playerService = Locator.get(IPlayerService.class);
-				
-				MainGameScreen newScreen = new MainGameScreen(Locator.get(IUnitConverter.class),
-				    Locator.get(ICoordinateConverter.class),
-				    Locator.get(ILevelService.class),
-				    Locator.get(ILoginService.class),
-				    Locator.get(IParticleService.class),
-				    playerService,
-				    Locator.get(IRemoteObjectService.class),
-				    _width,
-				    _height,
-				    WORLD_UNITS_PER_PIXEL);
-				
-				IPlayerService.PlayerCreated.add(newPlayer ->
+				try
 				{
-					Gdx.app.postRunnable(new Runnable()
+					IPlayerService playerService = Locator.get(IPlayerService.class);
+					
+					MainGameScreen newScreen = new MainGameScreen(Locator.get(IUnitConverter.class),
+					    Locator.get(ICoordinateConverter.class),
+					    Locator.get(ILevelService.class),
+					    Locator.get(ILoginService.class),
+					    Locator.get(IParticleService.class),
+					    playerService,
+					    Locator.get(IRemoteObjectService.class),
+					    _width,
+					    _height,
+					    WORLD_UNITS_PER_PIXEL);
+					
+					setScreen(newScreen);
+					screen.dispose();
+					
+					IPlayerService.PlayerCreated.add(newPlayer ->
 					{
-						@Override
-						public void run()
+						Gdx.app.postRunnable(() ->
 						{
 							try
 							{
 								newScreen.initialize(newPlayer);
-								
-								screen.dispose();
-								setScreen(newScreen);
 							}
 							catch (Exception e)
 							{
 								// TODO handle
 							}
-						}
+						});
 					});
-				});
-				
-				playerService.createPlayer();
-			}
-			catch (Exception e)
-			{
-				Logger.error("Could not create main game screen", e);
-			}
+					
+					playerService.createPlayer();
+				}
+				catch (Exception e)
+				{
+					Logger.error("Could not create main game screen", e);
+				}
+			});
 		});
 		
 		setScreen(screen);

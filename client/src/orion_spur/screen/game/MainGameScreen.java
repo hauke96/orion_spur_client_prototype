@@ -80,6 +80,9 @@ public class MainGameScreen implements Screen
 		    LayerZIndex.LAYER_ANIMATION,
 		    "particle view");
 		
+		_currentStage = new Stage(_viewport);
+		_currentStage.addActor(_level);
+		
 		_coordinateConverter.initialize(_viewport, _level.getPosition());
 		
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable()
@@ -116,9 +119,6 @@ public class MainGameScreen implements Screen
 				_loginService.Login(newPlayer.getId());
 				
 				initializeLevel(_levelService, WORLD_UNITS_PER_PIXEL, newPlayer, _remoteObjectService);
-				
-				_currentStage = new Stage(_viewport);
-				_currentStage.addActor(_level);
 				
 				onPlayerPositionChanged(new Vector2(0, 0));
 				
