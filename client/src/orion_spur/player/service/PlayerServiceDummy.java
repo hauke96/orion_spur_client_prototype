@@ -8,7 +8,7 @@ import juard.contract.Contract;
 import orion_spur.common.converter.ICoordinateConverter;
 import orion_spur.common.domainvalue.Position;
 import orion_spur.common.exception.HttpException;
-import orion_spur.level.domainvalue.LevelType;
+import orion_spur.level.domainvalue.LevelElementType;
 import orion_spur.level.material.LevelElement;
 import orion_spur.level.view.LevelView.LayerType;
 import orion_spur.player.material.SpaceShip;
@@ -56,7 +56,7 @@ public class PlayerServiceDummy implements IPlayerService
 		    _playerPosition,
 		    0f,
 		    LayerType.LAYER_PLAYER,
-		    LevelType.PLAYER,
+		    LevelElementType.PLAYER,
 		    "assets/textures/spaceship.png",
 		    1000,
 		    10000,

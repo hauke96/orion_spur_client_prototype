@@ -6,7 +6,7 @@ import java.util.List;
 import com.badlogic.gdx.math.Vector2;
 
 import orion_spur.common.domainvalue.Position;
-import orion_spur.level.domainvalue.LevelType;
+import orion_spur.level.domainvalue.LevelElementType;
 import orion_spur.level.material.LevelElement;
 import orion_spur.level.view.LevelView.LayerType;
 
@@ -24,35 +24,35 @@ public class LevelDummyService implements ILevelService
 		    new Vector2(),
 		    0,
 		    LayerType.LAYER_BACKGROUND,
-		    LevelType.IMAGE,
+		    LevelElementType.IMAGE,
 		    "assets/textures/milkyway.jpg"));
 		result.add(new LevelElement("2",
 		    new Vector2(-700, 0),
 		    new Vector2(),
 		    20,
 		    LayerType.LAYER_1_BEHIND,
-		    LevelType.IMAGE,
+		    LevelElementType.IMAGE,
 		    "assets/textures/asteroid-0.png"));
 		result.add(new LevelElement("3",
 		    new Vector2(0, -1500),
 		    new Vector2(),
 		    60,
 		    LayerType.LAYER_0_BEHIND,
-		    LevelType.IMAGE,
+		    LevelElementType.IMAGE,
 		    "assets/textures/asteroid-0.png"));
 		result.add(new LevelElement("4",
 		    new Vector2(600, 1000),
 		    new Vector2(),
 		    110,
 		    LayerType.LAYER_0_BEFORE,
-		    LevelType.IMAGE,
+		    LevelElementType.IMAGE,
 		    "assets/textures/asteroid-0.png"));
 		result.add(new LevelElement("5",
 		    new Vector2(-2000, -500),
 		    new Vector2(),
 		    230,
 		    LayerType.LAYER_1_BEFORE,
-		    LevelType.IMAGE,
+		    LevelElementType.IMAGE,
 		    "assets/textures/asteroid-0.png"));
 		return result;
 	}

@@ -18,7 +18,7 @@ import orion_spur.common.converter.ICoordinateConverter;
 import orion_spur.common.converter.IUnitConverter;
 import orion_spur.common.exception.HttpException;
 import orion_spur.common.factory.IActorFactory;
-import orion_spur.level.domainvalue.LevelType;
+import orion_spur.level.domainvalue.LevelElementType;
 import orion_spur.level.material.LevelElement;
 import orion_spur.level.service.ILevelService;
 import orion_spur.level.view.LevelView;
@@ -155,7 +155,7 @@ public class MainGameScreen implements Screen
 		            remoteObject.getMovementVector(),
 		            remoteObject.getRotation(),
 		            LayerType.LAYER_REMOTE_OBJECTS,
-		            LevelType.REMOTE_OBJECT,
+		            LevelElementType.REMOTE_OBJECT,
 		            remoteObject.getAssetFile());
 		_level.addToLayer(levelElement);
 	}
