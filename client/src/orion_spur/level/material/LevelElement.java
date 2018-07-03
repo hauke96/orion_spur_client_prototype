@@ -4,19 +4,19 @@ import com.badlogic.gdx.math.Vector2;
 
 import juard.contract.Contract;
 import orion_spur.level.domainvalue.LevelElementType;
-import orion_spur.level.view.LevelView.LayerType;
+import orion_spur.level.view.LevelView.LayerZIndex;
 
 public class LevelElement
 {
 	private String				_id;
 	private Vector2				_position;
 	private float				_rotation;
-	private LayerType			_layer;
+	private LayerZIndex			_layer;
 	private LevelElementType	_type;
 	private String				_assetPath;
 	private Vector2				_movementVector;
 	
-	public LevelElement(String id, Vector2 position, Vector2 movementVector, float rotation, LayerType layer, LevelElementType type, String assetPath)
+	public LevelElement(String id, Vector2 position, Vector2 movementVector, float rotation, LayerZIndex layer, LevelElementType type, String assetPath)
 	{
 		Contract.NotNull(id);
 		Contract.NotNull(position);
@@ -42,7 +42,7 @@ public class LevelElement
 		return new Vector2(_position);
 	}
 	
-	public LayerType getLayer()
+	public LayerZIndex getLayer()
 	{
 		return _layer;
 	}

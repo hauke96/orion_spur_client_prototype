@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import juard.contract.Contract;
 import orion_spur.level.domainvalue.LevelElementType;
-import orion_spur.level.view.LevelView.LayerType;
+import orion_spur.level.view.LevelView.LayerZIndex;
 
 public class BulletParticle extends Particle
 {
@@ -19,7 +19,7 @@ public class BulletParticle extends Particle
 		    position,
 		    movementVector,
 		    rotation,
-		    LayerType.LAYER_ANIMATION,
+		    LayerZIndex.LAYER_ANIMATION,
 		    LevelElementType.IMAGE,
 		    "assets/textures/bullet.png");
 		

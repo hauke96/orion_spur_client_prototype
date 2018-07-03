@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import juard.contract.Contract;
 import orion_spur.level.domainvalue.LevelElementType;
 import orion_spur.level.material.LevelElement;
-import orion_spur.level.view.LevelView.LayerType;
+import orion_spur.level.view.LevelView.LayerZIndex;
 
 public class SpaceShip extends LevelElement
 {
@@ -13,7 +13,7 @@ public class SpaceShip extends LevelElement
 	private float	_maxSpeed;		// m/s
 	private float	_rotationSpeed;	// degree per second
 	
-	public SpaceShip(String id, Vector2 position, Vector2 movementVector, float rotation, LayerType layer, LevelElementType type, String assetPath, float accleration, float maxSpeed, float rotationSpeed)
+	public SpaceShip(String id, Vector2 position, Vector2 movementVector, float rotation, LayerZIndex layer, LevelElementType type, String assetPath, float accleration, float maxSpeed, float rotationSpeed)
 	{
 		super(id, position, movementVector, rotation, layer, type, assetPath);
 		

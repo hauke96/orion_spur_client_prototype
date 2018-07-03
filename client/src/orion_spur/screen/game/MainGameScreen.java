@@ -22,7 +22,7 @@ import orion_spur.level.domainvalue.LevelElementType;
 import orion_spur.level.material.LevelElement;
 import orion_spur.level.service.ILevelService;
 import orion_spur.level.view.LevelView;
-import orion_spur.level.view.LevelView.LayerType;
+import orion_spur.level.view.LevelView.LayerZIndex;
 import orion_spur.particles.service.IParticleService;
 import orion_spur.particles.view.ParticleView;
 import orion_spur.player.service.ILoginService;
@@ -63,7 +63,7 @@ public class MainGameScreen implements Screen
 		
 		_level = new LevelView(levelService, Locator.get(IActorFactory.class));
 		_level.addToLayer(new ParticleView(particleService),
-		    LayerType.LAYER_ANIMATION,
+		    LayerZIndex.LAYER_ANIMATION,
 		    "particle view");
 		
 		_coordinateConverter.initialize(_viewport, _level.getPosition());
@@ -154,7 +154,7 @@ public class MainGameScreen implements Screen
 		            _coordinateConverter.universeToWorld(remoteObject.getPosition()),
 		            remoteObject.getMovementVector(),
 		            remoteObject.getRotation(),
-		            LayerType.LAYER_REMOTE_OBJECTS,
+		            LayerZIndex.LAYER_REMOTE_OBJECTS,
 		            LevelElementType.REMOTE_OBJECT,
 		            remoteObject.getAssetFile());
 		_level.addToLayer(levelElement);

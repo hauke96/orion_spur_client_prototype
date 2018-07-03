@@ -26,7 +26,7 @@ import orion_spur.common.generated.SpaceShipDto;
 import orion_spur.common.generated.VectorDto;
 import orion_spur.level.domainvalue.LevelElementType;
 import orion_spur.level.material.LevelElement;
-import orion_spur.level.view.LevelView.LayerType;
+import orion_spur.level.view.LevelView.LayerZIndex;
 import orion_spur.player.material.SpaceShip;
 
 public class PlayerServiceProxy implements IPlayerService
@@ -75,7 +75,7 @@ public class PlayerServiceProxy implements IPlayerService
 			    player.getPosition(),
 			    player.getMovementVector(),
 			    player.getRotation(),
-			    LayerType.LAYER_REMOTE_OBJECTS,
+			    LayerZIndex.LAYER_REMOTE_OBJECTS,
 			    LevelElementType.REMOTE_OBJECT,
 			    player.getAssetPath());
 			
@@ -110,7 +110,7 @@ public class PlayerServiceProxy implements IPlayerService
 		    _coordinateConverter.universeToWorld(position),
 		    movementVector,
 		    player.getBase().getRotation(),
-		    LayerType.LAYER_PLAYER,
+		    LayerZIndex.LAYER_PLAYER,
 		    LevelElementType.PLAYER,
 		    base.getAssetFile(),
 		    player.getAcceleration(),

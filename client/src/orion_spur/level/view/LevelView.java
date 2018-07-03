@@ -16,12 +16,12 @@ import orion_spur.level.service.ILevelService;
 
 public class LevelView extends Actor
 {
-	public enum LayerType
+	public enum LayerZIndex
 	{
 		LAYER_BACKGROUND, LAYER_1_BEHIND, LAYER_0_BEHIND, LAYER_REMOTE_OBJECTS, LAYER_PLAYER, LAYER_ANIMATION, LAYER_0_BEFORE, LAYER_1_BEFORE
 	}
 	
-	private Map<LayerType, Layer>	_layerToScale;
+	private Map<LayerZIndex, Layer>	_layerToScale;
 	private IActorFactory			_actorFactory;
 	private ILevelService			_levelService;
 	private Position				_position;
@@ -39,23 +39,23 @@ public class LevelView extends Actor
 		_position = _levelService.getPosition("");
 		_size = _levelService.getSizeInMeters("");
 		
-		_layerToScale = new TreeMap<LayerType, Layer>();
+		_layerToScale = new TreeMap<LayerZIndex, Layer>();
 		
 		// TODO pass these from outside. Create e.g. a RemoteObjectLayer which adds all remote objects to it.
-		_layerToScale.put(LayerType.LAYER_BACKGROUND, new Layer(0.005f));
+		_layerToScale.put(LayerZIndex.LAYER_BACKGROUND, new Layer(0.005f));
 		
-		_layerToScale.put(LayerType.LAYER_1_BEHIND, new Layer(0.4f));
-		_layerToScale.put(LayerType.LAYER_0_BEHIND, new Layer(0.75f));
+		_layerToScale.put(LayerZIndex.LAYER_1_BEHIND, new Layer(0.4f));
+		_layerToScale.put(LayerZIndex.LAYER_0_BEHIND, new Layer(0.75f));
 		
-		_layerToScale.put(LayerType.LAYER_REMOTE_OBJECTS, new Layer(1f));
-		_layerToScale.put(LayerType.LAYER_PLAYER, new Layer(1f));
-		_layerToScale.put(LayerType.LAYER_ANIMATION, new Layer(1f));
+		_layerToScale.put(LayerZIndex.LAYER_REMOTE_OBJECTS, new Layer(1f));
+		_layerToScale.put(LayerZIndex.LAYER_PLAYER, new Layer(1f));
+		_layerToScale.put(LayerZIndex.LAYER_ANIMATION, new Layer(1f));
 		
-		_layerToScale.put(LayerType.LAYER_0_BEFORE, new Layer(1.25f));
-		_layerToScale.put(LayerType.LAYER_1_BEFORE, new Layer(2f));
+		_layerToScale.put(LayerZIndex.LAYER_0_BEFORE, new Layer(1.25f));
+		_layerToScale.put(LayerZIndex.LAYER_1_BEFORE, new Layer(2f));
 		
 		Contract.NotNull(_layerToScale);
-		Contract.Satisfy(_layerToScale.values().size() == LayerType.values().length);
+		Contract.Satisfy(_layerToScale.values().size() == LayerZIndex.values().length);
 	}
 	
 	public void loadLevelElements() throws RuntimeException, Exception
@@ -79,8 +79,8 @@ public class LevelView extends Actor
 	public Actor addToLayer(LevelElement levelElement) throws RuntimeException
 	{
 		Contract.NotNull(levelElement);
-		Contract.Satisfy(levelElement.getLayer() != LayerType.LAYER_PLAYER
-		        || levelElement.getLayer() == LayerType.LAYER_PLAYER && !hasPlayer());
+		Contract.Satisfy(levelElement.getLayer() != LayerZIndex.LAYER_PLAYER
+		        || levelElement.getLayer() == LayerZIndex.LAYER_PLAYER && !hasPlayer());
 		// TODO contract: !hasLevelElement()
 		
 		Actor actor = new Actor();
@@ -95,7 +95,7 @@ public class LevelView extends Actor
 		
 		// Even if the background is the most far away layer, it'll not be scales, but
 		// moves slower
-		if (levelElement.getLayer() != LayerType.LAYER_BACKGROUND)
+		if (levelElement.getLayer() != LayerZIndex.LAYER_BACKGROUND)
 		{
 			actor.setScale(_layerToScale.get(levelElement.getLayer()).getScale());
 		}
@@ -106,7 +106,7 @@ public class LevelView extends Actor
 		return actor;
 	}
 	
-	public void addToLayer(Actor actor, LayerType layerType, String layerId)
+	public void addToLayer(Actor actor, LayerZIndex layerType, String layerId)
 	{
 		Contract.NotNull(actor);
 		Contract.NotNull(layerType);
