@@ -92,11 +92,13 @@ public class PlayerView extends ImageActor
 	@Override
 	public void setPosition(float x, float y)
 	{
+		Vector2 oldPosition = getCenterWorldPosition();
+		
 		super.setPosition(x, y);
 		
 		try
 		{
-			_playerService.setPosition(getLevelElement());
+			_playerService.setPosition(getLevelElement(), oldPosition);
 		}
 		catch (Exception e)
 		{

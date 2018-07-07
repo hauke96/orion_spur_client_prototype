@@ -55,7 +55,7 @@ public class PlayerServiceDummy implements IPlayerService
 	}
 	
 	@Override
-	public void setPosition(LevelElement player) throws IOException, HttpException
+	public void setPosition(LevelElement player, Vector2 oldPosition) throws IOException, HttpException
 	{
 		// TODO Implement method
 		throw new RuntimeException("NOT IMPLEMENTED");

@@ -37,8 +37,6 @@ public class PlayerServiceProxy implements IPlayerService
 	
 	private String					_serviceUrlString	= "http://localhost:8080/player/" + PLAYER_NAME;
 	private Gson					_gson;
-	private Vector2					_lastSetPosition;													// TODO remove
-	                                                                                                    // this variable
 	private ICoordinateConverter	_coordinateConverter;
 	private SpaceShip				_player;
 	
@@ -85,7 +83,6 @@ public class PlayerServiceProxy implements IPlayerService
 		else
 		{
 			_player = (SpaceShip) player;
-			_lastSetPosition = _player.getPosition();
 		}
 		
 		PlayerCreated.fireEvent(player);
@@ -149,7 +146,7 @@ public class PlayerServiceProxy implements IPlayerService
 	}
 	
 	@Override
-	public void setPosition(LevelElement player) throws IOException, HttpException
+	public void setPosition(LevelElement player, Vector2 oldPosition) throws IOException, HttpException
 	{
 		Contract.NotNull(player);
 		
@@ -176,11 +173,8 @@ public class PlayerServiceProxy implements IPlayerService
 		if (connection.getResponseCode() == HttpStatus.SC_OK)
 		{
 			// TODO add real level name when implemented
-			Vector2 offset = new Vector2(player.getPosition().x - _lastSetPosition.x,
-			    player.getPosition().y
-			            - _lastSetPosition.y);
-			
-			_lastSetPosition = player.getPosition();
+			Vector2 offset = new Vector2(player.getPosition().x - oldPosition.x,
+			    player.getPosition().y - oldPosition.y);
 			
 			PositionChanged.fireEvent(offset);
 		}
