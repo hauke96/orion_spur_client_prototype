@@ -30,9 +30,6 @@ public class RemoteObjectView extends ImageActor
 		{
 			Vector2 position = _coordinateConverter.universeToWorld(object.getPosition());
 			
-			setX(position.x - getWidth() / 2);
-			setY(position.y - getHeight() / 2);
-			
 			setRotation(object.getRotation());
 			
 			getLevelElement().setMovementVector(object.getMovementVector());
