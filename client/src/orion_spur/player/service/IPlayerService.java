@@ -18,9 +18,7 @@ public interface IPlayerService
 	
 	void createPlayer() throws Exception;
 	
-	void setPosition(Vector2 newPosition, float rotation) throws Exception;
-	
-	void setPosition(LevelElement player) throws IOException, HttpException;
+	void setPosition(LevelElement player, Vector2 oldPosition) throws IOException, HttpException;
 	
 	Position getPosition() throws Exception;
 	

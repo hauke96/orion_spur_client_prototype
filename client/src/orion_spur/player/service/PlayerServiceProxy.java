@@ -203,51 +203,6 @@ public class PlayerServiceProxy implements IPlayerService
 	}
 	
 	@Override
-	@Deprecated
-	public void setPosition(Vector2 newPosition, float rotation) throws Exception
-	{
-		StringBuilder params = new StringBuilder(_serviceUrlString + "?");
-		
-		Position newUniversePosition = _coordinateConverter.worldToUniverse(newPosition);
-		
-		params.append("xLightYear=");
-		params.append(newUniversePosition.getX().getLightYear());
-		
-		params.append("&xMeter=");
-		params.append(newUniversePosition.getX().getCentimeter());
-		
-		params.append("&yLightYear=");
-		params.append(newUniversePosition.getY().getLightYear());
-		
-		params.append("&yMeter=");
-		params.append(newUniversePosition.getY().getCentimeter());
-		
-		params.append("&rotation=");
-		params.append(rotation);
-		
-		URL url = new URL(params.toString());
-		
-		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-		connection.setRequestMethod(HttpMethods.PUT);
-		connection.setDoOutput(true);
-		connection.getResponseCode();
-		
-		if (connection.getResponseCode() == HttpStatus.SC_OK)
-		{
-			// TODO add real level name when implemented
-			Vector2 offset = new Vector2(newPosition.x - _lastSetPosition.x, newPosition.y - _lastSetPosition.y);
-			
-			_lastSetPosition = newPosition;
-			
-			PositionChanged.fireEvent(offset);
-		}
-		else
-		{
-			throwHttpException(connection);
-		}
-	}
-	
-	@Override
 	public Position getPosition() throws Exception
 	{
 		HttpURLConnection connection = (HttpURLConnection) new URL(_serviceUrlString).openConnection();

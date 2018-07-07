@@ -28,20 +28,6 @@ public class PlayerServiceDummy implements IPlayerService
 	}
 	
 	@Override
-	public void setPosition(Vector2 newPosition, float rotation)
-	{
-		Contract.NotNull(newPosition);
-		
-		Vector2 newPositionWorldVector = newPosition;
-		Vector2 playerPositionWorldVector = _playerPosition;
-		
-		_playerPosition = newPosition;
-		
-		PositionChanged.fireEvent(new Vector2(newPositionWorldVector.x - playerPositionWorldVector.x,
-		    newPositionWorldVector.y - playerPositionWorldVector.y));
-	}
-	
-	@Override
 	public Position getPosition()
 	{
 		return _coordinateConverter.worldToUniverse(_playerPosition);
