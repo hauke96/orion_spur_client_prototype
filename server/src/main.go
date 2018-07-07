@@ -63,8 +63,8 @@ func main() {
 	router.HandleFunc("/login/{playerName}", loginPlayer).Methods(http.MethodPost)
 	router.HandleFunc("/login/{playerName}", logoutPlayer).Methods(http.MethodDelete)
 	router.HandleFunc("/objects", getAllRemoteObjects).Methods(http.MethodGet)
-	router.HandleFunc("/particle/", getAllParticles).Methods(http.MethodGet)
-	router.HandleFunc("/particle/{particleId}", addParticle).Methods(http.MethodPost)
+	router.HandleFunc("/particle", getAllParticles).Methods(http.MethodGet)
+	router.HandleFunc("/particle", addParticle).Methods(http.MethodPost)
 
 	logger.Info("Registered handler functions. Start serving...")
 
@@ -206,4 +206,21 @@ func getAllParticles(w http.ResponseWriter, r *http.Request) {
 
 func addParticle(w http.ResponseWriter, r *http.Request) {
 	logger.Info("Called add particle")
+
+	dto := &generated.ParticleDto{}
+	json.NewDecoder(r.Body).Decode(dto)
+
+	remoteObject := commonRemoteObject.FromDto(&dto.Base)
+
+	particle := &particle.Particle{
+		RemoteObject: *remoteObject,
+	}
+
+	err := particleService.Add(particle)
+
+	if err != nil {
+		logger.Error(err.Error())
+		w.WriteHeader(409)
+		fmt.Fprintf(w, err.Error())
+	}
 }
