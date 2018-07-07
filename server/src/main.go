@@ -11,6 +11,7 @@ import (
 	"login"
 	"net/http"
 	"os"
+	"particle"
 	"player"
 	"remoteObject"
 
@@ -22,6 +23,7 @@ import (
 var playerService *player.PlayerService
 var remoteObjectService *remoteObject.RemoteObjectService
 var loginService *login.LoginService
+var particleService *particle.ParticleService
 
 const gomsServerAddress string = "localhost"
 const gomsServerPort string = "55545"
@@ -61,6 +63,8 @@ func main() {
 	router.HandleFunc("/login/{playerName}", loginPlayer).Methods(http.MethodPost)
 	router.HandleFunc("/login/{playerName}", logoutPlayer).Methods(http.MethodDelete)
 	router.HandleFunc("/objects", getAllRemoteObjects).Methods(http.MethodGet)
+	router.HandleFunc("/particle/", getAllParticles).Methods(http.MethodGet)
+	router.HandleFunc("/particle/{particleId}", addParticle).Methods(http.MethodPost)
 
 	logger.Info("Registered handler functions. Start serving...")
 
@@ -181,4 +185,12 @@ func getAllRemoteObjects(w http.ResponseWriter, r *http.Request) {
 
 	encoder := json.NewEncoder(w)
 	encoder.Encode(objects)
+}
+
+func getAllParticles(w http.ResponseWriter, r *http.Request) {
+	logger.Info("Called getAll particles")
+}
+
+func addParticle(w http.ResponseWriter, r *http.Request) {
+	logger.Info("Called add particle")
 }
