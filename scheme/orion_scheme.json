@@ -132,8 +132,8 @@
 			"properties":
 			[
 				{
-					"name": "MovementVector",
-					"type": "VectorDto",
+					"name": "Base",
+					"type": "RemoteObjectDto",
 					"constant": true,
 					"collection": false
 				}
