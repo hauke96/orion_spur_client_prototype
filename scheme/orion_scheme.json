@@ -140,6 +140,18 @@
 			]
 		},
 		{
+			"name":"ParticleListDto",
+			"properties":
+			[
+				{
+					"name": "ParticleList",
+					"type": "ParticleDto",
+					"constant": true,
+					"collection": true
+				}
+			]
+		},
+		{
 			"name":"VectorDto",
 			"properties":
 			[

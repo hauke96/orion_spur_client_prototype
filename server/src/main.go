@@ -189,6 +189,19 @@ func getAllRemoteObjects(w http.ResponseWriter, r *http.Request) {
 
 func getAllParticles(w http.ResponseWriter, r *http.Request) {
 	logger.Info("Called getAll particles")
+
+	array := particleService.GetAll()
+
+	dtos := make([]generated.ParticleDto, len(array), len(array))
+
+	for i, v := range array {
+		dtos[i] = *particle.ToDto(*v)
+	}
+
+	objects := generated.NewParticleListDto(dtos)
+
+	encoder := json.NewEncoder(w)
+	encoder.Encode(objects)
 }
 
 func addParticle(w http.ResponseWriter, r *http.Request) {
