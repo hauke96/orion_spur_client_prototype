@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import juard.contract.Contract;
 import orion_spur.common.domainvalue.Position;
+import orion_spur.common.generated.CoordinateDto;
 import orion_spur.common.generated.RemoteObjectDto;
 import orion_spur.common.generated.VectorDto;
 
@@ -27,5 +28,26 @@ public class RemoteObjectDtoConverter
 		
 		Contract.NotNull(result);
 		return result;
+	}
+	
+	public RemoteObjectDto convert(RemoteObject remoteObject)
+	{
+		Contract.NotNull(remoteObject);
+		
+		VectorDto movementVectorDto =
+		        new VectorDto(remoteObject.getMovementVector().x, remoteObject.getMovementVector().y);
+		
+		CoordinateDto X = new CoordinateDto(remoteObject.getPosition().getX().getLightYear(),
+		    remoteObject.getPosition().getX().getCentimeter());
+		
+		CoordinateDto Y = new CoordinateDto(remoteObject.getPosition().getY().getLightYear(),
+		    remoteObject.getPosition().getY().getCentimeter());
+		
+		return new RemoteObjectDto(remoteObject.getId(), //
+		    remoteObject.getAssetFile(), //
+		    movementVectorDto, //
+		    X, //
+		    Y, //
+		    remoteObject.getRotation());
 	}
 }
