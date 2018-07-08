@@ -29,7 +29,7 @@ const gomsServerAddress string = "localhost"
 const gomsServerPort string = "55545"
 
 func main() {
-	logger.DebugMode = true
+	logger.DebugMode = false
 	logger.Info("Create Services")
 
 	messagingService, err := goms4go.Connect(gomsServerAddress, gomsServerPort)
@@ -53,6 +53,12 @@ func main() {
 
 	loginService = &login.LoginService{}
 
+	particleDao := &particle.LocalParticleDao{}
+	particleDao.Init()
+
+	particleService = &particle.ParticleService{}
+	particleService.Init(particleDao)
+
 	go background.Run(playerService, loginService)
 
 	router := mux.NewRouter()
@@ -63,8 +69,8 @@ func main() {
 	router.HandleFunc("/login/{playerName}", loginPlayer).Methods(http.MethodPost)
 	router.HandleFunc("/login/{playerName}", logoutPlayer).Methods(http.MethodDelete)
 	router.HandleFunc("/objects", getAllRemoteObjects).Methods(http.MethodGet)
-	router.HandleFunc("/particle", getAllParticles).Methods(http.MethodGet)
-	router.HandleFunc("/particle", addParticle).Methods(http.MethodPost)
+	router.HandleFunc("/particles", getAllParticles).Methods(http.MethodGet)
+	router.HandleFunc("/particles", addParticle).Methods(http.MethodPost)
 
 	logger.Info("Registered handler functions. Start serving...")
 
