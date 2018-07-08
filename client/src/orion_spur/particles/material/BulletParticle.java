@@ -13,6 +13,7 @@ public class BulletParticle extends Particle
 {
 	private static TextureRegion _texture;
 	
+	// TODO also put id, asset path into constructor
 	public BulletParticle(Vector2 position, Vector2 movementVector, float rotation)
 	{
 		super("BulletParticle" + System.nanoTime(),

@@ -63,9 +63,16 @@ public class PlayerView extends ImageActor
 			vector = vector.setLength(10000);
 			vector = vector.add(getLevelElement().getMovementVector());
 			
-			_particleService.add(new BulletParticle(getLevelElement().getPosition(),
-			    vector,
-			    getLevelElement().getRotation()));
+			try
+			{
+				_particleService.add(new BulletParticle(getLevelElement().getPosition(),
+				    vector,
+				    getLevelElement().getRotation()));
+			}
+			catch (Exception e)
+			{
+				Logger.error("Could not save particle", e);
+			}
 			_lastShotTime = System.currentTimeMillis();
 		}
 		

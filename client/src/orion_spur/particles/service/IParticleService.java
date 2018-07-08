@@ -8,7 +8,7 @@ import orion_spur.particles.material.Particle;
 
 public interface IParticleService
 {
-	public void add(Particle particle);
+	public void add(Particle particle) throws IOException, HttpException;
 	
 	public Collection<Particle> getAll() throws IOException, HttpException;
 	
