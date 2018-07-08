@@ -6,11 +6,21 @@ import (
 	"testing"
 )
 
-func create() *LocalParticleDao {
+func createDao() *LocalParticleDao {
 	dao := &LocalParticleDao{}
 	dao.Init()
 
 	return dao
+}
+
+func createService() *ParticleService {
+	dao := &LocalParticleDao{}
+	dao.Init()
+
+	service := &ParticleService{}
+	service.Init(dao)
+
+	return service
 }
 
 func createParticle(name string) *Particle {
@@ -49,9 +59,9 @@ func equals(a, b *Particle) bool {
 		a.Y.Meters == b.Y.Meters
 }
 
-func TestAddWorks(t *testing.T) {
+func TestDaoAddWorks(t *testing.T) {
 	// Arrange
-	dao := create()
+	dao := createDao()
 	particleA := createParticle("A")
 	particleB := createParticle("B")
 
@@ -82,9 +92,9 @@ func TestAddWorks(t *testing.T) {
 	}
 }
 
-func TestGetAllWorks(t *testing.T) {
+func TestDaoGetAllWorks(t *testing.T) {
 	// Arrange
-	dao := create()
+	dao := createDao()
 	particleA := createParticle("A")
 	particleB := createParticle("B")
 
@@ -97,20 +107,86 @@ func TestGetAllWorks(t *testing.T) {
 	if len(allParticles) != 2 {
 		t.Fail()
 	}
-	
+
 	actualFirst := allParticles[0]
 	// First entry is the "A" particle
-	if actualFirst.Name == "A"{
-	if !equals(actualFirst, particleA) {
+	if actualFirst.Name == "A" {
+		if !equals(actualFirst, particleA) {
+			t.Error("particle A from dao is not equal with original")
+		}
+		// First entry is the "B" particle
+	} else if actualFirst.Name == "B" {
+		if !equals(actualFirst, particleB) {
+			t.Error("particle B from dao is not equal with original")
+		}
+		// Something's wrong
+	} else {
+		t.Error("Nothing or an unknown entry found")
+	}
+}
+
+func TestServiceAddWorks(t *testing.T) {
+	// Arrange
+	service := createService()
+	particleA := createParticle("A")
+	particleB := createParticle("B")
+
+	// Act
+	service.Add(particleA)
+	service.Add(particleB)
+
+	// Assert
+	allParticles := service.GetAll()
+	if len(allParticles) != 2 {
+		t.Fail()
+	}
+
+	actualA, err := service.Get("A")
+	if err != nil {
+		t.Error("err should not be nil")
+	}
+	if !equals(actualA, particleA) {
 		t.Error("particle A from dao is not equal with original")
 	}
-	// First entry is the "B" particle
-	}else actualFirst.Name == "B"{
+
+	actualB, err := service.Get("B")
+	if err != nil {
+		t.Error("err should not be nil")
+	}
 	if !equals(actualB, particleB) {
 		t.Error("particle B from dao is not equal with original")
 	}
-	// Something's wrong
-	}else{
+}
+
+func TestServiceGetAllWorks(t *testing.T) {
+	// Arrange
+	service := createService()
+	particleA := createParticle("A")
+	particleB := createParticle("B")
+
+	// Act
+	service.Add(particleA)
+	service.Add(particleB)
+
+	// Assert
+	allParticles := service.GetAll()
+	if len(allParticles) != 2 {
+		t.Fail()
+	}
+
+	actualFirst := allParticles[0]
+	// First entry is the "A" particle
+	if actualFirst.Name == "A" {
+		if !equals(actualFirst, particleA) {
+			t.Error("particle A from dao is not equal with original")
+		}
+		// First entry is the "B" particle
+	} else if actualFirst.Name == "B" {
+		if !equals(actualFirst, particleB) {
+			t.Error("particle B from dao is not equal with original")
+		}
+		// Something's wrong
+	} else {
 		t.Error("Nothing or an unknown entry found")
 	}
 }
