@@ -9,6 +9,8 @@ import orion_spur.level.view.LevelView.LayerZIndex;
 
 public abstract class Particle extends LevelElement
 {
+	// TODO add timestamt. Just use the local time in milliseconds.
+	
 	protected Particle(String id, Vector2 position, Vector2 movementVector, float rotation, LayerZIndex layer, LevelElementType type, String assetPath)
 	{
 		super(id, position, movementVector, rotation, layer, type, assetPath);

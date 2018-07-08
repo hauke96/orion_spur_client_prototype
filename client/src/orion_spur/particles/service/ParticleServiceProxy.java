@@ -44,6 +44,10 @@ public class ParticleServiceProxy implements IParticleService
 		_dtoConverter = new BulletParticleDtoConverter(remoteObjectDtoConverter, coordinateConverter);
 		
 		_particles = new HashSet<>();
+		
+		// TODO Create goms-event for added particles
+		// TODO Register to goms-event and add new particle(s) to collection. Consider the elapsed time and set position
+		// properly!
 	}
 	
 	@Override
@@ -96,6 +100,9 @@ public class ParticleServiceProxy implements IParticleService
 			return new ArrayList<>();
 		}
 		
+		// TODO set position based on elapsed time. First add in the Particle-class the timestamp
+		
+		// Do not set, but add missing particles
 		_particles = _dtoConverter.convert(particleDtos);
 		
 		return _particles;
