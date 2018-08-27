@@ -54,11 +54,12 @@ public class ImageActor extends Actor
 	{
 		setWidth(width);
 		setHeight(height);
+		super.setPosition(levelElement.getPosition().x, levelElement.getPosition().y);
 		
 		_sprite = new Sprite(texture);
 		_sprite.setBounds(getX(), getY(), getWidth(), getHeight());
 		_sprite.setOrigin(getWidth() / 2, getHeight() / 2);
-		_sprite.setPosition(getX(), getY());
+		_sprite.setPosition(-getWidth() / 2, -getHeight() / 2);
 		
 		setRotation(levelElement.getRotation());
 		

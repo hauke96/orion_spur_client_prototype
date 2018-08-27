@@ -158,9 +158,11 @@ public class MainGameScreen implements Screen
 	
 	private void createRemoteObjectView(RemoteObject remoteObject)
 	{
+		Vector2 worldPosition = _coordinateConverter.universeToWorld(remoteObject.getPosition());
+		
 		LevelElement levelElement =
 		        new LevelElement(remoteObject.getId(),
-		            _coordinateConverter.universeToWorld(remoteObject.getPosition()),
+		            worldPosition,
 		            remoteObject.getMovementVector(),
 		            remoteObject.getRotation(),
 		            LayerZIndex.LAYER_REMOTE_OBJECTS,
