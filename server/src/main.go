@@ -1,7 +1,7 @@
 package main
 
 import (
-	"background"
+	//"background"
 	"common"
 	commonRemoteObject "common/remoteObject"
 	"encoding/json"
@@ -59,7 +59,7 @@ func main() {
 	particleService = &particle.ParticleService{}
 	particleService.Init(particleDao)
 
-	go background.Run(playerService, loginService)
+	//go background.Run(playerService, loginService)
 
 	router := mux.NewRouter()
 
