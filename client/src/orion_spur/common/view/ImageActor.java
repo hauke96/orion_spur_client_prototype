@@ -22,7 +22,8 @@ public class ImageActor extends Actor
 	
 	// Set this to "true" to enable the drawing of the center point of each image actor. This is useful for debugging
 	// purposes.
-	private final boolean DRAW_CENTER = false;
+	private boolean	debugDrawing	= true;
+	private Sprite	debugSprite;
 	
 	public ImageActor(LevelElement levelElement)
 	{
@@ -63,8 +64,31 @@ public class ImageActor extends Actor
 		
 		setRotation(levelElement.getRotation());
 		
+		createDebugSprite();
+		
 		Contract.Satisfy(_sprite != null);
 		Contract.Satisfy(_sprite.getTexture() != null);
+	}
+	
+	private void createDebugSprite()
+	{
+		int width = (int) _sprite.getWidth();
+		int height = (int) _sprite.getHeight();
+		
+		if (_sprite.getWidth() >= 10000 || _sprite.getHeight() >= 10000)
+		{
+			debugDrawing = false;
+			return;
+		}
+		
+		Pixmap pixmap = new Pixmap(width, height, Format.RGBA8888);
+		pixmap.setColor(Color.RED);
+		pixmap.fillCircle(width / 2, width / 2, 10);
+		pixmap.drawRectangle(0, 0, width, height);
+		pixmap.drawRectangle(1, 1, width - 2, height - 2);
+		pixmap.drawRectangle(2, 2, width - 4, height - 4);
+		Texture texture = new Texture(pixmap);
+		debugSprite = new Sprite(texture);
 	}
 	
 	@Override
@@ -72,19 +96,15 @@ public class ImageActor extends Actor
 	{
 		_sprite.draw(batch);
 		
-		if (DRAW_CENTER)
+		if (debugDrawing)
 		{
-			Pixmap pixmap = new Pixmap(11, 11, Format.RGB888);
-			pixmap.setColor(Color.RED);
-			pixmap.fillCircle(5, 5, 11);
-			Texture texture = new Texture(pixmap);
-			Sprite sprite = new Sprite(texture);
+			debugSprite.setBounds(getX(), getY(), getWidth(), getHeight());
+			debugSprite.setOrigin(getWidth() / 2, getHeight() / 2);
+			debugSprite.setScale(_sprite.getScaleX());
+			debugSprite.setRotation(_sprite.getRotation());
+			debugSprite.setPosition(getX() - getWidth() / 2, getY() - getHeight() / 2);
 			
-			sprite.setBounds(getX(), getY(), 11, 11);
-			sprite.setOrigin(getWidth() / 2, getHeight() / 2);
-			sprite.setPosition(getX(), getY());
-			
-			sprite.draw(batch);
+			debugSprite.draw(batch);
 		}
 	}
 	
@@ -93,6 +113,8 @@ public class ImageActor extends Actor
 	{
 		_sprite.setScale(scaleXY);
 		super.setScale(scaleXY);
+		
+		createDebugSprite();
 	}
 	
 	@Override
