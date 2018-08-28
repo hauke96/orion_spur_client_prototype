@@ -2,12 +2,17 @@
 *.class
 server/src/src
 server/pkg
+client/bin
 
 # Log file
 *.log
 
 # BlueJ files
 *.ctxt
+
+# IntelliJ/GoLand files
+server/.idea
+server/.project
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
