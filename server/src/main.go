@@ -74,7 +74,10 @@ func main() {
 
 	logger.Info("Registered handler functions. Start serving...")
 
-	http.ListenAndServe(":8080", router)
+	err = http.ListenAndServe(":8080", router)
+	if err != nil {
+		logger.Error(fmt.Sprintf("Error while serving: %s", err))
+	}
 }
 
 func createPlayerHandler(w http.ResponseWriter, r *http.Request) {
