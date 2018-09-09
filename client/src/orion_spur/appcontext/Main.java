@@ -17,6 +17,7 @@ import orion_spur.common.factory.IActorFactory;
 import orion_spur.level.service.ILevelService;
 import orion_spur.level.service.LevelDummyService;
 import orion_spur.particles.service.IParticleService;
+import orion_spur.particles.service.ParticleServiceImpl;
 import orion_spur.particles.service.ParticleServiceProxy;
 import orion_spur.player.service.ILoginService;
 import orion_spur.player.service.IPlayerService;
@@ -55,6 +56,7 @@ public class Main
 		{
 			Locator.register(IPlayerService.class,
 			    () -> new PlayerServiceDummy(Locator.get(ICoordinateConverter.class)));
+			Locator.register(IParticleService.class, () -> new ParticleServiceImpl());
 			// TODO create dummy service for remote objects
 		}
 		else
@@ -84,7 +86,6 @@ public class Main
 		Locator.register(IUnitConverter.class, () -> new UnitConverterImpl());
 		Locator.register(ICoordinateConverter.class, () -> new CoordinateConverterImpl());
 		Locator.register(ILevelService.class, () -> new LevelDummyService());
-		// Locator.register(IParticleService.class, () -> new ParticleServiceImpl());
 		Locator.register(IParticleService.class,
 		    () -> new ParticleServiceProxy(Locator.get(ICoordinateConverter.class)));
 		Locator.register(IActorFactory.class,
