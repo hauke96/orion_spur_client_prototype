@@ -36,7 +36,7 @@ public class Main
 	
 	public static void main(String[] args)
 	{
-		initDummyServices();
+		initServices();
 		
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "Orion Spur";
@@ -50,7 +50,7 @@ public class Main
 		new LwjglApplication(orionSpur, cfg);
 	}
 	
-	private static void initDummyServices()
+	private static void initServices()
 	{
 		if (USE_DUMMY_SERVICES)
 		{
