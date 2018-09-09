@@ -9,12 +9,11 @@ import com.badlogic.gdx.math.Vector2;
 import orion_spur.common.exception.HttpException;
 import orion_spur.particles.material.Particle;
 
-// TODO rename into dummy
-public class ParticleServiceImpl implements IParticleService
+public class ParticleServiceDummy implements IParticleService
 {
 	private Collection<Particle> _particles;
 	
-	public ParticleServiceImpl()
+	public ParticleServiceDummy()
 	{
 		_particles = new HashSet<>();
 	}
