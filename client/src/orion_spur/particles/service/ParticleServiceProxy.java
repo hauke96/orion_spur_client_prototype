@@ -7,9 +7,10 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.badlogic.gdx.Net.HttpMethods;
@@ -31,7 +32,7 @@ public class ParticleServiceProxy implements IParticleService
 	private String						_serviceUrlString	= "http://localhost:8080/particles";
 	private Gson						_gson;
 	private BulletParticleDtoConverter	_dtoConverter;
-	private Collection<Particle>		_particles;
+	private Set<Particle>				_particles;
 	
 	public ParticleServiceProxy(ICoordinateConverter coordinateConverter)
 	{
@@ -78,7 +79,7 @@ public class ParticleServiceProxy implements IParticleService
 	}
 	
 	@Override
-	public Collection<Particle> getAll() throws IOException, HttpException
+	public void syncFromRemote() throws IOException, HttpException
 	{
 		HttpURLConnection connection = (HttpURLConnection) new URL(_serviceUrlString).openConnection();
 		connection.setRequestMethod(HttpMethods.GET);
@@ -95,17 +96,19 @@ public class ParticleServiceProxy implements IParticleService
 		
 		ParticleListDto particleDtos = _gson.fromJson(response, ParticleListDto.class);
 		
-		if (particleDtos == null)
+		if (particleDtos != null)
 		{
-			return new ArrayList<>();
+			// Do not set, but add missing particles
+			Collection<Particle> newParticles = _dtoConverter.convert(particleDtos);
+			
+			_particles.addAll(newParticles);
 		}
-		
-		// TODO set position based on elapsed time. First add in the Particle-class the timestamp
-		
-		// Do not set, but add missing particles
-		_particles = _dtoConverter.convert(particleDtos);
-		
-		return _particles;
+	}
+	
+	public Collection<Particle> getAll()
+	{
+		Contract.NotNull(_particles);
+		return Collections.unmodifiableCollection(_particles);
 	}
 	
 	@Override

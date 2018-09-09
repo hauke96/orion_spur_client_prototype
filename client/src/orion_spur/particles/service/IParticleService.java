@@ -10,7 +10,16 @@ public interface IParticleService
 {
 	public void add(Particle particle) throws IOException, HttpException;
 	
-	public Collection<Particle> getAll() throws IOException, HttpException;
+	/**
+	 * Gets all remote particles and add the new ones to the local cache.
+	 * 
+	 * @return
+	 * @throws IOException
+	 * @throws HttpException
+	 */
+	void syncFromRemote() throws IOException, HttpException;
+	
+	public Collection<Particle> getAll();
 	
 	public void act(float delta);
 }

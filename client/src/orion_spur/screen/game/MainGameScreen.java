@@ -48,14 +48,12 @@ public class MainGameScreen implements Screen
 	private PlayerView		_player;
 	private ScreenViewport	_viewport;
 	
-	private ICoordinateConverter _coordinateConverter;
-	
-	private IPlayerService	_playerService;
-	private ILevelService	_levelService;
-	
-	private IRemoteObjectService _remoteObjectService;
-	
-	private ILoginService _loginService;
+	private ICoordinateConverter	_coordinateConverter;
+	private IPlayerService			_playerService;
+	private ILevelService			_levelService;
+	private IRemoteObjectService	_remoteObjectService;
+	private ILoginService			_loginService;
+	private IParticleService		_particleService;
 	
 	private final float WORLD_UNITS_PER_PIXEL;
 	
@@ -68,6 +66,7 @@ public class MainGameScreen implements Screen
 		_loginService = loginService;
 		_playerService = playerService;
 		_remoteObjectService = remoteObjectService;
+		_particleService = particleService;
 		
 		WORLD_UNITS_PER_PIXEL = worldUnitsPerPixel;
 		
@@ -77,7 +76,7 @@ public class MainGameScreen implements Screen
 		_viewport.setUnitsPerPixel(worldUnitsPerPixel);
 		
 		_level = new LevelView(levelService, Locator.get(IActorFactory.class));
-		_level.addToLayer(new ParticleView(particleService),
+		_level.addToLayer(new ParticleView(_particleService),
 		    LayerZIndex.LAYER_ANIMATION,
 		    "particle view");
 		
@@ -156,6 +155,8 @@ public class MainGameScreen implements Screen
 				createRemoteObjectView(remoteObject);
 			}
 		}
+		
+		_particleService.syncFromRemote();
 		
 		// _player.PositionChanged.add(position -> onPlayerPositionChanged(position));
 		IPlayerService.PositionChanged.add(offset -> onPlayerPositionChanged(offset));
