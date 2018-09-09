@@ -31,7 +31,7 @@ import orion_spur.player.material.SpaceShip;
 
 public class PlayerServiceProxy implements IPlayerService
 {
-	private static final String	PLAYER_NAME		= "" + System.nanoTime();
+	private static final String	PLAYER_NAME		= "" + (int) (Math.random() * 10.0);
 	private static final String	PLAYER_CREATED	= "player.created";
 	private static final String	PLAYER_MOVED	= "player.moved";
 	
@@ -142,6 +142,8 @@ public class PlayerServiceProxy implements IPlayerService
 		if (connection.getResponseCode() != HttpStatus.SC_OK)
 		{
 			throwHttpException(connection);
+			// This should never be called, due to the exception thrown by the method above.
+			Contract.Satisfy(false);
 		}
 	}
 	
@@ -227,8 +229,33 @@ public class PlayerServiceProxy implements IPlayerService
 	}
 	
 	@Override
-	public SpaceShip getPlayer()
+	public SpaceShip getPlayer() throws IOException, HttpException
 	{
+		// Player not yet created/received from the server
+		if (_player == null)
+		{
+			HttpURLConnection connection = (HttpURLConnection) new URL(_serviceUrlString).openConnection();
+			connection.setRequestMethod(HttpMethods.GET);
+			
+			if (connection.getResponseCode() == HttpStatus.SC_OK)
+			{
+				BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+				
+				// read response lines into single string
+				String response = reader.lines().collect(Collectors.joining());
+				
+				SpaceShipDto playerDto = _gson.fromJson(response, SpaceShipDto.class);
+				
+				_player = convertToPlayer(playerDto);
+			}
+			else
+			{
+				throwHttpException(connection);
+				// This should never be called, due to the exception thrown by the method above.
+				Contract.Satisfy(false);
+			}
+		}
+		
 		Contract.NotNull(_player);
 		return _player;
 	}

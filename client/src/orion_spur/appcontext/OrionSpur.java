@@ -11,6 +11,7 @@ import orion_spur.common.converter.ICoordinateConverter;
 import orion_spur.common.converter.IUnitConverter;
 import orion_spur.level.service.ILevelService;
 import orion_spur.particles.service.IParticleService;
+import orion_spur.player.material.SpaceShip;
 import orion_spur.player.service.ILoginService;
 import orion_spur.player.service.IPlayerService;
 import orion_spur.remoteObjects.Service.IRemoteObjectService;
@@ -66,12 +67,23 @@ public class OrionSpur extends Game implements ApplicationListener
 							}
 							catch (Exception e)
 							{
-								// TODO handle
+								Logger.error("Could not initialize the main game screen", e);
 							}
 						});
 					});
 					
-					playerService.createPlayer();
+					// TODO Temporary solution to avoid crash on existing players. When there's a login-dialog things
+					// will change.
+					try
+					{
+						SpaceShip player = playerService.getPlayer();
+						newScreen.initialize(player);
+					}
+					catch (Exception e)
+					{
+						Logger.error("Could not get player", e);
+						playerService.createPlayer();
+					}
 				}
 				catch (Exception e)
 				{

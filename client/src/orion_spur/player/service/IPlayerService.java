@@ -22,5 +22,5 @@ public interface IPlayerService
 	
 	Position getPosition() throws Exception;
 	
-	SpaceShip getPlayer();
+	SpaceShip getPlayer() throws IOException, HttpException;
 }

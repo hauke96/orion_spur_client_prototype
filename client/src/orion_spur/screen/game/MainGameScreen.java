@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
+import juard.contract.Contract;
 import juard.event.Event;
 import juard.injection.Locator;
 import juard.log.Logger;
@@ -109,9 +110,13 @@ public class MainGameScreen implements Screen
 	 * 
 	 * @param newPlayer
 	 *            The player to add.
+	 * @throws HttpException
+	 * @throws IOException
 	 */
-	public void initialize(LevelElement newPlayer)
+	public void initialize(LevelElement newPlayer) throws IOException, HttpException
 	{
+		Contract.NotNull(newPlayer);
+		
 		if (newPlayer.getId().equals(_playerService.getPlayer().getId()))
 		{
 			try
