@@ -1,8 +1,8 @@
 package orion_spur.common.collision;
 
-import java.util.Collection;
+import java.util.List;
 
 public interface BoundingBoxProvider
 {
-	Collection<BoundingBox> getBoundingBoxes();
+	List<BoundingBox> getBoundingBoxes();
 }
