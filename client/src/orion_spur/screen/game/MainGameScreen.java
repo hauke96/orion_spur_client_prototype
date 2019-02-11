@@ -12,12 +12,12 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import juard.contract.Contract;
 import juard.event.Event;
-import juard.injection.Locator;
 import juard.log.Logger;
 import orion_spur.common.converter.ICoordinateConverter;
 import orion_spur.common.converter.IUnitConverter;
 import orion_spur.common.exception.HttpException;
 import orion_spur.common.factory.IActorFactory;
+import orion_spur.common.service.ICurrentWorldService;
 import orion_spur.level.domainvalue.LevelElementType;
 import orion_spur.level.material.LevelElement;
 import orion_spur.level.service.ILevelService;
@@ -57,7 +57,7 @@ public class MainGameScreen implements Screen
 	
 	private final float WORLD_UNITS_PER_PIXEL;
 	
-	public MainGameScreen(IUnitConverter unitConverter, ICoordinateConverter coordinateConverter, ILevelService levelService, ILoginService loginService, IParticleService particleService, IPlayerService playerService, IRemoteObjectService remoteObjectService, int width, int height, float worldUnitsPerPixel) throws RuntimeException, Exception
+	public MainGameScreen(IUnitConverter unitConverter, ICoordinateConverter coordinateConverter, ILevelService levelService, ILoginService loginService, IParticleService particleService, IPlayerService playerService, IRemoteObjectService remoteObjectService, IActorFactory actorFactory, ICurrentWorldService currentWorldService, int width, int height, float worldUnitsPerPixel) throws RuntimeException, Exception
 	{
 		unitConverter.initialize(worldUnitsPerPixel);
 		
@@ -75,7 +75,7 @@ public class MainGameScreen implements Screen
 		_viewport = new ScreenViewport(_camera);
 		_viewport.setUnitsPerPixel(worldUnitsPerPixel);
 		
-		_level = new LevelView(levelService, Locator.get(IActorFactory.class));
+		_level = new LevelView(levelService, actorFactory, currentWorldService);
 		_level.addToLayer(new ParticleView(_particleService),
 		    LayerZIndex.LAYER_ANIMATION,
 		    "particle view");

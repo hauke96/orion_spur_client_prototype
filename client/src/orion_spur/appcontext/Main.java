@@ -14,6 +14,8 @@ import orion_spur.common.converter.IUnitConverter;
 import orion_spur.common.converter.UnitConverterImpl;
 import orion_spur.common.factory.ActorFactoryImpl;
 import orion_spur.common.factory.IActorFactory;
+import orion_spur.common.service.CurrentWorldService;
+import orion_spur.common.service.ICurrentWorldService;
 import orion_spur.level.service.ILevelService;
 import orion_spur.level.service.LevelDummyService;
 import orion_spur.particles.service.IParticleService;
@@ -29,8 +31,9 @@ import orion_spur.remoteObjects.Service.RemoteObjectServiceProxy;
 
 public class Main
 {
-	private static final int	WIDTH	= 600;
-	private static final int	HEIGHT	= 700;
+	private static final int	WIDTH					= 600;
+	private static final int	HEIGHT					= 700;
+	private static final float	WORLD_UNITS_PER_PIXEL	= 6f;
 	
 	private static final boolean USE_DUMMY_SERVICES = false;
 	
@@ -46,7 +49,7 @@ public class Main
 		cfg.samples = 32;
 		cfg.useHDPI = true;
 		
-		OrionSpur orionSpur = new OrionSpur(WIDTH, HEIGHT);
+		OrionSpur orionSpur = new OrionSpur(WIDTH, HEIGHT, WORLD_UNITS_PER_PIXEL);
 		new LwjglApplication(orionSpur, cfg);
 	}
 	
@@ -85,6 +88,7 @@ public class Main
 		
 		Locator.register(IUnitConverter.class, () -> new UnitConverterImpl());
 		Locator.register(ICoordinateConverter.class, () -> new CoordinateConverterImpl());
+		Locator.register(ICurrentWorldService.class, () -> new CurrentWorldService(WORLD_UNITS_PER_PIXEL));
 		Locator.register(ILevelService.class, () -> new LevelDummyService());
 		Locator.register(IParticleService.class,
 		    () -> new ParticleServiceProxy(Locator.get(ICoordinateConverter.class)));
@@ -93,7 +97,8 @@ public class Main
 		        Locator.get(IPlayerService.class),
 		        Locator.get(IUnitConverter.class),
 		        Locator.get(ICoordinateConverter.class),
-		        Locator.get(IParticleService.class)));
+		        Locator.get(IParticleService.class),
+		        Locator.get(ICurrentWorldService.class)));
 		Locator.register(IPlayerService.class,
 		    () -> new PlayerServiceProxy(Locator.get(GoMessagingService.class),
 		        Locator.get(ICoordinateConverter.class)));

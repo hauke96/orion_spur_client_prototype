@@ -9,27 +9,36 @@ import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import juard.contract.Contract;
+import orion_spur.common.service.ICurrentWorldService;
 import orion_spur.level.material.LevelElement;
 
 public class ImageActor extends Actor
 {
-	private Sprite _sprite;
+	private Sprite	_sprite;
+	private Body	_body;
 	
-	private LevelElement _levelElement;
+	private LevelElement			_levelElement;
+	private ICurrentWorldService	_currentWorldService;
 	
 	// Set this to "true" to enable the drawing of the center point of each image actor. This is useful for debugging
 	// purposes.
-	private boolean	debugDrawing	= true;
+	private boolean	debugDrawing	= false;
 	private Sprite	debugSprite;
 	
-	public ImageActor(LevelElement levelElement)
+	public ImageActor(LevelElement levelElement, ICurrentWorldService currentWorldService)
 	{
 		Contract.NotNull(levelElement);
+		Contract.NotNull(currentWorldService);
 		
 		_levelElement = levelElement;
+		_currentWorldService = currentWorldService;
 		
 		Texture texture = new Texture(Gdx.files.internal(levelElement.getAssetPath()));
 		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
@@ -37,13 +46,15 @@ public class ImageActor extends Actor
 		initialize(levelElement, texture.getWidth() * 6, texture.getHeight() * 6, texture);
 	}
 	
-	public ImageActor(LevelElement levelElement, int width, int height)
+	public ImageActor(LevelElement levelElement, ICurrentWorldService currentWorldService, int width, int height)
 	{
 		Contract.NotNull(levelElement);
+		Contract.NotNull(currentWorldService);
 		Contract.Satisfy(width >= 0);
 		Contract.Satisfy(height >= 0);
 		
 		_levelElement = levelElement;
+		_currentWorldService = currentWorldService;
 		
 		Texture texture = new Texture(Gdx.files.internal(levelElement.getAssetPath()));
 		texture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
@@ -65,6 +76,26 @@ public class ImageActor extends Actor
 		setRotation(levelElement.getRotation());
 		
 		createDebugSprite();
+		
+		BodyDef bodyDef = new BodyDef();
+		bodyDef.type = BodyDef.BodyType.DynamicBody;
+		bodyDef.position.set(
+		    (_sprite.getX() + _sprite.getWidth() / 2) / _currentWorldService.meterPerPixel(),
+		    (_sprite.getY() + _sprite.getHeight() / 2) / _currentWorldService.meterPerPixel());
+		
+		_body = _currentWorldService.createBody(bodyDef);
+		
+		PolygonShape shape = new PolygonShape();
+		shape.setAsBox(
+		    _sprite.getWidth() / 2 / _currentWorldService.meterPerPixel(),
+		    _sprite.getHeight() / 2 / _currentWorldService.meterPerPixel());
+		
+		FixtureDef fixtureDef = new FixtureDef();
+		fixtureDef.shape = shape;
+		fixtureDef.density = 0.1f;
+		fixtureDef.restitution = 1f;
+		
+		_body.createFixture(fixtureDef);
 		
 		Contract.Satisfy(_sprite != null);
 		Contract.Satisfy(_sprite.getTexture() != null);
@@ -89,6 +120,19 @@ public class ImageActor extends Actor
 		pixmap.drawRectangle(2, 2, width - 4, height - 4);
 		Texture texture = new Texture(pixmap);
 		debugSprite = new Sprite(texture);
+	}
+	
+	@Override
+	public void act(float delta)
+	{
+		_body.setLinearVelocity(_levelElement.getMovementVector());
+		_body.setTransform(_body.getPosition(), _levelElement.getRotation());
+		
+		System.out.println(_levelElement.getMovementVector().toString());
+		System.out.println(_body.getPosition().toString());
+		System.out.println();
+		
+		super.act(delta);
 	}
 	
 	@Override

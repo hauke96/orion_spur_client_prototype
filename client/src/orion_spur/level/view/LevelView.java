@@ -4,13 +4,16 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import juard.contract.Contract;
 import juard.log.Logger;
 import orion_spur.common.domainvalue.Position;
 import orion_spur.common.factory.IActorFactory;
+import orion_spur.common.service.ICurrentWorldService;
 import orion_spur.level.material.LevelElement;
 import orion_spur.level.service.ILevelService;
 
@@ -21,19 +24,26 @@ public class LevelView extends Actor
 		LAYER_BACKGROUND, LAYER_1_BEHIND, LAYER_0_BEHIND, LAYER_REMOTE_OBJECTS, LAYER_PLAYER, LAYER_ANIMATION, LAYER_0_BEFORE, LAYER_1_BEFORE
 	}
 	
-	private Map<LayerZIndex, Layer>	_layerToScale;
-	private IActorFactory			_actorFactory;
 	private ILevelService			_levelService;
-	private Position				_position;
-	private Vector2					_size;
+	private IActorFactory			_actorFactory;
+	private ICurrentWorldService	_currentWorldService;
 	
-	public LevelView(ILevelService levelService, IActorFactory actorFactory)
+	private Map<LayerZIndex, Layer> _layerToScale;
+	
+	private Position	_position;
+	private Vector2		_size;
+	
+	private Box2DDebugRenderer _debugBodyRenderer;
+	
+	public LevelView(ILevelService levelService, IActorFactory actorFactory, ICurrentWorldService currentWorldService)
 	{
 		Contract.NotNull(levelService);
 		Contract.NotNull(actorFactory);
+		Contract.NotNull(currentWorldService);
 		
 		_levelService = levelService;
 		_actorFactory = actorFactory;
+		_currentWorldService = currentWorldService;
 		
 		// TODO add real level name when implemented
 		_position = _levelService.getPosition("");
@@ -53,6 +63,8 @@ public class LevelView extends Actor
 		
 		_layerToScale.put(LayerZIndex.LAYER_0_BEFORE, new Layer(1.25f));
 		_layerToScale.put(LayerZIndex.LAYER_1_BEFORE, new Layer(2f));
+		
+		_debugBodyRenderer = new Box2DDebugRenderer(true, false, false, false, true, true);
 		
 		Contract.NotNull(_layerToScale);
 		Contract.Satisfy(_layerToScale.values().size() == LayerZIndex.values().length);
@@ -124,10 +136,18 @@ public class LevelView extends Actor
 	@Override
 	public void draw(Batch batch, float parentAlpha)
 	{
+		Matrix4 debugMatrix = batch.getProjectionMatrix()
+		    .cpy()
+		    .scale(_currentWorldService.meterPerPixel(),
+		        _currentWorldService.meterPerPixel(),
+		        0);
+		
 		for (Layer layer : _layerToScale.values())
 		{
 			layer.draw(batch, parentAlpha);
 		}
+		
+		_debugBodyRenderer.render(_currentWorldService.getWorld(), debugMatrix);
 	}
 	
 	@Override

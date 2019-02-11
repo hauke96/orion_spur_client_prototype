@@ -1,5 +1,6 @@
 package orion_spur.common.service;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
@@ -8,15 +9,15 @@ import juard.contract.Contract;
 
 public class CurrentWorldService implements ICurrentWorldService
 {
-	private World	_world;
-	private int		_meterPerPixel;
+	private World _world;
 	
-	public CurrentWorldService(World world, int meterPerPixel)
+	private float _meterPerPixel;
+	
+	public CurrentWorldService(float meterPerPixel)
 	{
-		Contract.NotNull(world);
 		Contract.Satisfy(meterPerPixel > 0);
 		
-		_world = world;
+		_world = new World(new Vector2(0, 0f), true);
 		_meterPerPixel = meterPerPixel;
 	}
 	
@@ -27,7 +28,15 @@ public class CurrentWorldService implements ICurrentWorldService
 	}
 	
 	@Override
-	public int meterPerPixel()
+	public World getWorld()
+	{
+		Contract.Satisfy(hasWorld());
+		
+		return _world;
+	}
+	
+	@Override
+	public float meterPerPixel()
 	{
 		return _meterPerPixel;
 	}

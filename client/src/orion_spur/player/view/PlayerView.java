@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import juard.contract.Contract;
 import juard.log.Logger;
 import orion_spur.common.converter.IUnitConverter;
+import orion_spur.common.service.ICurrentWorldService;
 import orion_spur.common.view.ImageActor;
 import orion_spur.particles.material.BulletParticle;
 import orion_spur.particles.service.IParticleService;
@@ -20,9 +21,9 @@ public class PlayerView extends ImageActor
 	private IPlayerService		_playerService;
 	private IParticleService	_particleService;
 	
-	public PlayerView(IPlayerService playerService, IUnitConverter unitConverter, IParticleService particleService, SpaceShip levelElement, Vector2 positionInLevel)
+	public PlayerView(IPlayerService playerService, IUnitConverter unitConverter, IParticleService particleService, ICurrentWorldService currentWorldService, SpaceShip levelElement, Vector2 positionInLevel)
 	{
-		super(levelElement, 600, 600);
+		super(levelElement, currentWorldService, 600, 600);
 		
 		Contract.NotNull(playerService);
 		Contract.NotNull(unitConverter);
@@ -94,6 +95,8 @@ public class PlayerView extends ImageActor
 		    getLevelElement().getMovementVector().y * delta / getScaleY());
 		
 		setPosition(positionOfView.x, positionOfView.y);
+		
+		super.act(delta);
 	}
 	
 	@Override

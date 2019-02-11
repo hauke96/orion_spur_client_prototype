@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import juard.contract.Contract;
 import orion_spur.common.converter.ICoordinateConverter;
+import orion_spur.common.service.ICurrentWorldService;
 import orion_spur.common.view.ImageActor;
 import orion_spur.level.material.LevelElement;
 import orion_spur.remoteObjects.Service.IRemoteObjectService;
@@ -13,9 +14,9 @@ public class RemoteObjectView extends ImageActor
 {
 	private ICoordinateConverter _coordinateConverter;
 	
-	public RemoteObjectView(LevelElement levelElement, ICoordinateConverter coordinateConverter)
+	public RemoteObjectView(LevelElement levelElement, ICoordinateConverter coordinateConverter, ICurrentWorldService currentWorldService)
 	{
-		super(levelElement, 600, 600);
+		super(levelElement, currentWorldService, 600, 600);
 		
 		Contract.NotNull(coordinateConverter);
 		

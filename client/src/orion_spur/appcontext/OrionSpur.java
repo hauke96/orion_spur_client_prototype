@@ -9,6 +9,8 @@ import juard.injection.Locator;
 import juard.log.Logger;
 import orion_spur.common.converter.ICoordinateConverter;
 import orion_spur.common.converter.IUnitConverter;
+import orion_spur.common.factory.IActorFactory;
+import orion_spur.common.service.ICurrentWorldService;
 import orion_spur.level.service.ILevelService;
 import orion_spur.particles.service.IParticleService;
 import orion_spur.player.material.SpaceShip;
@@ -20,15 +22,15 @@ import orion_spur.screen.mainmenu.MainMenuScreen;
 
 public class OrionSpur extends Game implements ApplicationListener
 {
-	private static final float WORLD_UNITS_PER_PIXEL = 6f;
+	private int		_width;
+	private int		_height;
+	private float	_meterPerPixel;
 	
-	private int	_width;
-	private int	_height;
-	
-	public OrionSpur(int width, int height)
+	public OrionSpur(int width, int height, float meterPerPixel)
 	{
 		_width = width;
 		_height = height;
+		_meterPerPixel = meterPerPixel;
 	}
 	
 	@Override
@@ -50,9 +52,11 @@ public class OrionSpur extends Game implements ApplicationListener
 					    Locator.get(IParticleService.class),
 					    playerService,
 					    Locator.get(IRemoteObjectService.class),
+					    Locator.get(IActorFactory.class),
+					    Locator.get(ICurrentWorldService.class),
 					    _width,
 					    _height,
-					    WORLD_UNITS_PER_PIXEL);
+					    _meterPerPixel);
 					
 					setScreen(newScreen);
 					screen.dispose();
