@@ -1,5 +1,8 @@
 package orion_spur.common.view;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -12,9 +15,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import juard.contract.Contract;
+import orion_spur.common.collision.BoundingBox;
+import orion_spur.common.collision.BoundingBoxProvider;
 import orion_spur.level.material.LevelElement;
 
-public class ImageActor extends Actor
+public class ImageActor extends Actor implements BoundingBoxProvider
 {
 	protected Sprite _sprite;
 	
@@ -161,5 +166,15 @@ public class ImageActor extends Actor
 	{
 		Contract.NotNull(_levelElement);
 		return _levelElement;
+	}
+	
+	@Override
+	public List<BoundingBox> getBoundingBoxes()
+	{
+		ArrayList<BoundingBox> result = new ArrayList<>();
+		
+		result.add(new BoundingBox((int) getX(), (int) getY(), (int) getWidth(), (int) getHeight()));
+		
+		return result;
 	}
 }
