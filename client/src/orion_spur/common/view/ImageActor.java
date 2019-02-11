@@ -16,7 +16,7 @@ import orion_spur.level.material.LevelElement;
 
 public class ImageActor extends Actor
 {
-	protected Sprite _sprite;
+	private Sprite _sprite;
 	
 	private LevelElement _levelElement;
 	
