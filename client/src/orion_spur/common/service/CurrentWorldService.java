@@ -8,19 +8,28 @@ import juard.contract.Contract;
 
 public class CurrentWorldService implements ICurrentWorldService
 {
-	private World _world;
+	private World	_world;
+	private int		_meterPerPixel;
 	
-	public CurrentWorldService(World world)
+	public CurrentWorldService(World world, int meterPerPixel)
 	{
 		Contract.NotNull(world);
+		Contract.Satisfy(meterPerPixel > 0);
 		
 		_world = world;
+		_meterPerPixel = meterPerPixel;
 	}
 	
 	@Override
 	public boolean hasWorld()
 	{
 		return _world != null;
+	}
+	
+	@Override
+	public int meterPerPixel()
+	{
+		return _meterPerPixel;
 	}
 	
 	@Override

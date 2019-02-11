@@ -7,6 +7,8 @@ public interface ICurrentWorldService
 {
 	boolean hasWorld();
 	
+	int meterPerPixel();
+	
 	Body createBody(BodyDef def);
 	
 	void simulate(float delta);
