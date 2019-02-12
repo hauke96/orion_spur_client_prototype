@@ -93,11 +93,11 @@ public class PlayerView extends ImageActor
 			accelerate(movementAdjustion);
 		}
 		
-		// positionOfView.add(getLevelElement().getMovementVector().x * delta
-		// / getScaleX(),
-		// getLevelElement().getMovementVector().y * delta / getScaleY());
-		//
-		// setPosition(positionOfView.x, positionOfView.y);
+		positionOfView.add(getLevelElement().getMovementVector().x * delta
+		        / getScaleX(),
+		    getLevelElement().getMovementVector().y * delta / getScaleY());
+		
+		setPosition(positionOfView.x, positionOfView.y);
 		
 		super.act(delta);
 	}

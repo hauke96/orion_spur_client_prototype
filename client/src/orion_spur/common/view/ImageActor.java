@@ -93,11 +93,11 @@ public class ImageActor extends Actor
 		fixtureDef.filter.maskBits = (short) _levelElement.getLayer().Z;
 		
 		_body.createFixture(fixtureDef);
-		// _body.setTransform(getX(), getY(), _body.getAngle());
 		
 		setRotation(levelElement.getRotation());
-		// setPosition(levelElement.getPosition().x,
-		// levelElement.getPosition().y);
+		setPosition(levelElement.getPosition().x,
+		    levelElement.getPosition().y);
+		accelerate(_levelElement.getMovementVector().cpy());
 		
 		createDebugSprite();
 		
@@ -162,8 +162,9 @@ public class ImageActor extends Actor
 		
 		super.setPosition(_body.getPosition().x, _body.getPosition().y);
 		
-		// _levelElement.setPosition(new Vector2(_body.getPosition().scl(_currentWorldService.meterPerPixel())));
-		// _levelElement.rotateTo((float) Math.toDegrees(_body.getAngle()));
+		_levelElement.setPosition(new Vector2(_body.getPosition().scl(_currentWorldService.meterPerPixel())));
+		_levelElement.rotateTo((float) Math.toDegrees(_body.getAngle()));
+		_levelElement.setMovementVector(_body.getLinearVelocity().cpy().scl(_currentWorldService.meterPerPixel()));
 		
 		// _sprite.draw(batch);
 		
@@ -194,6 +195,18 @@ public class ImageActor extends Actor
 		_body.setTransform(_body.getPosition().x + x,
 		    _body.getPosition().y + y,
 		    _body.getAngle());
+	}
+	
+	@Override
+	public float getX()
+	{
+		return _body.getPosition().x * _currentWorldService.meterPerPixel();
+	}
+	
+	@Override
+	public float getY()
+	{
+		return _body.getPosition().y * _currentWorldService.meterPerPixel();
 	}
 	
 	@Override
