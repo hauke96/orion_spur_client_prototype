@@ -86,15 +86,18 @@ public class PlayerView extends ImageActor
 			rotateBy(-getLevelElement().getRotationSpeed() * delta);
 		}
 		
-		movementAdjustion.rotate(getLevelElement().getRotation());
+		if (movementAdjustion.len() != 0)
+		{
+			movementAdjustion.rotate(getLevelElement().getRotation());
+			
+			accelerate(movementAdjustion);
+		}
 		
-		getLevelElement().accelerateShipBy(movementAdjustion);
-		
-		positionOfView.add(getLevelElement().getMovementVector().x * delta
-		        / getScaleX(),
-		    getLevelElement().getMovementVector().y * delta / getScaleY());
-		
-		setPosition(positionOfView.x, positionOfView.y);
+		// positionOfView.add(getLevelElement().getMovementVector().x * delta
+		// / getScaleX(),
+		// getLevelElement().getMovementVector().y * delta / getScaleY());
+		//
+		// setPosition(positionOfView.x, positionOfView.y);
 		
 		super.act(delta);
 	}
@@ -103,8 +106,6 @@ public class PlayerView extends ImageActor
 	public void setPosition(float x, float y)
 	{
 		Vector2 oldPosition = getCenterWorldPosition();
-		
-		super.setPosition(x, y);
 		
 		try
 		{

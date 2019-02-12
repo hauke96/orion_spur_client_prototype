@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import juard.contract.Contract;
 import orion_spur.common.service.ICurrentWorldService;
 import orion_spur.level.material.LevelElement;
+import orion_spur.level.view.LevelView.LayerZIndex;
 
 public class ImageActor extends Actor
 {
@@ -66,24 +67,18 @@ public class ImageActor extends Actor
 	{
 		setWidth(width);
 		setHeight(height);
-		super.setPosition(levelElement.getPosition().x, levelElement.getPosition().y);
-		
-		_sprite = new Sprite(texture);
-		_sprite.setBounds(getX(), getY(), getWidth(), getHeight());
-		_sprite.setOrigin(getWidth() / 2, getHeight() / 2);
-		_sprite.setPosition(-getWidth() / 2, -getHeight() / 2);
-		
-		setRotation(levelElement.getRotation());
-		
-		createDebugSprite();
+		// super.setPosition(levelElement.getPosition().x, levelElement.getPosition().y);
 		
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyDef.BodyType.DynamicBody;
-		bodyDef.position.set(
-		    (_sprite.getX() + _sprite.getWidth() / 2) / _currentWorldService.meterPerPixel(),
-		    (_sprite.getY() + _sprite.getHeight() / 2) / _currentWorldService.meterPerPixel());
+		bodyDef.position.set(0, 0);
 		
 		_body = _currentWorldService.createBody(bodyDef);
+		
+		_sprite = new Sprite(texture);
+		_sprite.setBounds(getX(), getY(), width, height);
+		_sprite.setOrigin(getWidth() / 2, height / 2);
+		_sprite.setPosition(-getWidth() / 2, -width / 2);
 		
 		PolygonShape shape = new PolygonShape();
 		shape.setAsBox(
@@ -92,10 +87,19 @@ public class ImageActor extends Actor
 		
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = shape;
-		fixtureDef.density = 0.1f;
+		fixtureDef.density = 10.1f;
 		fixtureDef.restitution = 1f;
+		// fixtureDef.filter.categoryBits = (short) _levelElement.getLayer().Z;
+		// fixtureDef.filter.maskBits = (short) _levelElement.getLayer().Z;
 		
 		_body.createFixture(fixtureDef);
+		// _body.setTransform(getX(), getY(), _body.getAngle());
+		
+		setRotation(levelElement.getRotation());
+		// setPosition(levelElement.getPosition().x,
+		// levelElement.getPosition().y);
+		
+		createDebugSprite();
 		
 		Contract.Satisfy(_sprite != null);
 		Contract.Satisfy(_sprite.getTexture() != null);
@@ -125,20 +129,43 @@ public class ImageActor extends Actor
 	@Override
 	public void act(float delta)
 	{
-		_body.setLinearVelocity(_levelElement.getMovementVector());
-		_body.setTransform(_body.getPosition(), _levelElement.getRotation());
+		// super.act(delta);
 		
-		System.out.println(_levelElement.getMovementVector().toString());
-		System.out.println(_body.getPosition().toString());
+		// _body.setLinearVelocity(_levelElement.getMovementVector());
+		// _body.setTransform(_body.getPosition(), _levelElement.getRotation());
+		
+		if (_levelElement.getLayer() == LayerZIndex.LAYER_BACKGROUND) return;
+		
+		System.out.println("movement vec: " + _levelElement.getMovementVector().toString());
+		System.out.println("lin velocity: " + _body.getLinearVelocity().toString());
+		
+		System.out.println("lvl. e. pos.: " + _levelElement.getPosition().toString());
+		System.out.println("body pos    : " + _body.getPosition().toString());
+		
+		System.out.println("lvl. e. rot.: " + _levelElement.getRotation());
+		System.out.println("body rot.   : " + _body.getAngle());
+		
+		System.out.println("group       : " + _levelElement.getLayer().Z);
+		
 		System.out.println();
-		
-		super.act(delta);
 	}
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha)
 	{
+		_sprite.setRotation((float) Math.toDegrees(_body.getAngle()));
+		// _sprite.setOrigin(getWidth() / 2, getHeight() / 2);
+		_sprite.setPosition(
+		    _body.getPosition().x * _currentWorldService.meterPerPixel() - getWidth() / 2,
+		    _body.getPosition().y * _currentWorldService.meterPerPixel() - getHeight() / 2);
 		_sprite.draw(batch);
+		
+		super.setPosition(_body.getPosition().x, _body.getPosition().y);
+		
+		// _levelElement.setPosition(new Vector2(_body.getPosition().scl(_currentWorldService.meterPerPixel())));
+		// _levelElement.rotateTo((float) Math.toDegrees(_body.getAngle()));
+		
+		// _sprite.draw(batch);
 		
 		if (debugDrawing)
 		{
@@ -164,24 +191,24 @@ public class ImageActor extends Actor
 	@Override
 	public void moveBy(float x, float y)
 	{
-		_sprite.translate(x, y);
-		super.moveBy(x, y);
+		_body.setTransform(_body.getPosition().x + x,
+		    _body.getPosition().y + y,
+		    _body.getAngle());
 	}
 	
 	@Override
 	public void setPosition(float x, float y)
 	{
-		_sprite.setPosition(x - getWidth() / 2, y - getHeight() / 2);
-		getLevelElement().setPosition(new Vector2(x, y));
-		super.setPosition(x, y);
+		_body.setTransform(x / _currentWorldService.meterPerPixel(),
+		    y / _currentWorldService.meterPerPixel(),
+		    _body.getAngle());
 	}
 	
 	@Override
 	public void setRotation(float degrees)
 	{
-		_sprite.rotate(degrees - _sprite.getRotation());
-		getLevelElement().rotateTo(degrees);
-		super.setRotation(degrees);
+		// _body.applyTorque(0, true);
+		// _body.setTransform(_body.getPosition(), (float) Math.toRadians(degrees));
 	}
 	
 	@Override
@@ -195,10 +222,19 @@ public class ImageActor extends Actor
 	{
 		float rotation = super.getRotation();
 		
-		Contract.Satisfy(rotation == _sprite.getRotation());
-		Contract.Satisfy(rotation == getLevelElement().getRotation());
+		// Contract.Satisfy(rotation == _sprite.getRotation());
+		// Contract.Satisfy(rotation == getLevelElement().getRotation());
 		
-		return rotation;
+		return (float) Math.toDegrees(_body.getAngle());
+	}
+	
+	protected void accelerate(Vector2 movementAdjustion)
+	{
+		_body.setLinearVelocity(
+		    _body.getLinearVelocity().add(movementAdjustion.scl(1f / _currentWorldService.meterPerPixel())));
+		// _body.applyForceToCenter(force, true);
+		
+		// _levelElement.setMovementVector(_levelElement.getMovementVector().add(movementAdjustion));
 	}
 	
 	protected LevelElement getLevelElement()

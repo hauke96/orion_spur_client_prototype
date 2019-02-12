@@ -41,15 +41,15 @@ public class SpaceShip extends LevelElement
 		return _rotationSpeed;
 	}
 	
-	public void accelerateShipBy(Vector2 movementAdjustion)
+	@Override
+	public void setMovementVector(Vector2 newMovementVector)
 	{
-		setMovementVector(getMovementVector().add(movementAdjustion));
-		
-		if (getMovementVector().len() > _maxSpeed)
+		if (newMovementVector.len() > _maxSpeed)
 		{
-			// getMovementVector().setLength(_maxSpeed);
-			setMovementVectorLength(_maxSpeed);
+			newMovementVector.setLength(_maxSpeed);
 		}
+		
+		// super.setMovementVector(newMovementVector);
 	}
 	
 	@Override

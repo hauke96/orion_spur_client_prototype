@@ -142,6 +142,8 @@ public class LevelView extends Actor
 		        _currentWorldService.meterPerPixel(),
 		        0);
 		
+		_currentWorldService.simulate(1 / 60f);
+		
 		for (Layer layer : _layerToScale.values())
 		{
 			layer.draw(batch, parentAlpha);
