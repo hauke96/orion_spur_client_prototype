@@ -21,7 +21,21 @@ public class LevelView extends Actor
 {
 	public enum LayerZIndex
 	{
-		LAYER_BACKGROUND, LAYER_1_BEHIND, LAYER_0_BEHIND, LAYER_REMOTE_OBJECTS, LAYER_PLAYER, LAYER_ANIMATION, LAYER_0_BEFORE, LAYER_1_BEFORE
+		LAYER_BACKGROUND(1 << 0), //
+		LAYER_1_BEHIND(1 << 1), //
+		LAYER_0_BEHIND(1 << 2), //
+		LAYER_REMOTE_OBJECTS(1 << 3), //
+		LAYER_PLAYER(1 << 4), //
+		LAYER_ANIMATION(1 << 5), //
+		LAYER_0_BEFORE(1 << 6), //
+		LAYER_1_BEFORE(1 << 7); //
+		
+		public final int Z;
+		
+		LayerZIndex(int z)
+		{
+			Z = z;
+		}
 	}
 	
 	private ILevelService			_levelService;

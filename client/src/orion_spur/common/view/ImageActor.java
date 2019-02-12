@@ -87,10 +87,10 @@ public class ImageActor extends Actor
 		
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = shape;
-		fixtureDef.density = 10.1f;
+		fixtureDef.density = 1f;
 		fixtureDef.restitution = 1f;
-		// fixtureDef.filter.categoryBits = (short) _levelElement.getLayer().Z;
-		// fixtureDef.filter.maskBits = (short) _levelElement.getLayer().Z;
+		fixtureDef.filter.categoryBits = (short) _levelElement.getLayer().Z;
+		fixtureDef.filter.maskBits = (short) _levelElement.getLayer().Z;
 		
 		_body.createFixture(fixtureDef);
 		// _body.setTransform(getX(), getY(), _body.getAngle());
