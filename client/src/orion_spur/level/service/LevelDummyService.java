@@ -19,13 +19,13 @@ public class LevelDummyService implements ILevelService
 		
 		// center: -646735535105597500L
 		
-		// result.add(new LevelElement("1",
-		// new Vector2(0, 0),
-		// new Vector2(),
-		// 0,
-		// LayerZIndex.LAYER_BACKGROUND,
-		// LevelElementType.IMAGE,
-		// "assets/textures/milkyway.jpg"));
+		result.add(new LevelElement("1",
+		    new Vector2(0, 0),
+		    new Vector2(),
+		    0,
+		    LayerZIndex.LAYER_BACKGROUND,
+		    LevelElementType.IMAGE,
+		    "assets/textures/milkyway.jpg"));
 		
 		// result.add(new LevelElement("2",
 		// new Vector2(-700, 0),
