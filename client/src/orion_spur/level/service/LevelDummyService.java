@@ -27,34 +27,34 @@ public class LevelDummyService implements ILevelService
 		    LevelElementType.IMAGE,
 		    "assets/textures/milkyway.jpg"));
 		
-		// result.add(new LevelElement("2",
-		// new Vector2(-700, 0),
-		// new Vector2(),
-		// 20,
-		// LayerZIndex.LAYER_1_BEHIND,
-		// LevelElementType.IMAGE,
-		// "assets/textures/asteroid-0.png"));
-		// result.add(new LevelElement("3",
-		// new Vector2(0, -1500),
-		// new Vector2(),
-		// 60,
-		// LayerZIndex.LAYER_0_BEHIND,
-		// LevelElementType.IMAGE,
-		// "assets/textures/asteroid-0.png"));
-		// result.add(new LevelElement("4",
-		// new Vector2(600, 1000),
-		// new Vector2(),
-		// 110,
-		// LayerZIndex.LAYER_0_BEFORE,
-		// LevelElementType.IMAGE,
-		// "assets/textures/asteroid-0.png"));
-		// result.add(new LevelElement("5",
-		// new Vector2(-2000, -500),
-		// new Vector2(),
-		// 230,
-		// LayerZIndex.LAYER_1_BEFORE,
-		// LevelElementType.IMAGE,
-		// "assets/textures/asteroid-0.png"));
+		result.add(new LevelElement("2",
+		    new Vector2(-700, 0),
+		    new Vector2(),
+		    20,
+		    LayerZIndex.LAYER_1_BEHIND,
+		    LevelElementType.IMAGE,
+		    "assets/textures/asteroid-0.png"));
+		result.add(new LevelElement("3",
+		    new Vector2(0, -1500),
+		    new Vector2(),
+		    60,
+		    LayerZIndex.LAYER_0_BEHIND,
+		    LevelElementType.IMAGE,
+		    "assets/textures/asteroid-0.png"));
+		result.add(new LevelElement("4",
+		    new Vector2(600, 1000),
+		    new Vector2(),
+		    110,
+		    LayerZIndex.LAYER_0_BEFORE,
+		    LevelElementType.IMAGE,
+		    "assets/textures/asteroid-0.png"));
+		result.add(new LevelElement("5",
+		    new Vector2(-2000, -500),
+		    new Vector2(),
+		    230,
+		    LayerZIndex.LAYER_1_BEFORE,
+		    LevelElementType.IMAGE,
+		    "assets/textures/asteroid-0.png"));
 		return result;
 	}
 	
