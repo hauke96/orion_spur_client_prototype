@@ -89,8 +89,25 @@ public class ImageActor extends Actor
 		fixtureDef.shape = shape;
 		fixtureDef.density = 1f;
 		fixtureDef.restitution = 1f;
-		fixtureDef.filter.categoryBits = (short) _levelElement.getLayer().Z;
-		fixtureDef.filter.maskBits = (short) _levelElement.getLayer().Z;
+		
+		// TODO move this logik somewhere else. The presentation should not know about the relations between game
+		// objects.
+		int z = _levelElement.getLayer().Z;
+		if (z == LayerZIndex.LAYER_PLAYER.Z)
+		{
+			fixtureDef.filter.categoryBits = (short) z;
+			fixtureDef.filter.maskBits = (short) (z | LayerZIndex.LAYER_REMOTE_OBJECTS.Z);
+		}
+		else if (z == LayerZIndex.LAYER_REMOTE_OBJECTS.Z)
+		{
+			fixtureDef.filter.categoryBits = (short) z;
+			fixtureDef.filter.maskBits = (short) (z | LayerZIndex.LAYER_PLAYER.Z);
+		}
+		else
+		{
+			fixtureDef.filter.categoryBits = (short) z;
+			fixtureDef.filter.maskBits = (short) 0;
+		}
 		
 		_body.createFixture(fixtureDef);
 		
