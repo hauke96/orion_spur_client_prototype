@@ -33,7 +33,7 @@ public class Main
 {
 	private static final int	WIDTH					= 600;
 	private static final int	HEIGHT					= 700;
-	private static final float	WORLD_UNITS_PER_PIXEL	= 6f;
+	private static final float	WORLD_UNITS_PER_PIXEL	= 6f;	// 6cm per pixel
 	
 	private static final boolean USE_DUMMY_SERVICES = false;
 	

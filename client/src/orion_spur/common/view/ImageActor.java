@@ -151,6 +151,8 @@ public class ImageActor extends Actor
 		// _body.setLinearVelocity(_levelElement.getMovementVector());
 		// _body.setTransform(_body.getPosition(), _levelElement.getRotation());
 		
+		_body.setAngularVelocity(_body.getAngularVelocity() - _body.getAngularVelocity() / 8f);
+		
 		if (_levelElement.getLayer() == LayerZIndex.LAYER_BACKGROUND) return;
 		
 		System.out.println("movement vec: " + _levelElement.getMovementVector().toString());
@@ -171,7 +173,6 @@ public class ImageActor extends Actor
 	public void draw(Batch batch, float parentAlpha)
 	{
 		_sprite.setRotation((float) Math.toDegrees(_body.getAngle()));
-		// _sprite.setOrigin(getWidth() / 2, getHeight() / 2);
 		_sprite.setPosition(
 		    _body.getPosition().x * _currentWorldService.meterPerPixel() - getWidth() / 2,
 		    _body.getPosition().y * _currentWorldService.meterPerPixel() - getHeight() / 2);
@@ -182,8 +183,6 @@ public class ImageActor extends Actor
 		_levelElement.setPosition(new Vector2(_body.getPosition().scl(_currentWorldService.meterPerPixel())));
 		_levelElement.rotateTo((float) Math.toDegrees(_body.getAngle()));
 		_levelElement.setMovementVector(_body.getLinearVelocity().cpy().scl(_currentWorldService.meterPerPixel()));
-		
-		// _sprite.draw(batch);
 		
 		if (debugDrawing)
 		{
@@ -237,24 +236,18 @@ public class ImageActor extends Actor
 	@Override
 	public void setRotation(float degrees)
 	{
-		// _body.applyTorque(0, true);
-		// _body.setTransform(_body.getPosition(), (float) Math.toRadians(degrees));
+		_body.setTransform(_body.getPosition(), (float) Math.toRadians(degrees));
 	}
 	
 	@Override
 	public void rotateBy(float amountInDegrees)
 	{
-		setRotation(amountInDegrees + getRotation());
+		_body.setAngularVelocity(_body.getAngularVelocity() + amountInDegrees / 6f);
 	}
 	
 	@Override
 	public float getRotation()
 	{
-		float rotation = super.getRotation();
-		
-		// Contract.Satisfy(rotation == _sprite.getRotation());
-		// Contract.Satisfy(rotation == getLevelElement().getRotation());
-		
 		return (float) Math.toDegrees(_body.getAngle());
 	}
 	
@@ -262,9 +255,6 @@ public class ImageActor extends Actor
 	{
 		_body.setLinearVelocity(
 		    _body.getLinearVelocity().add(movementAdjustion.scl(1f / _currentWorldService.meterPerPixel())));
-		// _body.applyForceToCenter(force, true);
-		
-		// _levelElement.setMovementVector(_levelElement.getMovementVector().add(movementAdjustion));
 	}
 	
 	protected LevelElement getLevelElement()
